@@ -158,6 +158,8 @@ export type VaultWidgetProps = {
   hideTabSelector?: boolean
   disableBorderRadius?: boolean
   collapseDetails?: boolean
+  /** Opt-in compact, quiet presentation; transaction behavior is unchanged. */
+  appearance?: 'default' | 'calm'
   disableTokenSelector?: boolean
   withdrawalSource?: VaultWidgetWithdrawalSource
   /** Allows a host to render app-specific actions such as migration. */

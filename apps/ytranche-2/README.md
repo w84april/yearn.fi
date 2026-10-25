@@ -1,10 +1,25 @@
 # yTranche 2
 
 A separate minimal yTranche app (`@yearn/ytranche-2`): the shared Yearn header and a USDC deposit/withdraw
-widget centered on a white background. The page reuses the private
+widget centered within nine switchable backgrounds. The page reuses the private
 `@yearn/site-header`, `@yearn/vault-widget`, and `@yearn/wallet-ui` packages.
 It has its own Wagmi and TanStack Query providers;
 Reown AppKit, Ethers, and the prototype transaction implementation are not used.
+
+Blossom Flow is the default study: three water-lily pools represent Fixed,
+Levered, and Equity. The “Read the flow” disclosure explains target accrual,
+surplus allocation, and loss priority using the protocol settlement model.
+Use the bottom selector to compare it with Cloud Falls, Ribbon River,
+Floating Pools, Peach Cascade, Moonwater, Coastal Flow, Field Breeze, and Meadow Light.
+The three video options use locally hosted, muted loops with still-frame fallbacks for reduced motion. The pause control stops ambient motion, and the
+scenes respect reduced-motion preferences and pause while the tab is hidden.
+Switching scenery keeps the widget mounted.
+
+The widget opts into the shared `appearance="calm"` presentation: a warm ivory surface,
+smaller action tabs, a larger amount field, and one wallet prompt. A receive estimate appears
+for entered amounts, with share and approval information in a native Details disclosure.
+The existing transaction review, approval, deposit, and withdrawal flows are retained.
+Annual-return estimates are omitted until a realized APR is supplied.
 
 From the workspace root:
 

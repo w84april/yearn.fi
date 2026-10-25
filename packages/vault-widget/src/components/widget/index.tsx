@@ -53,6 +53,7 @@ export const Widget = forwardRef<VaultWidgetRef, VaultWidgetProps>(function Widg
     hideTabSelector,
     disableBorderRadius,
     collapseDetails,
+    appearance = 'default',
     disableTokenSelector,
     withdrawalSource,
     renderAction
@@ -100,6 +101,7 @@ export const Widget = forwardRef<VaultWidgetRef, VaultWidgetProps>(function Widg
             hideSettings={hideTabSelector}
             disableBorderRadius={disableBorderRadius}
             collapseDetails={collapseDetails}
+            isCalm={appearance === 'calm'}
             disableTokenSelector={disableTokenSelector}
           />
         )
@@ -124,6 +126,7 @@ export const Widget = forwardRef<VaultWidgetRef, VaultWidgetProps>(function Widg
             hideSettings={hideTabSelector}
             disableBorderRadius={disableBorderRadius}
             collapseDetails={collapseDetails}
+            isCalm={appearance === 'calm'}
             disableTokenSelector={disableTokenSelector}
             forcedWithdrawalSource={withdrawalSource}
           />
@@ -248,6 +251,7 @@ function TabButton({ action, children, onClick, isActive, className, dataTour }:
       type="button"
       onClick={onClick}
       data-action={action}
+      aria-pressed={isActive}
       data-state={isActive ? 'active' : 'inactive'}
       data-widget-part="action-tab"
       data-tour={dataTour}

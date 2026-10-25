@@ -3,6 +3,8 @@ import { formatWidgetAllowance, formatWidgetValue } from '../shared/valueDisplay
 import type { DepositRouteType } from './types'
 
 interface DepositDetailsProps {
+  isCalm?: boolean
+  note?: string
   showAnnualReturn?: boolean
   showShareValue?: boolean
   // Deposit amount info
@@ -49,6 +51,8 @@ interface DepositDetailsProps {
 }
 
 export const DepositDetails: FC<DepositDetailsProps> = ({
+  isCalm = false,
+  note,
   showAnnualReturn = true,
   showShareValue = true,
   assetUsdPrice,
@@ -109,7 +113,32 @@ export const DepositDetails: FC<DepositDetailsProps> = ({
   const shouldUseHighlight = !isQuoteStale && !isLoadingQuote && shouldHighlightPriceImpact
   const shouldShowWorstCasePriceImpact = usesMinExpectedOut && !isStake
   const receiveLabel = usesMinExpectedOut ? 'You Will Receive at least' : 'You Will Receive'
-  return (
+  const receiveRow = (
+    <div className="flex items-center justify-between h-5">
+      <button
+        type="button"
+        onClick={onShowVaultSharesModal}
+        className="text-sm text-text-secondary hover:text-text-primary transition-colors yearn--link-dots"
+      >
+        {receiveLabel}
+      </button>
+      <p className="text-sm text-text-primary">
+        {isLoadingQuote || (isCalm && isQuoteStale) ? (
+          <span className="inline-block h-4 w-20 bg-surface-secondary rounded animate-pulse" />
+        ) : (
+          <>
+            <span data-widget-part="numeric-value" className="font-semibold">
+              {depositAmountBn > 0n && expectedVaultShares > 0n
+                ? formatWidgetValue(expectedVaultShares, sharesDisplayDecimals)
+                : '0'}
+            </span>{' '}
+            <span className="font-normal">{sharesLabel}</span>
+          </>
+        )}
+      </p>
+    </div>
+  )
+  const content = (
     <div className="">
       <div className="flex flex-col gap-2">
         {/* You will deposit/swap/stake */}
@@ -163,30 +192,7 @@ export const DepositDetails: FC<DepositDetailsProps> = ({
           </div>
         )}
 
-        {/* You will receive (vault shares or staked shares) */}
-        <div className="flex items-center justify-between h-5">
-          <button
-            type="button"
-            onClick={onShowVaultSharesModal}
-            className="text-sm text-text-secondary hover:text-text-primary transition-colors yearn--link-dots"
-          >
-            {receiveLabel}
-          </button>
-          <p className="text-sm text-text-primary">
-            {isLoadingQuote ? (
-              <span className="inline-block h-4 w-20 bg-surface-secondary rounded animate-pulse" />
-            ) : (
-              <>
-                <span data-widget-part="numeric-value" className="font-semibold">
-                  {depositAmountBn > 0n && expectedVaultShares > 0n
-                    ? formatWidgetValue(expectedVaultShares, sharesDisplayDecimals)
-                    : '0'}
-                </span>{' '}
-                <span className="font-normal">{sharesLabel}</span>
-              </>
-            )}
-          </p>
-        </div>
+        {receiveRow}
 
         {/* Vault share value in underlying asset */}
         {showShareValue && (
@@ -310,6 +316,30 @@ export const DepositDetails: FC<DepositDetailsProps> = ({
           </div>
         )}
       </div>
+    </div>
+  )
+
+  if (!isCalm) return content
+
+  return (
+    <div data-widget-part="calm-details">
+      <div
+        data-widget-part="transaction-summary"
+        aria-live="polite"
+        aria-atomic="true"
+        aria-busy={isLoadingQuote || isQuoteStale}
+      >
+        {depositAmountBn > 0n ? receiveRow : null}
+      </div>
+      <details data-widget-part="transaction-details">
+        <summary>
+          Details <span aria-hidden="true">+</span>
+        </summary>
+        <div data-widget-part="transaction-details-content">
+          {content}
+          {note && <p data-widget-part="transaction-note">{note}</p>}
+        </div>
+      </details>
     </div>
   )
 }

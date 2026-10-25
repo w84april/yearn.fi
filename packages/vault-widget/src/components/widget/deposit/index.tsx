@@ -86,6 +86,7 @@ interface Props {
   hideSettings?: boolean
   disableBorderRadius?: boolean
   collapseDetails?: boolean
+  isCalm?: boolean
   detailsContent?: ReactNode
   contentBelowInput?: ReactNode
   contentAboveButton?: ReactNode
@@ -176,6 +177,7 @@ export function WidgetDeposit({
   hideSettings: _hideSettings,
   disableBorderRadius,
   collapseDetails,
+  isCalm = false,
   detailsContent,
   contentBelowInput,
   contentAboveButton,
@@ -1241,6 +1243,8 @@ export function WidgetDeposit({
     detailsContent
   ) : hideDetails ? null : (
     <DepositDetails
+      isCalm={isCalm}
+      note={annualReturnNote}
       showAnnualReturn={vaultAPR !== undefined}
       showShareValue={!vaultUserData.erc4626 || (!standardAssetValue.isError && standardAssetValue.data !== undefined)}
       depositAmountBn={depositAmount.bn}
@@ -1389,7 +1393,7 @@ export function WidgetDeposit({
               className="w-full"
               classNameOverride="yearn--button--nextgen w-full"
             >
-              Connect Wallet
+              {isCalm ? 'Connect wallet' : 'Connect Wallet'}
             </Button>
           ) : (
             <Button
@@ -1400,7 +1404,7 @@ export function WidgetDeposit({
               className="w-full"
               classNameOverride="yearn--button--nextgen w-full"
             >
-              {depositButtonLabel}
+              {isCalm && !isPreparingEnsoQuote ? 'Review deposit' : depositButtonLabel}
             </Button>
           )}
         </div>
@@ -1434,9 +1438,10 @@ export function WidgetDeposit({
       data-tour="vault-detail-deposit-widget"
     >
       <WidgetHeader title={titleOverride ?? 'Deposit'} actions={headerActions} />
-      <div className="flex flex-col flex-1 p-6 pt-2 gap-3">
+      <div className="flex flex-col flex-1 p-6 pt-2 gap-3" data-widget-part="action-content">
         {/* Amount Section */}
         <InputTokenAmount
+          isCalm={isCalm}
           input={depositInput}
           title="Amount"
           placeholder="0.00"

@@ -13,8 +13,7 @@ const vault: VaultWidgetVault = {
   symbol: 'yvUSD-A',
   name: 'yTranche USD Fixed',
   asset: { address: CONTRACTS.usdc, decimals: TOKEN_DECIMALS, symbol: 'USDC', name: 'USD Coin' },
-  // The configured target is not a realized APR.
-  forwardAPR: 0,
+  // Omit return estimates until realized APR is available.
   withdrawMaxLossBps: WITHDRAW_MAX_LOSS_BPS,
   isRetired: false
 }
@@ -31,7 +30,15 @@ export function DepositWidget() {
   })
   return (
     <section className="yv-widget ytranche-widget" id="earn" aria-label="Manage your USDC position">
+      <div className="ytranche-widget__heading">
+        <p>yTranche</p>
+        <h2>
+          USDC <span aria-hidden="true">·</span> Fixed
+        </h2>
+        <span className="ytranche-widget__network">Ethereum</span>
+      </div>
       <VaultWidget
+        appearance="calm"
         currentVault={vault}
         actions={actions}
         chainId={1}
@@ -40,7 +47,7 @@ export function DepositWidget() {
           void queryClient.invalidateQueries()
         }}
         depositTitleOverride=""
-        annualReturnNote="A 10% performance fee applies to earned yield and is already included in the displayed APR."
+        annualReturnNote="A 10% performance fee applies to earned yield."
         withdrawTitleOverride=""
         disableDepositStaking
         disableTokenSelector

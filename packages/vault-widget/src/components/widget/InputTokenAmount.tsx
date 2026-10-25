@@ -4,13 +4,14 @@ import type { useDebouncedInput } from '@yearn/vault-widget/internal/hooks/useDe
 import type { useInput } from '@yearn/vault-widget/internal/hooks/useInput'
 import { cl, formatCounterValue, formatTAmount, simpleToExact } from '@yearn/vault-widget/internal/utils'
 import { useVaultWidgetRuntime } from '@yearn/vault-widget/runtime'
-import { type ChangeEvent, type FC, useMemo } from 'react'
+import { type ChangeEvent, type FC, useId, useMemo } from 'react'
 import { formatUnits } from 'viem'
 import { useAccount } from 'wagmi'
 
 interface Props {
   input: ReturnType<typeof useInput> | ReturnType<typeof useDebouncedInput>
   className?: string
+  isCalm?: boolean
   balance?: bigint
   displayBalance?: bigint
   decimals?: number
@@ -49,6 +50,7 @@ interface Props {
 export const InputTokenAmount: FC<Props> = ({
   input,
   className,
+  isCalm = false,
   balance,
   displayBalance,
   decimals,
@@ -72,6 +74,7 @@ export const InputTokenAmount: FC<Props> = ({
   onRemoveZap,
   zapNotificationText
 }) => {
+  const inputId = useId()
   const { address: accountAddress } = useAccount()
   const { assets, wallet } = useVaultWidgetRuntime()
   const openLoginModal = openLoginModalOverride ?? wallet.open
@@ -166,50 +169,60 @@ export const InputTokenAmount: FC<Props> = ({
   const renderedBalance = displayBalance ?? balance
 
   return (
-    <div className={cl('flex flex-col w-full relative border border-border rounded-md group', className)}>
+    <div
+      className={cl('flex flex-col w-full relative border border-border rounded-md group', className)}
+      data-widget-part="amount-input"
+      data-connected={Boolean(accountAddress)}
+    >
       <div className="py-2 px-3 flex flex-col gap-1">
         {/* Top row - Title and percentage buttons */}
         <div className="flex items-center justify-between">
-          <label className="text-sm font-medium text-text-primary">{title}</label>
+          <label htmlFor={inputId} className="text-sm font-medium text-text-primary">
+            {title}
+          </label>
 
           {/* Percentage buttons */}
-          <div className="flex items-center gap-0.5 md:gap-1">
-            <button
-              type="button"
-              onClick={() => handlePercentageClick(25)}
-              className={cl(
-                'px-2 py-1.5 md:px-1 md:py-0.5 text-xs font-medium rounded bg-surface-secondary transition-all active:scale-95',
-                'min-h-[32px] md:min-h-0',
-                disabled ? 'text-text-tertiary cursor-not-allowed' : 'text-text-secondary hover:bg-surface-tertiary'
-              )}
-              disabled={disabled}
-            >
-              <span data-widget-part="numeric-value">25%</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => handlePercentageClick(50)}
-              className={cl(
-                'px-2 py-1.5 md:px-1 md:py-0.5 text-xs font-medium rounded bg-surface-secondary transition-all active:scale-95',
-                'min-h-[32px] md:min-h-0',
-                disabled ? 'text-text-tertiary cursor-not-allowed' : 'text-text-secondary hover:bg-surface-tertiary'
-              )}
-              disabled={disabled}
-            >
-              <span data-widget-part="numeric-value">50%</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => handlePercentageClick(75)}
-              className={cl(
-                'px-2 py-1.5 md:px-1 md:py-0.5 text-xs font-medium rounded bg-surface-secondary transition-all active:scale-95',
-                'min-h-[32px] md:min-h-0',
-                disabled ? 'text-text-tertiary cursor-not-allowed' : 'text-text-secondary hover:bg-surface-tertiary'
-              )}
-              disabled={disabled}
-            >
-              <span data-widget-part="numeric-value">75%</span>
-            </button>
+          <div className="flex items-center gap-0.5 md:gap-1" data-widget-part="amount-shortcuts">
+            {!isCalm && (
+              <>
+                <button
+                  type="button"
+                  onClick={() => handlePercentageClick(25)}
+                  className={cl(
+                    'px-2 py-1.5 md:px-1 md:py-0.5 text-xs font-medium rounded bg-surface-secondary transition-all active:scale-95',
+                    'min-h-[32px] md:min-h-0',
+                    disabled ? 'text-text-tertiary cursor-not-allowed' : 'text-text-secondary hover:bg-surface-tertiary'
+                  )}
+                  disabled={disabled}
+                >
+                  <span data-widget-part="numeric-value">25%</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handlePercentageClick(50)}
+                  className={cl(
+                    'px-2 py-1.5 md:px-1 md:py-0.5 text-xs font-medium rounded bg-surface-secondary transition-all active:scale-95',
+                    'min-h-[32px] md:min-h-0',
+                    disabled ? 'text-text-tertiary cursor-not-allowed' : 'text-text-secondary hover:bg-surface-tertiary'
+                  )}
+                  disabled={disabled}
+                >
+                  <span data-widget-part="numeric-value">50%</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handlePercentageClick(75)}
+                  className={cl(
+                    'px-2 py-1.5 md:px-1 md:py-0.5 text-xs font-medium rounded bg-surface-secondary transition-all active:scale-95',
+                    'min-h-[32px] md:min-h-0',
+                    disabled ? 'text-text-tertiary cursor-not-allowed' : 'text-text-secondary hover:bg-surface-tertiary'
+                  )}
+                  disabled={disabled}
+                >
+                  <span data-widget-part="numeric-value">75%</span>
+                </button>
+              </>
+            )}
             <button
               type="button"
               onClick={() => handlePercentageClick(100)}
@@ -234,6 +247,7 @@ export const InputTokenAmount: FC<Props> = ({
         {/* Middle row - Input and token selector */}
         <div className="flex items-center gap-2 relative">
           <input
+            id={inputId}
             data-widget-part="numeric-value"
             disabled={disabled}
             placeholder={placeholder ?? '0.00'}
@@ -294,7 +308,7 @@ export const InputTokenAmount: FC<Props> = ({
         </div>
 
         {/* Bottom row - USD value (or error) and balance */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between" data-widget-part="amount-meta">
           {errorMessage ? (
             <div className="text-sm text-red-500">{errorMessage}</div>
           ) : (
@@ -303,17 +317,19 @@ export const InputTokenAmount: FC<Props> = ({
             </div>
           )}
           {!accountAddress ? (
-            <button
-              type="button"
-              data-wallet-entry="widget"
-              onClick={openLoginModal}
-              className="text-sm text-text-secondary hover:text-text-primary transition-colors"
-            >
-              Connect wallet
-            </button>
+            isCalm ? null : (
+              <button
+                type="button"
+                data-wallet-entry="widget"
+                onClick={openLoginModal}
+                className="text-sm text-text-secondary hover:text-text-primary transition-colors"
+              >
+                Connect wallet
+              </button>
+            )
           ) : (
             renderedBalance !== undefined &&
-            renderedBalance !== 0n &&
+            (isCalm || renderedBalance !== 0n) &&
             symbol && (
               <button
                 type="button"

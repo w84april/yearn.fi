@@ -58,6 +58,7 @@ type WidgetWithdrawProps = WithdrawWidgetProps & {
   titleOverride?: string
   disableBorderRadius?: boolean
   collapseDetails?: boolean
+  isCalm?: boolean
   contentBelowInput?: ReactNode
   hideContainerBorder?: boolean
   onTokenSelectionChange?: (address: `0x${string}`, chainId: number) => void
@@ -141,6 +142,7 @@ export function WidgetWithdraw({
   isSettingsOpen,
   disableBorderRadius,
   collapseDetails,
+  isCalm = false,
   contentBelowInput,
   hideContainerBorder = false
 }: WidgetWithdrawProps): ReactElement {
@@ -1144,6 +1146,7 @@ export function WidgetWithdraw({
 
   const detailsSection = (
     <WithdrawDetails
+      isCalm={isCalm}
       actionLabel={actionLabel}
       requiredShares={effectiveRequiredShares}
       sharesDecimals={sharesDecimals}
@@ -1221,7 +1224,7 @@ export function WidgetWithdraw({
               className="w-full"
               classNameOverride="yearn--button--nextgen w-full"
             >
-              Connect Wallet
+              {isCalm ? 'Connect wallet' : 'Connect Wallet'}
             </Button>
           ) : (
             <Button
@@ -1232,7 +1235,7 @@ export function WidgetWithdraw({
               className="w-full"
               classNameOverride="yearn--button--nextgen w-full"
             >
-              {withdrawButtonLabel}
+              {isCalm && !isPreparingEnsoQuote ? 'Review withdrawal' : withdrawButtonLabel}
             </Button>
           )}
         </div>
@@ -1266,7 +1269,7 @@ export function WidgetWithdraw({
       data-tour="vault-detail-withdraw-widget"
     >
       <WidgetHeader title={titleOverride ?? 'Withdraw'} actions={headerActions} />
-      <div className="flex flex-col flex-1 p-6 pt-2 gap-3">
+      <div className="flex flex-col flex-1 p-6 pt-2 gap-3" data-widget-part="action-content">
         <div>
           {/* Withdraw From Selector */}
           {hasBothBalances && !forcedWithdrawalSource ? (
@@ -1276,6 +1279,7 @@ export function WidgetWithdraw({
           {/* Amount Section */}
           <div className="flex flex-col gap-4">
             <InputTokenAmount
+              isCalm={isCalm}
               input={withdrawInput}
               title="Amount"
               placeholder="0.00"
