@@ -9,7 +9,15 @@ type TStatus = 'input' | 'review' | 'pending' | 'success'
 const actions = [WidgetActionType.Deposit, WidgetActionType.Withdraw]
 const formatAmount = (value: number) => new Intl.NumberFormat('en-US', { maximumFractionDigits: 6 }).format(value)
 
-export function MockDepositWidget({ onDepositConfirmed }: { onDepositConfirmed: () => void }) {
+export function MockDepositWidget({
+  onDepositConfirmed,
+  depositLabel = 'Review deposit',
+  depositSuccessTitle = 'Deposit confirmed'
+}: {
+  onDepositConfirmed: () => void
+  depositLabel?: string
+  depositSuccessTitle?: string
+}) {
   const [action, setAction] = useState(WidgetActionType.Deposit)
   const [amount, setAmount] = useState('1000')
   const [position, setPosition] = useState(0)
@@ -134,7 +142,7 @@ export function MockDepositWidget({ onDepositConfirmed }: { onDepositConfirmed: 
                 <span className="forest-widget__check" aria-hidden="true">
                   ✓
                 </span>
-                <h3>{isDeposit ? 'Deposit confirmed' : 'Withdrawal confirmed'}</h3>
+                <h3>{isDeposit ? depositSuccessTitle : 'Withdrawal confirmed'}</h3>
                 <p>
                   {formatAmount(amountNumber)} USDC{' '}
                   {isDeposit ? 'is now in your Fixed position.' : 'returned to your demo balance.'}
@@ -188,7 +196,11 @@ export function MockDepositWidget({ onDepositConfirmed }: { onDepositConfirmed: 
                   isBusy={status === 'pending'}
                   disabled={!valid || status === 'pending'}
                 >
-                  {status === 'pending' ? 'Confirming…' : `${status === 'review' ? 'Confirm' : 'Review'} ${actionName}`}
+                  {status === 'pending'
+                    ? 'Confirming…'
+                    : status === 'input' && isDeposit
+                      ? depositLabel
+                      : `${status === 'review' ? 'Confirm' : 'Review'} ${actionName}`}
                 </Button>
               )}
             </div>

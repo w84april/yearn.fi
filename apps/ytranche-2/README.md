@@ -19,6 +19,27 @@ cd apps/ytranche-2
 bun run dev --port 3014
 ```
 
+## Hero copy options
+
+The header buttons switch between Original, Touch grass, Personality, and Nature
+without resetting the amount, demo balance, background scene, or pause state.
+Each route selects its initial variant; switching stays on that route. Reset demo
+keeps the selected variant while clearing the mock position and restoring fog.
+
+`/touch-grass` keeps the same forest and mock widget with a Fixed/USDC hero:
+“Earn yield. Touch grass.” The copy focuses on a target APY and less rate-watching.
+It does not display a fabricated APY or describe the target as guaranteed.
+Two further hero options retain the same mock flow and forest media:
+
+- `/personality`: “Your USDC has a job. You have a life.” Direct copy, a “Put USDC to work” action, and priority-yield proof.
+- `/nature`: “Let your USDC earn. Let yourself wander.” Aeonik throughout, a lighter nature-led voice, and a “Let USDC earn” action.
+
+Both use the existing Aeonik Regular and Bold assets for consistent typography.
+Supporting copy takes its cues from the Yearn tone-of-voice guide: human language,
+light humour, clear actions, and honest target-rate wording. Their approved headlines
+remain unchanged, with variant-specific confirmation and footer copy.
+The original “Let it flow” hero remains at `/`.
+
 ## Demo flow
 
 - The foggy video loops until a mock deposit is confirmed.

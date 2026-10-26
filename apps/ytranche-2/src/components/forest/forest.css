@@ -3,6 +3,7 @@
   isolation: isolate;
   min-height: 100svh;
   color: #fffef5;
+  font-family: var(--font-sans);
   background: #263a30;
 }
 
@@ -480,5 +481,317 @@
   .forest-footer {
     min-height: 44px;
     padding-block: 4px;
+  }
+}
+
+.forest-landing[data-hero="touch-grass"] .forest-copy h1 {
+  line-height: 1;
+}
+.forest-landing[data-hero="touch-grass"] .forest-copy h1 > span {
+  color: #e2edc8;
+}
+.forest-landing[data-hero="touch-grass"] .forest-copy > span {
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+@media (max-height: 800px) and (min-width: 701px) {
+  .forest-landing[data-hero="touch-grass"] .forest-copy {
+    margin-bottom: 12px;
+  }
+  .forest-landing[data-hero="touch-grass"] .forest-copy h1 {
+    font-size: 38px;
+  }
+  .forest-landing[data-hero="touch-grass"] .forest-copy h1 br {
+    display: none;
+  }
+  .forest-landing[data-hero="touch-grass"] .forest-main {
+    padding-block: 4px;
+  }
+}
+
+@media (max-width: 700px) {
+  .forest-landing[data-hero="touch-grass"] .forest-header {
+    min-height: 76px;
+    padding-block: 14px;
+  }
+  .forest-landing[data-hero="touch-grass"] .forest-main {
+    padding-block: 12px;
+  }
+  .forest-landing[data-hero="touch-grass"] .forest-copy {
+    margin-bottom: 16px;
+  }
+  .forest-landing[data-hero="touch-grass"] .forest-copy h1 {
+    font-size: 48px;
+  }
+  .forest-landing[data-hero="touch-grass"] .forest-copy > span {
+    font-size: 13px;
+  }
+  .forest-landing[data-hero="touch-grass"] .ytranche-widget {
+    padding: 20px;
+  }
+  .forest-landing[data-hero="touch-grass"] .ytranche-widget__heading {
+    margin-bottom: 12px;
+  }
+  .forest-landing[data-hero="touch-grass"] [data-widget-part="action-content"] {
+    min-height: 250px;
+    gap: 6px;
+    padding-top: 14px;
+  }
+  .forest-landing[data-hero="touch-grass"] .forest-widget__demo {
+    margin-top: 4px;
+  }
+  .forest-landing[data-hero="touch-grass"] .forest-footer {
+    min-height: 54px;
+    padding-block: 8px;
+  }
+}
+
+@media (min-height: 801px) and (max-height: 1000px) and (min-width: 701px) {
+  .forest-landing[data-hero="touch-grass"] .forest-header {
+    min-height: 80px;
+    padding-block: 18px;
+  }
+  .forest-landing[data-hero="touch-grass"] .forest-main {
+    padding-block: 4px;
+  }
+  .forest-landing[data-hero="touch-grass"] .forest-copy {
+    margin-bottom: 16px;
+  }
+  .forest-landing[data-hero="touch-grass"] .forest-copy h1 {
+    font-size: 52px;
+  }
+  .forest-landing[data-hero="touch-grass"] .forest-copy > span {
+    font-size: 13px;
+  }
+  .forest-landing[data-hero="touch-grass"] .forest-footer {
+    min-height: 54px;
+    padding-block: 8px;
+  }
+}
+
+.forest-landing--campaign .forest-main__column {
+  width: 600px;
+}
+.forest-landing--campaign .forest-copy {
+  margin-bottom: 20px;
+}
+.forest-landing--campaign .forest-copy h1 {
+  font-size: clamp(44px, 3.6vw, 60px);
+  line-height: 1.04;
+}
+.forest-landing--campaign .forest-copy h1 > span {
+  color: #e2edc8;
+}
+.forest-landing--campaign .forest-copy > span {
+  max-width: 480px;
+  font-size: 14px;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+.forest-copy__proof {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 12px;
+  padding-block: 3px;
+  color: #e2edc8;
+  font-size: 11px;
+  text-decoration: none;
+}
+.forest-copy__proof svg {
+  width: 15px;
+  height: 15px;
+}
+.forest-copy__proof > span {
+  transition: transform 160ms ease;
+}
+.forest-copy__proof:hover > span {
+  transform: translate(2px, -2px);
+}
+.forest-landing--campaign .forest-main .ytranche-widget {
+  width: 380px;
+  padding: 20px;
+}
+.forest-landing--campaign .ytranche-widget__heading {
+  margin-bottom: 12px;
+}
+.forest-landing--campaign .ytranche-widget__heading p {
+  margin-bottom: 5px;
+}
+.forest-landing--campaign .ytranche-widget [data-widget-part="action-content"] {
+  min-height: 235px;
+  gap: 6px;
+  padding-top: 12px;
+}
+.forest-landing--campaign .ytranche-widget [data-widget-part="amount-input"] input {
+  min-height: 48px;
+  font-size: 46px;
+}
+.forest-landing--campaign .ytranche-widget [data-widget-part="amount-shortcuts"] button {
+  min-height: 24px;
+}
+.forest-landing--campaign .ytranche-widget [data-widget-part="transaction-details"] > summary {
+  min-height: 34px;
+}
+.forest-landing--campaign .forest-widget__receive {
+  margin-bottom: 3px;
+}
+.forest-landing--campaign .forest-widget__actions {
+  padding-top: 8px;
+}
+.forest-landing--campaign .forest-widget__demo {
+  margin-top: 8px;
+}
+.forest-landing--campaign .forest-risk {
+  max-width: 380px;
+  line-height: 1.4;
+}
+
+@media (max-height: 1000px) and (min-width: 701px) {
+  .forest-landing--campaign .forest-header {
+    min-height: 76px;
+    padding-block: 14px;
+  }
+  .forest-landing--campaign .forest-main {
+    padding-block: 6px;
+  }
+  .forest-landing--campaign .forest-footer {
+    min-height: 48px;
+    padding-block: 6px;
+  }
+}
+
+@media (max-height: 800px) and (min-width: 701px) {
+  .forest-landing--campaign .forest-header {
+    min-height: 60px;
+    padding-block: 8px;
+  }
+  .forest-landing--campaign .forest-copy {
+    margin-bottom: 12px;
+  }
+  .forest-landing--campaign .forest-copy h1 {
+    font-size: 34px;
+    line-height: 1;
+  }
+  .forest-landing--campaign .forest-copy h1 br {
+    display: none;
+  }
+  .forest-landing--campaign .forest-copy > span {
+    font-size: 12px;
+  }
+  .forest-landing--campaign .forest-copy__proof {
+    margin-top: 8px;
+  }
+  .forest-landing--campaign .forest-main {
+    padding-block: 2px;
+  }
+  .forest-landing--campaign .forest-footer {
+    min-height: 44px;
+    padding-block: 4px;
+  }
+}
+
+@media (max-width: 700px) {
+  .forest-landing--campaign .forest-header {
+    min-height: 76px;
+    padding-block: 14px;
+  }
+  .forest-landing--campaign .forest-main {
+    padding-block: 14px;
+  }
+  .forest-landing--campaign .forest-copy {
+    margin-bottom: 16px;
+  }
+  .forest-landing--campaign .forest-copy h1 {
+    font-size: clamp(27px, 8.3vw, 38px);
+  }
+  .forest-landing--campaign .forest-copy > span {
+    margin-top: 10px;
+    font-size: 13px;
+  }
+  .forest-landing--campaign .forest-copy__proof {
+    margin-top: 10px;
+  }
+  .forest-landing--campaign .forest-main .ytranche-widget {
+    width: 100%;
+  }
+  .forest-landing--campaign .forest-footer {
+    min-height: 54px;
+    padding-block: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .forest-copy__proof > span {
+    transition: none;
+  }
+  .forest-copy__proof:hover > span {
+    transform: none;
+  }
+}
+
+.forest-variant-switcher {
+  display: flex;
+  min-width: 0;
+  margin: 0;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid rgb(255 254 245 / 20%);
+  border-radius: 999px;
+  background: rgb(8 25 20 / 36%);
+}
+.forest-variant-switcher button {
+  min-height: 32px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  line-height: 1.2;
+  white-space: nowrap;
+  color: rgb(255 254 245 / 80%);
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+.forest-variant-switcher button:hover {
+  color: #fffef5;
+  background: rgb(255 254 245 / 10%);
+}
+.forest-variant-switcher button[aria-pressed="true"] {
+  color: #263a30;
+  background: #e2edc8;
+}
+@media (max-width: 700px) {
+  .forest-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    row-gap: 6px;
+  }
+  .forest-landing .forest-header {
+    padding-block: 10px;
+  }
+  .forest-landing .forest-main {
+    padding-block: 8px;
+  }
+  .forest-landing .forest-copy {
+    margin-bottom: 12px;
+  }
+  .forest-header__demo {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .forest-variant-switcher {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+  .forest-variant-switcher button {
+    flex: 1;
+    min-height: 36px;
+    padding-inline: 8px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .forest-variant-switcher button {
+    transition: none;
   }
 }
