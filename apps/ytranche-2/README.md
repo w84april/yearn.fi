@@ -1,48 +1,60 @@
-# yTranche 2
+# yTranche forest landing
 
-A separate minimal yTranche app (`@yearn/ytranche-2`): the shared Yearn header and a USDC deposit/withdraw
-widget centered within nine switchable backgrounds. The page reuses the private
-`@yearn/site-header`, `@yearn/vault-widget`, and `@yearn/wallet-ui` packages.
-It has its own Wagmi and TanStack Query providers;
-Reown AppKit, Ethers, and the prototype transaction implementation are not used.
+The landing page uses the fixed-camera photographic forest set captured in Source,
+with the warm ivory widget presentation from `codex/ytranche-2`.
 
-Blossom Flow is the default study: three water-lily pools represent Fixed,
-Levered, and Equity. The “Read the flow” disclosure explains target accrual,
-surplus allocation, and loss priority using the protocol settlement model.
-Use the bottom selector to compare it with Cloud Falls, Ribbon River,
-Floating Pools, Peach Cascade, Moonwater, Coastal Flow, Field Breeze, and Meadow Light.
-The three video options use locally hosted, muted loops with still-frame fallbacks for reduced motion. The pause control stops ambient motion, and the
-scenes respect reduced-motion preferences and pause while the tab is hidden.
-Switching scenery keeps the widget mounted.
-
-The widget opts into the shared `appearance="calm"` presentation: a warm ivory surface,
-smaller action tabs, a larger amount field, and one wallet prompt. A receive estimate appears
-for entered amounts, with share and approval information in a native Details disclosure.
-The existing transaction review, approval, deposit, and withdrawal flows are retained.
-Annual-return estimates are omitted until a realized APR is supplied.
-
-From the workspace root:
+## Run
 
 ```sh
 bun install
 bun run dev:ytranche-2
 bun run tslint:ytranche-2
 bun run build:ytranche-2
-bun run preview:ytranche-2
 ```
 
-Open http://127.0.0.1:3006. The widget is at `/`; `/earn-centered` redirects
-to `/`, and `/deposit` redirects to `/#earn`. Live product data remains available
-at `/api/products/usd-fixed`.
-Copy `.env.example` to `.env.local` in this directory to customize Ethereum RPC
-or enable WalletConnect. Injected wallets work without a WalletConnect project ID.
+The default dev port is 3006. To run beside the original app:
 
-Deposits accept USDC on Ethereum into the senior Fixed tranche, `yvUSD-A`
-(`0x2D4F47208853a3D20EADCbdA0F03900771C6Eba3`). Token routing and staking are
-disabled. Withdrawals use explicit four-argument withdraw/redeem overloads with
-`maxLoss = 0`, preserving the source app's loss policy. The controller target
-is distinct from realized APR. The product endpoint exposes live tranche data.
-Spot prices use the same public Yearn API adapter as yBOLD.
+```sh
+cd apps/ytranche-2
+bun run dev --port 3014
+```
 
-For Vercel, set Root Directory to `apps/ytranche-2` and enable access to files
-outside the root directory. Use the detected Next.js build and output defaults.
+## Demo flow
+
+- The foggy video loops until a mock deposit is confirmed.
+- Enter an amount, review, then confirm. A 1.4-second local delay represents confirmation.
+- Confirmation plays the four-second reveal once, then starts the sunny flower loop.
+- Later deposits keep the sunny scene. Reset demo restores the fog and the initial balance.
+- The mock widget starts with 10,000 USDC and supports deposits and withdrawals locally.
+  No wallet, signature, RPC write, or transaction is involved. Balances reset on reload.
+- The widget shares the original heading/surface, action tabs, and action button.
+  The original live `DepositWidget` remains available in the codebase.
+
+## Media and accessibility
+
+Assets in `public/backgrounds/forest` are 1280×720 / 24fps H.264 composites
+based on the photographic set captured in Source. The backgrounds use AI-edited photographic imagery;
+they are not fully modeled 3D environments. The flowers fade in during the reveal.
+The foggy and sunny clips repeat the same four-second water cycle twice.
+Foliage uses actual temporal image detail from the supplied waterfall footage.
+The left foliage and canopy retain the recorded leaf detail with a fitted colour
+grade for each scene. The right flowering branch keeps the sunny artwork and follows
+the much smaller motion measured there with optical flow. There is no procedural
+wind displacement in the browser.
+An eight-second foliage loop smoothly retimes two seconds of the reference forward
+and back, while water keeps flowing forward. The four-second reveal finishes at the
+midpoint of that cycle, so sunny playback begins at four seconds to match it.
+The sunny backdrop is a clear-air image edit with the pale green mist removed.
+Its distant tree detail stays visible after the reveal; recorded foreground foliage
+and temporal water variation are composited onto that image. The reveal blends the
+foggy clip into this clear scene, keeping its end phase aligned with the sunny loop.
+The camera remains fixed, and the pre-deposit foggy loop is unchanged.
+
+Three videos stay buffered as separate layers. The visible layer changes only when
+its video starts playing, preserving the previous frame during loading; a short
+opacity fade softens each handoff. The transition's ended event starts the sunny loop.
+If the transition fails, playback falls back to the sunny scene. Muted inline playback
+works without a wallet or audio permission. Hidden tabs pause all videos.
+Reduced-motion users see the foggy still before confirmation and the sunny still
+afterwards. Pause scene freezes playback; Play scene resumes it. Posters cover
+autoplay failures.

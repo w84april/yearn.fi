@@ -2,6 +2,7 @@
 
 import { useQueryClient } from '@tanstack/react-query'
 import { useVaultUserData, VaultWidget, type VaultWidgetVault, WidgetActionType } from '@yearn/vault-widget'
+import type { ReactNode } from 'react'
 import { useAccount } from 'wagmi'
 import { CONTRACTS, TOKEN_DECIMALS, WITHDRAW_MAX_LOSS_BPS } from '@/lib/ethereum'
 
@@ -29,14 +30,7 @@ export function DepositWidget() {
     account: address
   })
   return (
-    <section className="yv-widget ytranche-widget" id="earn" aria-label="Manage your USDC position">
-      <div className="ytranche-widget__heading">
-        <p>yTranche</p>
-        <h2>
-          USDC <span aria-hidden="true">·</span> Fixed
-        </h2>
-        <span className="ytranche-widget__network">Ethereum</span>
-      </div>
+    <DepositWidgetFrame>
       <VaultWidget
         appearance="calm"
         currentVault={vault}
@@ -52,6 +46,21 @@ export function DepositWidget() {
         disableDepositStaking
         disableTokenSelector
       />
+    </DepositWidgetFrame>
+  )
+}
+
+export function DepositWidgetFrame({ children }: { children: ReactNode }) {
+  return (
+    <section className="yv-widget ytranche-widget" id="earn" aria-label="Manage your USDC position">
+      <div className="ytranche-widget__heading">
+        <p>yTranche</p>
+        <h2>
+          USDC <span aria-hidden="true">·</span> Fixed
+        </h2>
+        <span className="ytranche-widget__network">Ethereum</span>
+      </div>
+      {children}
     </section>
   )
 }
