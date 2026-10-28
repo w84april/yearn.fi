@@ -10,6 +10,7 @@ export type TSiteHeaderProps = {
   isDarkTheme?: boolean
   siteBaseUrl?: string
   navigation?: ReactNode
+  brandSuffix?: ReactNode
   actions?: ReactNode
   children?: ReactNode
 }
@@ -20,6 +21,7 @@ export function SiteHeader({
   isDarkTheme = false,
   siteBaseUrl = '',
   navigation,
+  brandSuffix,
   actions,
   children
 }: TSiteHeaderProps) {
@@ -42,6 +44,7 @@ export function SiteHeader({
                 color={isHomePage || isDarkTheme ? '#FFFFFF' : '#0657F9'}
               />
             </a>
+            {brandSuffix}
             <div className="hidden items-center gap-3 pb-0.5 md:flex">
               {navigation ?? (
                 <HeaderNavMenu isHomePage={isHomePage} isDarkTheme={isDarkTheme} siteBaseUrl={siteBaseUrl} />
