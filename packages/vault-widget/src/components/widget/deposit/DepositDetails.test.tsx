@@ -1,6 +1,6 @@
+import { DepositDetails } from '@yearn/vault-widget/internal/components/widget/deposit/DepositDetails'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
-import { DepositDetails } from './DepositDetails'
 
 const ONE_ETHER = 10n ** 18n
 
@@ -41,7 +41,7 @@ describe('DepositDetails', () => {
 
     expect(html).toContain('For expected / at least')
     expect(html).toContain('10.0')
-    expect(html).toContain('| </span><span class="font-semibold">9.00')
+    expect(html.replace(/<[^>]*>/g, '')).toContain('10.0 | 9.00')
     expect(html).toContain('Est. / Worst price impact')
     expect(html).toContain('0.00%')
     expect(html).toContain('-10.00%')
