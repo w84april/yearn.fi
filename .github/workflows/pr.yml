@@ -25,6 +25,7 @@ jobs:
           allow-licenses: MIT, Apache-2.0, BSD-3-Clause, BSD-2-Clause, ISC, CC0-1.0, CC-BY-3.0, CC-BY-4.0, Unlicense
 
   notify:
+    if: github.repository == 'yearn/yearn.fi'
     runs-on: ubuntu-latest
     steps:
       - name: Send Telegram Message

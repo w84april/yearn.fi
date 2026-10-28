@@ -53,3 +53,24 @@ Spot prices use the same public Yearn API adapter as yBOLD.
 
 For Vercel, set Root Directory to `apps/ytranche-2` and enable access to files
 outside the root directory. Use the detected Next.js build and output defaults.
+
+
+## Fork preview deployment
+
+The fork uses the separate `ytranche-2-preview` project in `w84aprils-projects`,
+connected to `w84april/yearn.fi`. Its Root Directory is `apps/ytranche-2`;
+source files outside that directory are enabled for the shared packages.
+The project uses Node.js 22, `bun install --frozen-lockfile`, and `bun run build`.
+
+Vercel’s Git integration creates Preview deployments for non-main branches,
+including `codex/ytranche-2`. Automatic deployments from `main` are disabled,
+so this setup does not publish a production deployment. No Yearn Doppler or
+GitHub deployment secrets are needed for this preview.
+
+The inherited Yearn, yBOLD, and ERC-4626 deployment jobs, their change detector,
+and Yearn Telegram notification jobs run only in `yearn/yearn.fi`. Normal fork
+checks remain enabled.
+
+The project retains its existing Vercel sign-in protection. Use the branch’s
+Preview URL from the [Vercel project dashboard](https://vercel.com/w84aprils-projects/ytranche-2-preview),
+not the production project alias, which may have no deployment.
