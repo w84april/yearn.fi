@@ -31,7 +31,7 @@ export function DepositWidget() {
   return (
     <section className="yv-widget ytranche-widget" id="earn" aria-label="Manage your USDC position">
       <div className="ytranche-widget__heading">
-        <p>yTranche</p>
+        <p>Yearn</p>
         <h2>
           USDC <span aria-hidden="true">·</span> Fixed
         </h2>

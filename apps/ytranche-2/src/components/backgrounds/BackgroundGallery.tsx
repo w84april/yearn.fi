@@ -1,8 +1,11 @@
 'use client'
 
 import { type ReactNode, useState, useSyncExternalStore } from 'react'
-import { BACKGROUNDS, BackgroundScene, type TBackgroundId } from '@/components/backgrounds/BackgroundScene'
+import { BACKGROUNDS } from '@/components/backgrounds/BackgroundScene'
 import { VideoBackground } from '@/components/backgrounds/VideoBackground'
+
+const landscapes = BACKGROUNDS.filter((background) => 'video' in background)
+type TLandscapeId = (typeof landscapes)[number]['id']
 
 function subscribeToVisibility(onChange: () => void) {
   document.addEventListener('visibilitychange', onChange)
@@ -12,12 +15,11 @@ function subscribeToVisibility(onChange: () => void) {
 const getVisibility = () => document.visibilityState === 'visible'
 const getServerVisibility = () => true
 
-export function BackgroundGallery({ children }: { children: ReactNode }) {
-  const [variant, setVariant] = useState<TBackgroundId>('blossom-flow')
+export function BackgroundGallery({ children, copyControls }: { children: ReactNode; copyControls?: ReactNode }) {
+  const [variant, setVariant] = useState<TLandscapeId>('meadow-light')
   const [isPaused, setIsPaused] = useState(false)
   const isVisible = useSyncExternalStore(subscribeToVisibility, getVisibility, getServerVisibility)
-  const selectedIndex = BACKGROUNDS.findIndex((background) => background.id === variant)
-  const selected = BACKGROUNDS[selectedIndex]
+  const selected = landscapes.find((background) => background.id === variant) ?? landscapes[0]
 
   return (
     <div
@@ -25,51 +27,20 @@ export function BackgroundGallery({ children }: { children: ReactNode }) {
       data-background={variant}
       data-motion={isPaused || !isVisible ? 'paused' : 'playing'}
     >
-      {'video' in selected ? (
-        <VideoBackground
-          key={variant}
-          src={selected.video}
-          poster={selected.poster}
-          isPlaying={!isPaused && isVisible}
-        />
-      ) : (
-        <BackgroundScene key={variant} variant={selected.id} />
-      )}
+      <VideoBackground key={variant} src={selected.video} poster={selected.poster} isPlaying={!isPaused && isVisible} />
       {children}
       <footer className="background-gallery__footer">
-        <div className="background-gallery__caption" aria-live="polite" aria-atomic="true">
-          <span className="background-gallery__eyebrow">Background study</span>
-          <p>{selected.name}</p>
-          {variant === 'blossom-flow' && (
-            <details className="blossom-story">
-              <summary>
-                Read the flow <span aria-hidden="true">↗</span>
-              </summary>
-              <div className="blossom-story__panel">
-                <h2>One source. Different ways to bloom.</h2>
-                <p>
-                  The three tranches share one underlying Yearn vault. The blooms represent Fixed, Levered, and Equity.
-                </p>
-                <h3>Water carries the yield</h3>
-                <p>
-                  Each tranche accrues its target. Additional yield is shared according to the configured allocations.
-                </p>
-                <h3>The lower layers absorb losses first</h3>
-                <p>
-                  After available reserve support, losses reach Equity, then Levered, then Fixed. Every tier can lose
-                  value.
-                </p>
-                <a href="https://github.com/yearn/ytranche#settlement" target="_blank" rel="noreferrer">
-                  Read the settlement model ↗
-                </a>
-              </div>
-            </details>
-          )}
+        <div className="background-gallery__context">
+          {copyControls}
+          <p className="background-gallery__network">USDC on Ethereum</p>
         </div>
+        <span className="sr-only" aria-live="polite" aria-atomic="true">
+          Landscape: {selected.name}
+        </span>
         <div className="background-gallery__controls">
           <fieldset className="background-gallery__options">
-            <legend className="sr-only">Choose a background</legend>
-            {BACKGROUNDS.map((background) => (
+            <legend className="sr-only">Choose a landscape</legend>
+            {landscapes.map((background) => (
               <label key={background.id} className="background-option" title={background.name}>
                 <input
                   type="radio"
@@ -102,9 +73,6 @@ export function BackgroundGallery({ children }: { children: ReactNode }) {
             </svg>
           </button>
         </div>
-        <span className="background-gallery__count" aria-hidden="true">
-          {String(selectedIndex + 1).padStart(2, '0')} <span>/ {String(BACKGROUNDS.length).padStart(2, '0')}</span>
-        </span>
       </footer>
     </div>
   )

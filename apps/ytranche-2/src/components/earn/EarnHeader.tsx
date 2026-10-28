@@ -11,12 +11,12 @@ import { useAccount } from 'wagmi'
 import { WalletAccountDropdown } from '@/components/ytranche/WalletAccountMenu'
 
 const SITE_BASE_URL = 'https://yearn.fi'
-export function EarnHeader() {
+export function EarnHeader({ productName }: { productName?: string }) {
   const { address } = useAccount()
-  return <EarnHeaderContent key={address ?? 'disconnected'} />
+  return <EarnHeaderContent key={address ?? 'disconnected'} productName={productName} />
 }
 
-function EarnHeaderContent() {
+function EarnHeaderContent({ productName }: { productName?: string }) {
   const { address, isConnected } = useAccount()
   const { openWalletDrawer, dialogId, isOpen: isWalletPickerOpen } = useWalletDrawer()
   const [isAccountOpen, setIsAccountOpen] = useState(false)
@@ -24,7 +24,15 @@ function EarnHeaderContent() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   return (
     <SiteHeader
+      isHomePage
       siteBaseUrl={SITE_BASE_URL}
+      brandSuffix={
+        productName ? (
+          <a className="ytranche-header-product" href="#still-top">
+            {productName}
+          </a>
+        ) : undefined
+      }
       actions={
         <>
           <button
@@ -38,11 +46,7 @@ function EarnHeaderContent() {
             aria-controls={isConnected ? 'ytranche-wallet-account' : dialogId}
             aria-expanded={isConnected ? isAccountOpen : isWalletPickerOpen}
             aria-haspopup="dialog"
-            className={
-              isConnected
-                ? 'inline-flex items-center gap-2 rounded-lg bg-surface-secondary px-3 py-1.5 text-sm text-text-secondary'
-                : 'inline-flex h-8 items-center justify-center gap-2 rounded-lg bg-text-primary px-3 text-xs text-surface transition-opacity hover:opacity-90'
-            }
+            className="ytranche-header-wallet"
             onClick={() => {
               if (isConnected) setIsAccountOpen((open) => !open)
               else openWalletDrawer()
@@ -58,7 +62,7 @@ function EarnHeaderContent() {
             data-mobile-nav-trigger
             aria-label="Open navigation menu"
             aria-expanded={isMenuOpen}
-            className="flex min-h-11 min-w-11 items-center justify-center rounded-lg text-text-primary hover:bg-surface-secondary md:hidden"
+            className="flex min-h-11 min-w-11 items-center justify-center rounded-lg text-white hover:bg-white/10 md:hidden"
             onClick={() => setIsMenuOpen(true)}
           >
             <IconBurgerPlain className="size-6" />
