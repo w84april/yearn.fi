@@ -11,12 +11,12 @@ import { useAccount } from 'wagmi'
 import { WalletAccountDropdown } from '@/components/ytranche/WalletAccountMenu'
 
 const SITE_BASE_URL = 'https://yearn.fi'
-export function EarnHeader() {
+export function EarnHeader({ transparent = false }: { transparent?: boolean }) {
   const { address } = useAccount()
-  return <EarnHeaderContent key={address ?? 'disconnected'} />
+  return <EarnHeaderContent key={address ?? 'disconnected'} transparent={transparent} />
 }
 
-function EarnHeaderContent() {
+function EarnHeaderContent({ transparent }: { transparent: boolean }) {
   const { address, isConnected } = useAccount()
   const { openWalletDrawer, dialogId, isOpen: isWalletPickerOpen } = useWalletDrawer()
   const [isAccountOpen, setIsAccountOpen] = useState(false)
@@ -24,6 +24,7 @@ function EarnHeaderContent() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   return (
     <SiteHeader
+      isHomePage={transparent}
       siteBaseUrl={SITE_BASE_URL}
       actions={
         <>

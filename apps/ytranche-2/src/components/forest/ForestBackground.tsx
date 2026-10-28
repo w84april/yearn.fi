@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react'
 
-type TScene = 'foggy' | 'transition' | 'sunny'
+type TLoop = 'foggy' | 'sunny'
 const MEDIA = '/backgrounds/forest'
-const scenes: TScene[] = ['foggy', 'transition', 'sunny']
+const loops: TLoop[] = ['foggy', 'sunny']
 const reducedMotionQuery = '(prefers-reduced-motion: reduce)'
 
 function subscribeToMotion(onChange: () => void) {
@@ -24,39 +24,62 @@ const getServerMotion = () => true
 const getServerVisibility = () => true
 
 export function ForestBackground({ deposited, paused }: { deposited: boolean; paused: boolean }) {
-  const videos = useRef<Record<TScene, HTMLVideoElement | null>>({ foggy: null, transition: null, sunny: null })
-  const [activeScene, setActiveScene] = useState<TScene>('foggy')
+  const videos = useRef<Record<TLoop, HTMLVideoElement | null>>({ foggy: null, sunny: null })
+  const [sunnyReady, setSunnyReady] = useState(false)
   const [revealed, setRevealed] = useState(false)
   const [playbackBlocked, setPlaybackBlocked] = useState(false)
   const reducedMotion = useSyncExternalStore(subscribeToMotion, getReducedMotion, getServerMotion)
   const visible = useSyncExternalStore(subscribeToVisibility, getVisibility, getServerVisibility)
-  const targetScene: TScene = deposited ? (revealed || reducedMotion ? 'sunny' : 'transition') : 'foggy'
   const stillScene = deposited ? 'sunny' : 'foggy'
-  const displayedScene = reducedMotion || playbackBlocked ? stillScene : activeScene
+  const displayedScene =
+    reducedMotion || playbackBlocked
+      ? stillScene
+      : deposited && sunnyReady
+        ? revealed
+          ? 'sunny'
+          : 'transition'
+        : 'foggy'
 
-  // Playback is an imperative browser API; keep each buffered video in sync with the scene and visibility.
+  // Video playback and seeking are imperative APIs. Match the shared eight-second
+  // foliage/water phase before blending, and keep both loops moving during the reveal.
   useEffect(() => {
-    scenes
-      .filter((scene) => scene !== targetScene)
-      .forEach((scene) => {
-        videos.current[scene]?.pause()
-      })
-    const video = videos.current[targetScene]
-    if (!video) return
+    const foggy = videos.current.foggy
+    const sunny = videos.current.sunny
+    if (!foggy || !sunny) return
+    const controller = new AbortController()
+    const playing = deposited ? (revealed ? [sunny] : [foggy, sunny]) : [foggy]
+    const stop = () => {
+      foggy.pause()
+      sunny.pause()
+    }
     if (paused || reducedMotion || !visible) {
-      video.pause()
+      stop()
       return
     }
-    void video
-      .play()
-      .then(() => setPlaybackBlocked(false))
-      .catch(() => setPlaybackBlocked(true))
-    return () => video.pause()
-  }, [targetScene, paused, reducedMotion, visible])
+    if (deposited && !revealed) sunny.currentTime = foggy.currentTime % 8
+    if (!deposited) sunny.pause()
+    if (revealed) foggy.pause()
+    void Promise.all(playing.map((video) => video.play()))
+      .then(() => {
+        if (controller.signal.aborted) return
+        setPlaybackBlocked(false)
+        if (deposited) setSunnyReady(true)
+      })
+      .catch(() => {
+        if (!controller.signal.aborted) {
+          stop()
+          setPlaybackBlocked(true)
+        }
+      })
+    return () => {
+      controller.abort()
+      stop()
+    }
+  }, [deposited, revealed, paused, reducedMotion, visible])
 
   return (
-    <div className="forest-background" data-scene={displayedScene} aria-hidden="true">
-      {scenes.map((scene) => (
+    <div className="forest-background" data-scene={displayedScene} data-paused={paused || !visible} aria-hidden="true">
+      {loops.map((scene) => (
         <video
           key={scene}
           ref={(video) => {
@@ -64,28 +87,16 @@ export function ForestBackground({ deposited, paused }: { deposited: boolean; pa
           }}
           data-forest-video={scene}
           className="forest-background__video"
-          style={{ opacity: displayedScene === scene ? 1 : 0 }}
-          src={`${MEDIA}/${scene}.mp4?v=clear-sunny-2`}
-          poster={`${MEDIA}/${scene === 'sunny' ? 'sunny' : 'foggy'}.jpg?v=clear-sunny-2`}
+          src={`${MEDIA}/${scene}.mp4?v=motion-60-1`}
+          poster={`${MEDIA}/${scene}.jpg?v=clear-sunny-2`}
           muted
-          loop={scene !== 'transition'}
+          loop
           playsInline
           preload="auto"
           tabIndex={-1}
-          onPlaying={() => setActiveScene(scene)}
-          onEnded={
-            scene === 'transition'
-              ? () => {
-                  // The reveal ends halfway through the eight-second foliage cycle.
-                  const sunny = videos.current.sunny
-                  if (sunny) sunny.currentTime = 4
-                  setRevealed(true)
-                }
-              : undefined
-          }
+          onAnimationEnd={scene === 'sunny' ? () => setRevealed(true) : undefined}
           onError={() => {
-            if (scene === 'transition') setRevealed(true)
-            else if (scene === targetScene) setPlaybackBlocked(true)
+            if (scene === (deposited ? 'sunny' : 'foggy')) setPlaybackBlocked(true)
           }}
         />
       ))}
