@@ -33,6 +33,12 @@ to its preview URL for the latest hero layouts. Automatic deployments from
 `main` are disabled in this app's `vercel.json` so this project stays a preview.
 Yearn's Doppler deployment jobs run only in `yearn/yearn.fi` and skip this fork.
 
+- [Widget-left preview](https://ytranche-2-preview-git-codex-ytranche-20d67e-w84aprils-projects.vercel.app/widget-left)
+- [Deposit-reveal preview](https://ytranche-2-preview-git-codex-ytranche-20d67e-w84aprils-projects.vercel.app/deposit-reveal)
+
+Vercel's standard Deployment Protection remains enabled. Sign in with an account
+that has access to `w84aprils-projects` to view these previews.
+
 ## Hero copy options
 
 The preview buttons switch between Original, Touch grass, Personality, and Nature
