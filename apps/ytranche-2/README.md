@@ -19,6 +19,20 @@ cd apps/ytranche-2
 bun run dev --port 3014
 ```
 
+## Vercel previews
+
+Use the separate `ytranche-2-preview` project in `w84aprils-projects`, connected
+to `w84april/yearn.fi`. Its root directory is `apps/ytranche-2`, with source
+files outside that directory included for the shared workspace packages.
+Select Next.js and Node.js 22; install with `bun install --frozen-lockfile`
+and build with `bun run build`.
+
+Branch pushes create previews through Vercel's Git integration. The current
+branch is `codex/ytranche-2-clean`; append `/widget-left` or `/deposit-reveal`
+to its preview URL for the latest hero layouts. Automatic deployments from
+`main` are disabled in this app's `vercel.json` so this project stays a preview.
+Yearn's Doppler deployment jobs run only in `yearn/yearn.fi` and skip this fork.
+
 ## Hero copy options
 
 The preview buttons switch between Original, Touch grass, Personality, and Nature
