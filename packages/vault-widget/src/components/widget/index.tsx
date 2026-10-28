@@ -47,10 +47,13 @@ export const Widget = forwardRef<VaultWidgetRef, VaultWidgetProps>(function Widg
     onDepositPrefillConsumed,
     forceDepositStake,
     depositTitleOverride,
+    annualReturnNote,
+    withdrawTitleOverride,
     onDepositUserTokenSelectionChange,
     hideTabSelector,
     disableBorderRadius,
     collapseDetails,
+    appearance = 'default',
     disableTokenSelector,
     withdrawalSource,
     renderAction
@@ -91,12 +94,14 @@ export const Widget = forwardRef<VaultWidgetRef, VaultWidgetProps>(function Widg
             onPrefillApplied={onDepositPrefillConsumed}
             forceStake={forceDepositStake}
             titleOverride={depositTitleOverride}
+            annualReturnNote={annualReturnNote}
             onUserTokenSelectionChange={onDepositUserTokenSelectionChange}
             onOpenSettings={onOpenSettings}
             isSettingsOpen={isSettingsOpen}
             hideSettings={hideTabSelector}
             disableBorderRadius={disableBorderRadius}
             collapseDetails={collapseDetails}
+            isCalm={appearance === 'calm'}
             disableTokenSelector={disableTokenSelector}
           />
         )
@@ -110,15 +115,18 @@ export const Widget = forwardRef<VaultWidgetRef, VaultWidgetProps>(function Widg
             vaultSymbol={currentVault.symbol}
             stakingSource={currentVault.staking?.source}
             vaultVersion={currentVault.version}
+            maxLossBps={currentVault.withdrawMaxLossBps}
             contractKind={currentVault.contractKind}
             isVaultRetired={currentVault.isRetired}
             vaultUserData={vaultUserData}
             handleWithdrawSuccess={handleSuccess}
+            titleOverride={withdrawTitleOverride}
             onOpenSettings={onOpenSettings}
             isSettingsOpen={isSettingsOpen}
             hideSettings={hideTabSelector}
             disableBorderRadius={disableBorderRadius}
             collapseDetails={collapseDetails}
+            isCalm={appearance === 'calm'}
             disableTokenSelector={disableTokenSelector}
             forcedWithdrawalSource={withdrawalSource}
           />
@@ -243,6 +251,7 @@ function TabButton({ action, children, onClick, isActive, className, dataTour }:
       type="button"
       onClick={onClick}
       data-action={action}
+      aria-pressed={isActive}
       data-state={isActive ? 'active' : 'inactive'}
       data-widget-part="action-tab"
       data-tour={dataTour}
