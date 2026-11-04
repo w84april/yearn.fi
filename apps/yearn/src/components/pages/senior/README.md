@@ -27,3 +27,17 @@ Asset: public/senior/resting-book.webp. Generated with the built-in image_gen to
 Generation prompt:
 
 Use case: illustration-story. Asset type: wide website footer illustration, a new closing scene in the exact world of the reference. The reference image is STYLE and WORLD reference only, not an edit target. Create a wide landscape engraved illustration: a well-worn CLOSED clothbound book resting on a simple weathered wooden bench in the dappled shade of an old oak. A single natural oak leaf lies beside the book. Quiet meadow grasses and a faint distant field connect it to the reference's countryside. Intimate low eye-level still life; book, leaf and bench occupy the right half, with the book visibly set down to rest. Leave the left 50-55% mostly unprinted warm ivory paper with only the faintest landscape marks, so real website copy can be placed there later. Match the supplied reference's exquisite cobalt-blue copperplate engraving, botanical linework, delicate cross-hatching and warm lightly textured ivory paper. The mood is thoughtful, established, unhurried. No giant tree trunk or second grand tree scene. No people. No financial symbols, coins, charts, saplings, glowing objects or cartoon style. Absolutely no text, letters, logos or UI; the book cover is blank. Wide approximately 2:1 composition.
+
+## Fork preview deployment
+
+The separate `senior-preview` Vercel project in `w84aprils-projects` is connected
+to `w84april/yearn.fi`. Root Directory is `apps/yearn`, with source files outside
+the root enabled for the workspace packages. It uses Node.js 22,
+`bun install --frozen-lockfile`, `bun run build` and the detected Next.js output.
+
+Native Git integration deploys non-main branches, including
+`codex/senior-tree-landings`. Automatic deployments from `main` are disabled.
+The project uses Vercel sign-in protection; open `/senior` or `/senior/meadow`
+on the branch Preview URL. No Yearn Doppler or GitHub deployment secrets are
+required. The inherited Yearn deployment and Telegram notification jobs are
+restricted to `yearn/yearn.fi`, while normal fork checks remain enabled.
