@@ -4,6 +4,7 @@ import { formatUnits } from 'viem'
 import { formatWidgetAllowance, formatWidgetValue } from '../shared/valueDisplay'
 
 interface WithdrawDetailsProps {
+  isCalm?: boolean
   // Action label
   actionLabel: string
   // Required shares
@@ -45,6 +46,7 @@ function getApprovalLabel(approvalSpenderName?: string): string {
 }
 
 export function WithdrawDetails({
+  isCalm = false,
   actionLabel,
   requiredShares,
   sharesDecimals,
@@ -90,7 +92,42 @@ export function WithdrawDetails({
   const shouldShowExpectedOutUsdBadge = usesMinExpectedOut && outputUsdPrice > 0 && expectedOut > 0n
   const shouldShowWorstCasePriceImpact = usesMinExpectedOut
   const shouldUseHighlight = !isQuoteStale && !isLoadingQuote && shouldHighlightPriceImpact
-  return (
+  const receiveRow = (
+    <div className="flex items-center justify-between h-5">
+      <p className="text-sm text-text-secondary">You will receive{usesMinExpectedOut ? ' at least' : ''}</p>
+      <div className="flex items-center gap-1">
+        <p className={`text-sm ${shouldUseHighlight ? 'text-red-500' : 'text-text-primary'}`}>
+          {isLoadingQuote || (isCalm && isQuoteStale) ? (
+            <span className="inline-block h-4 w-20 bg-surface-secondary rounded animate-pulse" />
+          ) : expectedOut > 0n ? (
+            <>
+              <span data-widget-part="numeric-value" className="font-semibold">
+                {formatWidgetValue(expectedOut, outputDecimals)}
+              </span>{' '}
+              <span className="font-normal">{outputSymbol}</span>
+              {shouldUseHighlight && (
+                <span
+                  data-widget-part="numeric-value"
+                  className="font-semibold"
+                >{` (-${priceImpactPercentage.toFixed(2)}%)`}</span>
+              )}
+              {shouldShowExpectedOutUsdBadge ? (
+                <span data-widget-part="numeric-value" className="font-normal">{` (${expectedOutUsdDisplay})`}</span>
+              ) : null}
+            </>
+          ) : (
+            <>
+              <span data-widget-part="numeric-value" className="font-semibold">
+                {'0'}
+              </span>{' '}
+              <span className="font-normal">{outputSymbol || 'tokens'}</span>
+            </>
+          )}
+        </p>
+      </div>
+    </div>
+  )
+  const content = (
     <div>
       <div className="flex flex-col gap-2">
         {/* You will unstake/redeem */}
@@ -106,7 +143,7 @@ export function WithdrawDetails({
             <span className="inline-block h-4 w-20 bg-surface-secondary rounded animate-pulse" />
           ) : (
             <p className="text-sm text-text-primary">
-              <span className="font-semibold">
+              <span data-widget-part="numeric-value" className="font-semibold">
                 {requiredShares > 0n ? formatWidgetValue(requiredShares, sharesDecimals) : '0'}
               </span>{' '}
               <span className="font-normal">{'Vault shares'}</span>
@@ -120,41 +157,19 @@ export function WithdrawDetails({
             <p className="text-sm text-text-secondary">You will swap</p>
             <div className="flex items-center gap-1">
               <p className="text-sm text-text-primary">
-                <span className="font-semibold">{withdrawAmountSimple}</span>{' '}
+                <span data-widget-part="numeric-value" className="font-semibold">
+                  {withdrawAmountSimple}
+                </span>{' '}
                 <span className="font-normal">{assetSymbol}</span>
-                {shouldShowWithdrawUsdBadge ? <span className="font-normal">{` (${withdrawUsdDisplay})`}</span> : null}
+                {shouldShowWithdrawUsdBadge ? (
+                  <span data-widget-part="numeric-value" className="font-normal">{` (${withdrawUsdDisplay})`}</span>
+                ) : null}
               </p>
             </div>
           </div>
         )}
 
-        {/* You will receive */}
-        <div className="flex items-center justify-between h-5">
-          <p className="text-sm text-text-secondary">You will receive{usesMinExpectedOut ? ' at least' : ''}</p>
-          <div className="flex items-center gap-1">
-            <p className={`text-sm ${shouldUseHighlight ? 'text-red-500' : 'text-text-primary'}`}>
-              {isLoadingQuote ? (
-                <span className="inline-block h-4 w-20 bg-surface-secondary rounded animate-pulse" />
-              ) : expectedOut > 0n ? (
-                <>
-                  <span className="font-semibold">{formatWidgetValue(expectedOut, outputDecimals)}</span>{' '}
-                  <span className="font-normal">{outputSymbol}</span>
-                  {shouldUseHighlight && (
-                    <span className="font-semibold">{` (-${priceImpactPercentage.toFixed(2)}%)`}</span>
-                  )}
-                  {shouldShowExpectedOutUsdBadge ? (
-                    <span className="font-normal">{` (${expectedOutUsdDisplay})`}</span>
-                  ) : null}
-                </>
-              ) : (
-                <>
-                  <span className="font-semibold">{'0'}</span>{' '}
-                  <span className="font-normal">{outputSymbol || 'tokens'}</span>
-                </>
-              )}
-            </p>
-          </div>
-        </div>
+        {receiveRow}
 
         {shouldShowWorstCasePriceImpact && (
           <div className="flex items-center justify-between h-5">
@@ -164,9 +179,13 @@ export function WithdrawDetails({
                 <span className="inline-block h-4 w-28 bg-surface-secondary rounded animate-pulse" />
               ) : (
                 <>
-                  <span className="font-semibold">{formatSignedSlippage(expectedPriceImpactPercentage)}</span>
+                  <span data-widget-part="numeric-value" className="font-semibold">
+                    {formatSignedSlippage(expectedPriceImpactPercentage)}
+                  </span>
                   <span className="font-normal">{' | '}</span>
-                  <span className="font-semibold">{formatSignedSlippage(priceImpactPercentage)}</span>
+                  <span data-widget-part="numeric-value" className="font-semibold">
+                    {formatSignedSlippage(priceImpactPercentage)}
+                  </span>
                 </>
               )}
             </p>
@@ -199,14 +218,14 @@ export function WithdrawDetails({
                 onClick={onAllowanceClick}
                 className="text-sm text-text-primary hover:text-blue-500 transition-colors cursor-pointer"
               >
-                <span className="font-semibold">
+                <span data-widget-part="numeric-value" className="font-semibold">
                   {renderedAllowanceDisplay}
                   {renderedAllowanceDisplay !== 'Unlimited' && allowanceTokenSymbol ? ` ${allowanceTokenSymbol}` : ''}
                 </span>
               </button>
             ) : (
               <p className="text-sm text-text-primary">
-                <span className="font-semibold">
+                <span data-widget-part="numeric-value" className="font-semibold">
                   {renderedAllowanceDisplay}
                   {renderedAllowanceDisplay !== 'Unlimited' && allowanceTokenSymbol ? ` ${allowanceTokenSymbol}` : ''}
                 </span>
@@ -215,6 +234,27 @@ export function WithdrawDetails({
           </div>
         )}
       </div>
+    </div>
+  )
+
+  if (!isCalm) return content
+
+  return (
+    <div data-widget-part="calm-details">
+      <div
+        data-widget-part="transaction-summary"
+        aria-live="polite"
+        aria-atomic="true"
+        aria-busy={isLoadingQuote || isQuoteStale}
+      >
+        {withdrawAmountBn > 0n ? receiveRow : null}
+      </div>
+      <details data-widget-part="transaction-details">
+        <summary>
+          Details <span aria-hidden="true">+</span>
+        </summary>
+        <div data-widget-part="transaction-details-content">{content}</div>
+      </details>
     </div>
   )
 }
