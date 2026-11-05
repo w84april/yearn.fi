@@ -3,11 +3,11 @@
 Two independent marketing routes in the existing Yearn Next.js app:
 
 - /senior — blue split composition
-- /senior/meadow — paper and engraved canopy composition
+- /senior/meadow — white paper and engraved canopy composition
 
 Run the normal app development command and open either route. These pages share content and use the existing Aeonik fonts and Yearn typemark. No new dependencies are needed. The shared Yearn header and deposit widget use the existing app WalletConnect and Ethereum RPC settings, with one wallet connection shared across the page.
 
-The hero uses the selected Quiet classic pairing from the Yearn presskit: white (#FFFFFF) with black text for Deposit, and Good ol’ Grey 800 (#282828) with white text for Live data, which links to the onchain section. The header Connect wallet button remains blue. A centered, non-interactive Learn more label and down arrow sit beneath those actions, with the cue shifted down by 30% of its own height. The former hero risk footnote is removed; the risk explanations in the content and deposit panel remain.
+The hero uses the selected Quiet classic pairing from the Yearn presskit: white (#FFFFFF) with black text for Deposit, and Good ol’ Grey 800 (#282828) with white text for Live data, which links to the onchain section. Meadow adds a thin black border to Deposit. The header Connect wallet button remains blue. The blue edition keeps the centered, non-interactive Learn more cue beneath the actions. The Paper edition places a non-interactive Learn more cue lower in the hero, using the same white rectangular treatment and black outline as Deposit, with a downward arrow to the right of the text. The former hero risk footnote is removed; the risk explanations in the content and deposit panel remain.
 
 The hero artwork is local WebP in public/senior. Both illustrations were adapted from the approved Miro references, with the protruding bark knot removed. Text, navigation, controls and links are real page elements.
 
@@ -19,7 +19,7 @@ References:
 
 ## Content direction
 
-Both editions keep the approved “Let is rest” hero and use the reference Earn page’s
+Both editions keep the approved “Let it rest” hero and use the reference Earn page’s
 “It’s easy.”, “It’s consistent.” and “It’s secure.” sequence. The copy explains deposits,
 strategy allocation, withdrawals, the 5% annual target, the Senior/Junior waterfall,
 supporting capital and the independent review in the existing quiet, unnumbered layout.
@@ -51,7 +51,7 @@ its logical absorption order for assistive technology. With reduced motion, the
 static diagram shows Junior depleted and Senior backed, alongside the risk explanation.
 
 ## Hero character edit
-The current heroes use `elder-oak-dress.webp` and `meadow-canopy-dress.webp`.
+The blue hero uses `elder-oak-dress.webp`. The Paper hero uses `meadow-canopy-white-extended.webp`, a built-in image_gen continuation of `meadow-canopy-dress.webp` with a finished upper canopy and neutral white paper. The Paper hero lifts the copy and canopy together, allowing foliage to crop above the frame while keeping the meadow anchored at the bottom. The original Paper artwork is preserved for comparison. The continuation prompt and input role are recorded in `public/senior/paper-canopy-continuation-prompt.json`. Paper backgrounds, including the introduction, priority, data, footer and deposit panel, use white.
 The seated figure now has a short bob, a round-neck puff-sleeve gathered dress
 and a simple straw sun hat, following the supplied character reference. The
 original engraved landscapes and resting pose are preserved. The previous
@@ -61,7 +61,7 @@ and input roles are saved in `public/senior/character-edit-prompts.json`.
 
 ## Control design
 
-Controls follow the sharp treatment in https://yearnfi-git-feat-landing-page-yearn.vercel.app/: square corners, flat surfaces, regular-weight Aeonik and restrained hover motion. Hero actions use the borderless Quiet classic pairing; the deposit panel, tabs and token controls keep thin ink borders. The large tree crop stays curved as part of the illustration composition.
+Controls follow the sharp treatment in https://yearnfi-git-feat-landing-page-yearn.vercel.app/: square corners, flat surfaces, regular-weight Aeonik and restrained hover motion. Hero actions use the Quiet classic pairing, with a black Deposit outline on Meadow; the deposit panel, tabs and token controls keep thin ink borders. The large tree crop stays curved as part of the illustration composition.
 
 ## Archived footer artwork
 

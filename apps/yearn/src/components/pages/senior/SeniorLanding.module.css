@@ -1014,7 +1014,7 @@
     content: "";
     position: absolute;
     inset: 20% 0 16%;
-    background: radial-gradient(ellipse at 45% 45%, var(--paper) 0%, #faf3e7ed 40%, #faf3e700 76%);
+    background: radial-gradient(ellipse at 45% 45%, var(--paper) 0%, #ffffffed 40%, #ffffff00 76%);
   }
   .section {
     padding: 76px 6%;
@@ -1417,13 +1417,6 @@ body:has(.site) [aria-label="Navigation menu"] {
   line-height: 20px;
   color: inherit;
 }
-.paperEdition .learnMore {
-  width: fit-content;
-  margin-inline: auto;
-  padding: 4px 10px;
-  background: var(--paper);
-  color: var(--ink);
-}
 .learnMore svg {
   width: 18px;
   height: 18px;
@@ -1474,5 +1467,117 @@ body:has(.site) [aria-label="Navigation menu"] a[href="/"] {
   }
   .sharedHeader .brandDivider {
     margin-inline: 14px;
+  }
+}
+
+/* White paper keeps the extended engraving and every page section on one canvas. */
+.paperEdition {
+  --paper: #fff;
+}
+.paperEdition .priority,
+.paperEdition .onchain {
+  background: #fff;
+}
+.paperEdition .heroArt {
+  top: -14%;
+}
+.paperEdition .heroArt img {
+  object-position: center top;
+}
+.paperEdition .heroActions button.primaryButton,
+.paperEdition .canopyCue {
+  border-color: #000;
+}
+.paperEdition .depositPanel {
+  --color-app: #fff;
+  --color-surface: #fff;
+  --color-surface-secondary: #fff;
+  --color-surface-tertiary: #fff;
+}
+.canopyCue {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: 24px;
+  width: max-content;
+  min-height: 26px;
+  gap: 6px;
+  margin: 0;
+  padding: 5px 8px;
+  font-size: 10px;
+  line-height: 14px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  user-select: none;
+  transition: opacity 200ms;
+}
+.canopyCue svg {
+  width: 10px;
+  height: 10px;
+}
+.site[data-deposit-open="true"] .canopyCue {
+  opacity: 0;
+}
+@media (min-width: 761px) {
+  .paperEdition .hero {
+    min-height: 660px;
+  }
+  .paperEdition .heroContent {
+    top: 24%;
+  }
+  .paperEdition .heroContent h1 {
+    font-size: clamp(70px, 6.4vw, 104px);
+    margin-bottom: 16px;
+  }
+  .paperEdition .heroSubtitle {
+    font-size: clamp(22px, 1.8vw, 28px);
+  }
+  .paperEdition .heroRate {
+    margin-top: 16px;
+  }
+  .paperEdition .heroContent .heroDescription {
+    margin-top: 14px;
+  }
+  .paperEdition .heroContent .heroActions {
+    margin-top: 20px;
+  }
+}
+@media (min-width: 761px) and (max-height: 850px) {
+  .paperEdition .heroContent {
+    top: 23%;
+  }
+  .paperEdition .heroContent h1 {
+    font-size: 68px;
+    margin-bottom: 10px;
+  }
+  .paperEdition .heroSubtitle {
+    font-size: 20px;
+  }
+  .paperEdition .heroRate {
+    margin-top: 10px;
+    font-size: 15px;
+  }
+  .paperEdition .heroRate strong {
+    font-size: 32px;
+  }
+  .paperEdition .heroContent .heroDescription {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  .paperEdition .heroContent .heroActions {
+    margin-top: 14px;
+  }
+  .paperEdition .heroActions .primaryButton {
+    min-height: 46px;
+    padding-block: 12px;
+  }
+}
+@media (max-width: 760px) {
+  .paperEdition .heroContent {
+    padding-top: 180px;
+    padding-bottom: 176px;
+  }
+  .paperEdition .heroArt img {
+    object-position: 83% top;
   }
 }

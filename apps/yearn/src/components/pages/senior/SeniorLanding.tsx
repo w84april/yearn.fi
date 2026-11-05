@@ -286,7 +286,7 @@ export default function SeniorLanding({ edition }: TSeniorLandingProps) {
               <section className={styles.hero} id="top" aria-labelledby="hero-title">
                 <div className={styles.heroArt}>
                   <Image
-                    src={isBlue ? '/senior/elder-oak-dress.webp' : '/senior/meadow-canopy-dress.webp'}
+                    src={isBlue ? '/senior/elder-oak-dress.webp' : '/senior/meadow-canopy-white-extended.webp'}
                     alt="An old oak above a quiet meadow, with a woman in a gathered dress and straw hat resting at its roots."
                     fill
                     unoptimized
@@ -303,7 +303,7 @@ export default function SeniorLanding({ edition }: TSeniorLandingProps) {
                   aria-hidden={isDepositOpen}
                   inert={isDepositOpen}
                 >
-                  <h1 id="hero-title">Let is rest</h1>
+                  <h1 id="hero-title">Let it rest</h1>
                   <p className={styles.heroSubtitle}>
                     Earn on USDC
                     <br />
@@ -336,12 +336,20 @@ export default function SeniorLanding({ edition }: TSeniorLandingProps) {
                         Live data <Arrow />
                       </a>
                     </div>
-                    <p className={styles.learnMore}>
-                      <span>Learn more</span>
-                      <Arrow down />
-                    </p>
+                    {isBlue && (
+                      <p className={styles.learnMore}>
+                        <span>Learn more</span>
+                        <Arrow down />
+                      </p>
+                    )}
                   </div>
                 </motion.div>
+                {!isBlue && (
+                  <p className={`${styles.primaryButton} ${styles.canopyCue}`} aria-hidden={isDepositOpen}>
+                    <span>Learn more</span>
+                    <Arrow down />
+                  </p>
+                )}
               </section>
 
               <section className={`${styles.section} ${styles.intro}`} id="how-it-works" aria-labelledby="intro-title">
