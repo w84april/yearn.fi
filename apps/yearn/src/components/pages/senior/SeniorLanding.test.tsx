@@ -17,6 +17,17 @@ vi.mock('next/dynamic', async () => {
 })
 
 vi.mock('next/image', () => ({ default: () => null }))
+vi.mock('@shared/components/Header', () => ({
+  default: () => (
+    <header aria-label="Yearn header">
+      <button type="button">Connect wallet</button>
+    </header>
+  )
+}))
+vi.mock('@/AppProviders', () => ({ AppProviders: ({ children }: { children: ReactNode }) => children }))
+vi.mock('@shared/contexts/YearnVaultWidgetRuntimeProvider', () => ({
+  YearnVaultWidgetRuntimeProvider: ({ children }: { children: ReactNode }) => children
+}))
 
 vi.mock('framer-motion', async () => {
   const { createElement, forwardRef } = await import('react')
@@ -34,6 +45,7 @@ vi.mock('framer-motion', async () => {
   return {
     MotionConfig: ({ children }: { children: ReactNode }) => children,
     motion: { div: animated('div'), dialog: animated('dialog') },
+    useInView: () => true,
     useReducedMotion: () => true
   }
 })
@@ -56,15 +68,15 @@ describe('Senior deposit panel', () => {
     'restores focus and preserves an entered amount after closing and reopening the %s edition',
     async (edition) => {
       render(<SeniorLanding edition={edition} />)
-      const trigger = within(screen.getByRole('navigation', { name: 'Main navigation' })).getByRole('button', {
-        name: 'Deposit'
-      })
+      const header = screen.getByRole('banner', { name: 'Yearn header' }).parentElement
+      const trigger = screen.getByRole('button', { name: 'Deposit' })
       trigger.focus()
       fireEvent.click(trigger)
 
       const dialog = screen.getByRole('dialog', { name: 'Deposit into Senior' })
       const close = within(dialog).getByRole('button', { name: 'Close deposit widget' })
       await waitFor(() => expect(document.activeElement).toBe(close))
+      expect(header?.hasAttribute('inert')).toBe(true)
       expect(screen.getByRole('main').hasAttribute('inert')).toBe(true)
       expect(screen.getByRole('contentinfo').hasAttribute('inert')).toBe(true)
 
@@ -74,6 +86,7 @@ describe('Senior deposit panel', () => {
       fireEvent.keyDown(amount, { key: 'Escape' })
       await waitFor(() => expect(document.activeElement).toBe(trigger))
       expect(screen.queryByRole('dialog')).toBeNull()
+      expect(header?.hasAttribute('inert')).toBe(false)
       expect(screen.getByRole('main').hasAttribute('inert')).toBe(false)
       expect(screen.getByRole('contentinfo').hasAttribute('inert')).toBe(false)
 
@@ -83,18 +96,34 @@ describe('Senior deposit panel', () => {
       expect(reopened.value).toBe('1250')
     }
   )
+})
 
-  it('returns focus to the visible menu summary after opening from the mobile menu', async () => {
+describe('Senior waterfall', () => {
+  it('shows Senior first for yield, Junior first for losses, and lets the animation pause', () => {
     render(<SeniorLanding edition="paper" />)
-    const summary = screen.getByText('Menu').closest('summary')
-    if (!summary) throw new Error('Mobile menu summary is missing')
-    fireEvent.click(summary)
-    const trigger = within(screen.getByRole('navigation', { name: 'Mobile navigation' })).getByRole('button', {
-      name: 'Deposit'
-    })
-    fireEvent.click(trigger)
-    expect(summary.parentElement?.hasAttribute('open')).toBe(false)
-    fireEvent.click(screen.getByRole('button', { name: 'Close deposit widget' }))
-    await waitFor(() => expect(document.activeElement).toBe(summary))
+    const yieldOrder = screen.getByRole('list', { name: 'Yield distribution order' })
+    expect(
+      within(yieldOrder)
+        .getAllByRole('listitem')
+        .map((item) => item.querySelector('strong')?.textContent)
+    ).toEqual(['Senior', 'Junior'])
+
+    fireEvent.click(screen.getByRole('button', { name: 'When there is a loss' }))
+    const lossOrder = screen.getByRole('list', { name: 'Loss absorption order' })
+    expect(
+      within(lossOrder)
+        .getAllByRole('listitem')
+        .map((item) => item.querySelector('strong')?.textContent)
+    ).toEqual(['Junior', 'Senior'])
+    expect(screen.getByText(/Senior is affected only if that backing runs out/)).toBeTruthy()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Pause animation' }))
+    const play = screen.getByRole('button', { name: 'Play animation' })
+    expect(play.getAttribute('aria-pressed')).toBe('true')
+    expect(play.closest('[data-running]')?.getAttribute('data-running')).toBe('false')
+    fireEvent.click(play)
+    expect(
+      screen.getByRole('button', { name: 'Pause animation' }).closest('[data-running]')?.getAttribute('data-running')
+    ).toBe('true')
   })
 })

@@ -32,7 +32,7 @@
   outline-offset: 6px;
 }
 .site section {
-  scroll-margin-top: 28px;
+  scroll-margin-top: calc(var(--header-height) + 28px);
 }
 .site :where(h1, h2, h3, p) {
   margin: 0;
@@ -52,7 +52,7 @@
 }
 .skipLink {
   position: fixed;
-  z-index: 10;
+  z-index: 70;
   top: 12px;
   left: 20px;
   padding: 12px 20px;
@@ -64,20 +64,18 @@
   transform: translateY(0);
 }
 
+.sharedHeader {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+}
+
 .hero {
   position: relative;
   isolation: isolate;
-  min-height: 680px;
-  height: 100svh;
+  min-height: 600px;
+  height: calc(100svh - var(--header-height));
   max-height: 1100px;
-}
-.header {
-  position: relative;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 32px 4.5%;
 }
 .brand {
   display: inline-flex;
@@ -102,32 +100,7 @@
   font-size: 21px;
   letter-spacing: -0.035em;
 }
-.nav {
-  display: flex;
-  align-items: center;
-  gap: 36px;
-  font-size: 15px;
-}
-.nav > a:not(.navCta) {
-  position: relative;
-  padding: 10px 0;
-}
-.nav > a:not(.navCta)::after {
-  content: "";
-  position: absolute;
-  bottom: 5px;
-  left: 0;
-  height: 1px;
-  width: 100%;
-  background: currentColor;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 200ms;
-}
-.nav > a:hover::after {
-  transform: scaleX(1);
-}
-.navCta,
+
 .primaryButton {
   display: inline-flex;
   align-items: center;
@@ -144,23 +117,11 @@
   min-height: 58px;
   transition: background 180ms;
 }
-.navCta {
-  padding: 11px 20px;
-  gap: 16px;
-  min-height: 42px;
-  font-size: 14px;
-  line-height: 18px;
-}
-.navCta svg {
-  width: 14px;
-  height: 14px;
-}
 .primaryButton svg {
   width: 18px;
   height: 18px;
 }
-.primaryButton:hover,
-.navCta:hover {
+.primaryButton:hover {
   background: #30312e;
 }
 .primaryButton svg,
@@ -184,9 +145,6 @@
   border-bottom: 1px solid currentColor;
   width: fit-content;
   font-size: 16px;
-}
-.mobileMenu {
-  display: none;
 }
 .heroArt {
   position: absolute;
@@ -214,24 +172,15 @@
   line-height: 1.5;
   margin-top: 26px;
 }
+.heroDescription a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 .heroActions {
   display: flex;
   align-items: center;
   gap: 28px;
   margin-top: 34px;
-}
-.heroActions .textLink {
-  font-size: 15px;
-}
-.heroFoot {
-  position: absolute;
-  left: 4.5%;
-  right: 4.5%;
-  bottom: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 13px;
 }
 .blueEdition .hero {
   background: var(--hero-blue);
@@ -252,31 +201,23 @@
   width: 43%;
   top: 23%;
 }
-.blueEdition .hero .primaryButton,
-.blueEdition .hero .navCta {
-  border-color: white;
-  background: white;
-  color: var(--ink);
+.hero .primaryButton {
+  border-color: transparent;
+  background: #fff;
+  color: #000;
 }
-.blueEdition .hero .primaryButton:hover,
-.blueEdition .hero .navCta:hover {
-  background: #efefea;
+.hero .primaryButton:hover {
+  background: #f4f4f4;
 }
 .paperEdition .hero {
   color: var(--blue);
-  min-height: 680px;
+  min-height: 600px;
 }
 .paperEdition .heroArt {
   inset: 0;
 }
 .paperEdition .heroArt img {
   object-position: center;
-}
-.paperEdition .nav {
-  color: var(--ink);
-}
-.paperEdition .header {
-  background: linear-gradient(var(--paper) 55%, transparent);
 }
 .paperEdition .heroContent {
   left: 13%;
@@ -298,25 +239,21 @@
   justify-content: center;
   margin-top: 28px;
 }
-.paperEdition .heroFoot span {
-  padding: 6px 10px;
-  background: var(--paper);
-  color: var(--ink);
-}
 
 .section {
   padding: 120px max(6%, calc((100vw - 1440px) / 2));
 }
 .intro {
+  min-height: calc(100svh - var(--header-height));
+  align-content: space-between;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 60px 10%;
+  gap: 36px 10%;
 }
 .introHeading {
   align-self: start;
 }
 .introCopy {
-  padding-top: 50px;
   max-width: 520px;
   font-size: 18px;
 }
@@ -338,7 +275,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 6%;
-  margin-top: 36px;
+  margin-top: 0;
 }
 .step {
   border-top: 1px solid var(--line);
@@ -396,70 +333,167 @@
   border-bottom-color: var(--blue);
   color: var(--blue);
 }
-.flow {
-  padding: 36px 0 22px;
-  text-align: center;
+.profitFlow {
+  --flow-cycle: 9.6s;
+  --flow-fill: color-mix(in srgb, var(--blue) 20%, transparent);
+  margin: 24px 0 20px;
+  padding: 24px;
+  border: 1px solid var(--line);
 }
-.flowSource {
+.flowCaption {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
-  font-size: 14px;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 18px;
+  margin-bottom: 22px;
+  border-bottom: 1px solid var(--line);
+  font-size: 19px;
+  letter-spacing: -0.025em;
 }
-.flowDot {
-  display: inline-block;
-  width: 7px;
-  height: 7px;
-  border-radius: 100%;
-  background: var(--blue);
-}
-.flowConnector {
-  height: 44px;
-  padding-top: 7px;
-  font-size: 25px;
+.animationToggle {
+  border: 0;
+  padding: 6px 0;
+  background: transparent;
   color: var(--blue);
+  font-size: 13px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
-.flowPosition {
+.flowStage {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 28px 20px;
-  border: 1px solid currentColor;
-  border-radius: 0;
-  color: white;
-  background: var(--blue);
-  transition: background 300ms;
 }
-.flowPosition strong {
-  font-size: 42px;
-  line-height: 1.1;
+.profitFlow[data-scenario="loss"] .flowStage,
+.profitFlow[data-scenario="loss"] .flowSequence,
+.profitFlow[data-scenario="loss"] .flowSequence > li {
+  display: flex;
+  flex-direction: column-reverse;
+}
+.profitFlow[data-scenario="loss"] .flowChannel {
+  transform: rotate(180deg);
+}
+.profitFlow[data-scenario="loss"] .flowNode[data-kind="junior"]::before {
+  transform: scaleY(0);
+}
+.flowSource,
+.flowNode {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 7px 16px;
+  min-height: 88px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--blue) 3%, transparent);
+  overflow: hidden;
+}
+.flowSource > div > span,
+.flowNode > span {
+  color: var(--muted);
+  font-size: 12px;
+}
+.flowSource strong,
+.flowNode strong {
+  display: block;
+  font-size: 25px;
+  line-height: 1.2;
   font-weight: 400;
   letter-spacing: -0.035em;
 }
-.flowPosition > span:last-child {
-  font-size: 14px;
+.flowSource strong {
+  margin-top: 6px;
+  font-size: 23px;
 }
-.flow[data-scenario="loss"] .flowPosition {
-  background: #454641;
+.flowSourceMark {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  aspect-ratio: 1;
+  border: 1px solid var(--blue);
+  border-radius: 50%;
+  color: var(--blue);
+  font-family: var(--font-aeonik-mono), monospace;
+  font-size: 11px;
 }
-.flowRemainder {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  font-size: 13px;
+.flowSourceMark::after {
+  position: absolute;
+  inset: -5px;
+  border: 1px solid currentColor;
+  border-radius: inherit;
+  content: "";
+  opacity: 0.25;
+  transform: scale(1.2);
 }
-.flowRemainder strong {
-  font-size: 17px;
-  font-weight: 400;
+.flowSequence,
+.flowSequence > li {
+  display: grid;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.flowChannel {
+  width: 100%;
+  height: 34px;
+  display: block;
+  overflow: visible;
+}
+.flowTrack,
+.flowStream {
+  fill: none;
+  stroke-linecap: round;
+}
+.flowTrack {
+  stroke: var(--line);
+  stroke-width: 1.25;
+}
+.flowStream {
+  stroke: var(--blue);
+  stroke-width: 2;
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 0;
+  opacity: 0.8;
+}
+.flowNode::before {
+  position: absolute;
+  inset: 0;
+  background: var(--flow-fill);
+  content: "";
+  opacity: 0.75;
+  transform: scaleY(1);
+  transform-origin: bottom;
+}
+.flowNode > * {
+  position: relative;
+  z-index: 1;
+}
+.flowNode em {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  color: var(--blue);
+  font-size: 12px;
+  font-style: normal;
+  white-space: nowrap;
+}
+.flowNode[data-kind="senior"] {
+  border-color: var(--blue);
+  background: color-mix(in srgb, var(--blue) 5%, transparent);
 }
 .diagramNote {
   color: var(--muted);
   font-size: 13px;
-  min-height: 48px;
-  margin: 0 0 16px;
-  text-align: center;
+  min-height: 84px;
+  margin: 22px 0 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+.diagramNote > span {
+  display: block;
+  font-size: 11px;
+  margin-top: 8px;
 }
 .priorityDemo > .textLink {
   color: var(--blue);
@@ -475,20 +509,192 @@
 .blueEdition .priorityDemo {
   --blue: #fff;
   --muted: #e0eaff;
-}
-.blueEdition .flowPosition {
-  color: #1851d4;
-}
-.blueEdition .flow[data-scenario="loss"] .flowPosition {
-  background: #d2dfff;
+  --line: #ffffff55;
 }
 .blueEdition .scenarioButtons {
   border-color: #94b3ff;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .flowSourceMark::after {
+    animation: profitSource var(--flow-cycle) linear infinite;
+  }
+  .flowStream,
+  .flowNode::before {
+    opacity: 0;
+    animation-duration: var(--flow-cycle);
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+  .flowStream {
+    stroke-dashoffset: 1;
+  }
+  .flowNode::before {
+    transform: scaleY(0);
+  }
+  .flowSequence > li:first-child .flowStream {
+    animation-name: profitPathFirst;
+  }
+  .flowSequence > li:last-child .flowStream {
+    animation-name: profitPathSecond;
+  }
+  .flowSequence > li:first-child .flowNode::before {
+    animation-name: profitFillFirst;
+  }
+  .flowSequence > li:last-child .flowNode::before {
+    animation-name: profitFillSecond;
+  }
+  .profitFlow[data-scenario="loss"] .flowNode[data-kind="junior"]::before {
+    animation-name: lossDrainJunior;
+  }
+  .profitFlow[data-scenario="loss"] .flowNode[data-kind="senior"]::before {
+    animation-name: lossDrainSenior;
+  }
+  .priorityDemo[data-running="false"] .flowStream,
+  .priorityDemo[data-running="false"] .flowNode::before,
+  .priorityDemo[data-running="false"] .flowSourceMark::after {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes profitSource {
+  0%,
+  96%,
+  100% {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  6% {
+    opacity: 0.8;
+    transform: scale(1.18);
+  }
+  12%,
+  90% {
+    opacity: 0.25;
+    transform: scale(1.25);
+  }
+}
+@keyframes profitPathFirst {
+  0%,
+  7% {
+    opacity: 0;
+    stroke-dashoffset: 1;
+  }
+  8% {
+    opacity: 0.9;
+  }
+  18%,
+  90% {
+    opacity: 0.8;
+    stroke-dashoffset: 0;
+  }
+  96%,
+  100% {
+    opacity: 0;
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes profitPathSecond {
+  0%,
+  40% {
+    opacity: 0;
+    stroke-dashoffset: 1;
+  }
+  41% {
+    opacity: 0.9;
+  }
+  52%,
+  90% {
+    opacity: 0.8;
+    stroke-dashoffset: 0;
+  }
+  96%,
+  100% {
+    opacity: 0;
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes profitFillFirst {
+  0%,
+  14% {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  32%,
+  90% {
+    opacity: 0.75;
+    transform: scaleY(1);
+  }
+  96%,
+  100% {
+    opacity: 0;
+    transform: scaleY(1);
+  }
+}
+@keyframes profitFillSecond {
+  0%,
+  47% {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  70%,
+  90% {
+    opacity: 0.75;
+    transform: scaleY(1);
+  }
+  96%,
+  100% {
+    opacity: 0;
+    transform: scaleY(1);
+  }
+}
+@keyframes lossDrainJunior {
+  0%,
+  14% {
+    opacity: 0.75;
+    transform: scaleY(1);
+  }
+  32%,
+  90% {
+    opacity: 0.75;
+    transform: scaleY(0);
+  }
+  96% {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleY(1);
+  }
+}
+@keyframes lossDrainSenior {
+  0%,
+  47% {
+    opacity: 0.75;
+    transform: scaleY(1);
+  }
+  70%,
+  90% {
+    opacity: 0.75;
+    transform: scaleY(0.55);
+  }
+  96% {
+    opacity: 0;
+    transform: scaleY(0.55);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleY(1);
+  }
 }
 .terms {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10%;
+}
+.terms h2 {
+  margin-bottom: 28px;
 }
 .termsList {
   padding-top: 43px;
@@ -509,6 +715,17 @@
   font-size: 16px;
   max-width: 450px;
 }
+.termsList .textLink {
+  margin-top: 18px;
+  color: var(--blue);
+  font-size: 14px;
+}
+.securityNote {
+  max-width: 420px;
+  margin-top: 24px;
+  color: var(--muted);
+  font-size: 14px;
+}
 .onchain {
   background: #f4efe5;
 }
@@ -518,12 +735,6 @@
   justify-content: space-between;
   gap: 50px;
   margin-bottom: 64px;
-}
-.onchainHeading > p {
-  font-size: 23px;
-  letter-spacing: -0.025em;
-  margin-right: 7%;
-  padding-bottom: 8px;
 }
 .resource {
   display: grid;
@@ -562,6 +773,8 @@
 }
 .resourceFoot {
   display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
   align-items: center;
   justify-content: flex-end;
   margin-top: 22px;
@@ -600,8 +813,7 @@
   cursor: pointer;
   list-style: none;
 }
-.questions summary::-webkit-details-marker,
-.mobileMenu summary::-webkit-details-marker {
+.questions summary::-webkit-details-marker {
   display: none;
 }
 .questions summary > span {
@@ -619,52 +831,8 @@
   color: var(--muted);
   line-height: 1.65;
 }
-.closing {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  min-height: 640px;
-  display: flex;
-  align-items: center;
-  padding: 90px 8%;
-  background: var(--paper);
-  border-top: 1px solid var(--line);
-}
-.closingArt {
-  object-fit: cover;
-  object-position: right center;
-  z-index: -1;
-}
-.closing::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: linear-gradient(90deg, var(--paper) 0%, var(--paper) 25%, #faf3e7ed 42%, #faf3e700 76%);
-}
-.closingContent {
-  max-width: 650px;
-}
-.closing h2 {
-  font-size: clamp(50px, 5.2vw, 88px);
-  color: var(--blue);
-  margin-bottom: 24px;
-}
-.closing .primaryButton {
-  margin-right: 24px;
-  margin-bottom: 18px;
-}
-.closing .textLink {
-  color: var(--blue);
-  font-size: 15px;
-}
 .finePrint {
   font-size: 13px;
-}
-.closing .finePrint {
-  display: block;
-  margin-top: 8px;
-  color: var(--muted);
 }
 .footer {
   padding: 54px 6% 28px;
@@ -704,10 +872,6 @@
   }
 }
 @media (max-width: 1100px) {
-  .nav {
-    gap: 22px;
-    font-size: 13px;
-  }
   .brand {
     gap: 14px;
   }
@@ -732,10 +896,6 @@
     font-size: 16px;
     gap: 16px;
   }
-  .heroActions .textLink {
-    font-size: 15px;
-    gap: 8px;
-  }
   .blueEdition .heroContent {
     width: 46%;
     top: 25%;
@@ -750,9 +910,6 @@
   .priority {
     gap: 8%;
   }
-  .onchainHeading > p {
-    margin-right: 0;
-  }
   .faq {
     gap: 7%;
   }
@@ -764,12 +921,8 @@
 @media (max-width: 760px) {
   .hero {
     height: auto;
-    min-height: 100svh;
+    min-height: calc(100svh - var(--header-height));
     max-height: none;
-  }
-  .header {
-    padding: 23px 6%;
-    align-items: flex-start;
   }
   .wordmark {
     width: 110px;
@@ -783,54 +936,6 @@
   }
   .brandName {
     font-size: 18px;
-  }
-  .nav {
-    display: none;
-  }
-  .mobileMenu {
-    display: block;
-    position: relative;
-    margin-top: 2px;
-  }
-  .mobileMenu summary {
-    display: flex;
-    gap: 18px;
-    align-items: center;
-    cursor: pointer;
-    padding: 0 0 7px 10px;
-    list-style: none;
-    min-height: 35px;
-    font-size: 14px;
-  }
-  .mobileMenu summary > span {
-    font-size: 22px;
-    line-height: 1;
-    transition: transform 200ms;
-  }
-  .mobileMenu[open] summary > span {
-    transform: rotate(45deg);
-  }
-  .mobileMenu nav {
-    position: absolute;
-    top: 44px;
-    right: 0;
-    width: 240px;
-    background: var(--paper);
-    color: var(--ink);
-    padding: 12px 22px;
-    border: 1px solid var(--ink);
-  }
-  .mobileMenu nav :is(a, button) {
-    width: 100%;
-    border: 0;
-    background: transparent;
-    color: inherit;
-    text-align: left;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    min-height: 48px;
-    font-size: 16px;
   }
   .heroContent h1 {
     font-size: clamp(53px, 11vw, 79px);
@@ -853,21 +958,6 @@
     min-height: 52px;
     padding: 14px 20px;
   }
-  .heroActions .textLink {
-    font-size: 14px;
-  }
-  .heroFoot {
-    position: relative;
-    inset: auto;
-    padding: 25px 6%;
-    font-size: 10px;
-    gap: 20px;
-    align-items: flex-start;
-  }
-  .heroFoot > span:last-child {
-    max-width: 145px;
-    text-align: right;
-  }
   .blueEdition .hero {
     padding-bottom: 0;
     display: flex;
@@ -879,9 +969,6 @@
     width: auto;
     padding: 45px 6% 30px;
     order: 1;
-  }
-  .blueEdition .header {
-    order: 0;
   }
   .blueEdition .heroArt {
     position: relative;
@@ -897,17 +984,10 @@
   .blueEdition .heroArt img {
     object-position: 76% center;
   }
-  .blueEdition .heroFoot {
-    order: 3;
-    margin-top: auto;
-  }
   .paperEdition .hero {
     display: flex;
     flex-direction: column;
-    min-height: 860px;
-  }
-  .paperEdition .header {
-    background: var(--paper);
+    min-height: calc(100svh - var(--header-height));
   }
   .paperEdition .heroContent {
     position: relative;
@@ -935,12 +1015,6 @@
     position: absolute;
     inset: 20% 0 16%;
     background: radial-gradient(ellipse at 45% 45%, var(--paper) 0%, #faf3e7ed 40%, #faf3e700 76%);
-  }
-  .paperEdition .heroFoot {
-    margin-top: auto;
-  }
-  .paperEdition .heroFoot span {
-    padding: 3px 5px;
   }
   .section {
     padding: 76px 6%;
@@ -985,9 +1059,18 @@
   .priorityDemo {
     padding-top: 12px;
   }
-  .flowPosition {
-    max-width: 440px;
-    margin: 0 auto;
+  .profitFlow {
+    padding: 18px 16px;
+  }
+  .flowNode {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+  .flowNode em {
+    grid-column: 1;
+    grid-row: auto;
+    margin-top: 3px;
+    white-space: normal;
   }
   .scenarioButtons button {
     font-size: 13px;
@@ -1004,10 +1087,6 @@
   .onchainHeading {
     display: block;
     margin-bottom: 36px;
-  }
-  .onchainHeading > p {
-    font-size: 19px;
-    margin-top: 28px;
   }
   .resource {
     grid-template-columns: 1fr 20px;
@@ -1044,28 +1123,6 @@
     font-size: 15px;
     padding-right: 22px;
   }
-  .closing {
-    min-height: 620px;
-    padding: 80px 6%;
-    align-items: flex-start;
-  }
-  .closing::after {
-    background: linear-gradient(90deg, #faf3e7fa, #faf3e7de 65%, #faf3e780);
-  }
-  .closingArt {
-    object-position: 65% center;
-  }
-  .closing h2 {
-    font-size: clamp(46px, 10vw, 68px);
-  }
-  .closing .primaryButton {
-    font-size: 15px;
-    margin-right: 18px;
-    padding: 16px 22px;
-  }
-  .closing .textLink {
-    margin-bottom: 20px;
-  }
   .footer {
     padding: 40px 6% 26px;
     gap: 32px;
@@ -1081,6 +1138,9 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
+  .animationToggle {
+    display: none;
+  }
   .site *,
   .site *::before,
   .site *::after {
@@ -1118,9 +1178,6 @@
 .paperEdition .heroRate {
   justify-content: center;
   color: var(--blue);
-}
-.heroFoot {
-  justify-content: flex-end;
 }
 .flowLabel {
   font-size: 12px;
@@ -1206,15 +1263,6 @@
   line-height: 1.5;
   color: var(--muted);
 }
-.site[data-deposit-open="true"] .heroFoot {
-  visibility: hidden;
-}
-.closing::after {
-  background: linear-gradient(90deg, var(--paper) 0%, #faf3e7ed 32%, #faf3e700 65%);
-}
-.closingArt {
-  object-position: center;
-}
 @media (min-width: 1800px) {
   .blueEdition .heroContent {
     top: 25%;
@@ -1250,9 +1298,6 @@
     padding-top: 145px;
     padding-bottom: 120px;
   }
-  .heroFoot > span:last-child {
-    max-width: 250px;
-  }
   .depositPanel {
     position: fixed;
     inset: 0;
@@ -1266,15 +1311,6 @@
   }
   .depositPanelHeader {
     padding-top: max(24px, env(safe-area-inset-top));
-  }
-  .closing {
-    padding-bottom: 280px;
-  }
-  .closingArt {
-    object-position: 68% center;
-  }
-  .closing::after {
-    background: linear-gradient(180deg, var(--paper) 0%, #faf3e7ed 30%, #faf3e700 85%);
   }
 }
 
@@ -1293,11 +1329,6 @@ html:has(.site[data-deposit-open="true"]) {
   font-size: 14px;
   color: var(--muted);
 }
-.closingContent > p {
-  font-size: 20px;
-  line-height: 1.4;
-  margin-bottom: 32px;
-}
 .introCopy,
 .termsList {
   padding-top: 0;
@@ -1311,7 +1342,137 @@ html:has(.site[data-deposit-open="true"]) {
     font-size: 18px;
     margin-top: 24px;
   }
-  .closingContent > p {
-    font-size: 18px;
+}
+
+.site .intro {
+  scroll-margin-top: var(--header-height);
+}
+
+/* Keep the shared wallet control in the landing's square, flat button language. */
+.sharedHeader [aria-haspopup="dialog"][data-wallet-entry="header"] {
+  width: auto;
+  min-width: 44px;
+  height: 44px;
+  border-radius: 0;
+}
+.sharedHeader [aria-haspopup="dialog"][data-wallet-entry="header"] > span:last-child {
+  height: 44px;
+  border: 1px solid #0657f9;
+  border-radius: 0;
+  padding-inline: 18px;
+  background: #0657f9;
+  color: #fff;
+  font-size: 14px;
+}
+.sharedHeader [aria-haspopup="dialog"][data-wallet-entry="header"]:hover > span:last-child {
+  opacity: 0.85;
+}
+@media (max-width: 760px) {
+  .sharedHeader [aria-haspopup="dialog"][data-wallet-entry="header"] > span:last-child {
+    padding-inline: 12px;
+  }
+}
+
+/* The Senior masthead and its portaled mobile navigation always use the light palette. */
+.sharedHeader,
+body:has(.site) [aria-label="Navigation menu"] {
+  --blue: #1553ed;
+  --color-app: #fff;
+  --color-surface: #fff;
+  --color-surface-secondary: #f5f5f5;
+  --color-surface-tertiary: #e5e5e5;
+  --color-text-primary: #171815;
+  --color-text-secondary: #666760;
+  --color-text-tertiary: #84857f;
+  --color-border: #17181533;
+  --color-primary: #1553ed;
+  color-scheme: light;
+  color: #171815;
+}
+.heroActionGroup {
+  width: fit-content;
+}
+.heroActions {
+  gap: 12px;
+}
+.paperEdition .heroActionGroup {
+  margin-inline: auto;
+}
+.hero .secondaryButton {
+  border-color: transparent;
+  background: #282828;
+  color: #fff;
+}
+.hero .secondaryButton:hover {
+  background: #424242;
+}
+.learnMore {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 22px;
+  transform: translateY(30%);
+  font-size: 14px;
+  line-height: 20px;
+  color: inherit;
+}
+.paperEdition .learnMore {
+  width: fit-content;
+  margin-inline: auto;
+  padding: 4px 10px;
+  background: var(--paper);
+  color: var(--ink);
+}
+.learnMore svg {
+  width: 18px;
+  height: 18px;
+}
+@media (max-width: 760px) {
+  .blueEdition .hero {
+    padding-bottom: 24px;
+  }
+}
+
+.sharedHeader [aria-label="Yearn home"],
+body:has(.site) [aria-label="Navigation menu"] a[href="/"] {
+  color: var(--blue);
+}
+.sharedHeader [data-tour="vaults-header-user"] {
+  column-gap: 32px;
+}
+/* Inline layout lets Senior and the navigation share their actual text baseline. */
+@media (min-width: 768px) {
+  .sharedHeader [data-tour="vaults-header-nav"] {
+    display: block;
+    white-space: nowrap;
+  }
+  .sharedHeader [aria-label="Yearn home"],
+  .sharedHeader .brand {
+    display: inline-block;
+    vertical-align: baseline;
+  }
+  .sharedHeader .wordmark {
+    display: inline-block;
+    vertical-align: -14px;
+  }
+  .sharedHeader .brandDivider {
+    display: inline-block;
+    vertical-align: -6px;
+    margin-inline: 20px;
+  }
+  .sharedHeader [data-tour="vaults-header-nav"] > div {
+    display: inline-block;
+    vertical-align: baseline;
+    margin-left: 24px;
+    padding-bottom: 0;
+  }
+}
+@media (min-width: 768px) and (max-width: 1100px) {
+  .sharedHeader .wordmark {
+    vertical-align: -12px;
+  }
+  .sharedHeader .brandDivider {
+    margin-inline: 14px;
   }
 }

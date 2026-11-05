@@ -1,16 +1,14 @@
 'use client'
 
 import styles from '@pages/senior/SeniorDepositWidget.module.css'
-import { YearnVaultWidgetRuntimeProvider } from '@shared/contexts/YearnVaultWidgetRuntimeProvider'
 import { useQueryClient } from '@tanstack/react-query'
 import { useErc4626Vault, VaultWidget, WidgetActionType } from '@yearn/vault-widget'
 import { useAccount } from 'wagmi'
-import { AppProviders } from '@/AppProviders'
 
 const SENIOR_VAULT_ADDRESS = '0x2D4F47208853a3D20EADCbdA0F03900771C6Eba3'
 const actions = [WidgetActionType.Deposit, WidgetActionType.Withdraw]
 
-function SeniorPositionWidget() {
+export default function SeniorDepositWidget() {
   const { address } = useAccount()
   const queryClient = useQueryClient()
   const { vault, vaultUserData, isLoading, error, refetch } = useErc4626Vault({
@@ -49,15 +47,5 @@ function SeniorPositionWidget() {
         <p role="status">{isLoading ? 'Reading current vault limits…' : 'Unable to load the Senior vault.'}</p>
       )}
     </section>
-  )
-}
-
-export default function SeniorDepositWidget() {
-  return (
-    <AppProviders>
-      <YearnVaultWidgetRuntimeProvider>
-        <SeniorPositionWidget />
-      </YearnVaultWidgetRuntimeProvider>
-    </AppProviders>
   )
 }

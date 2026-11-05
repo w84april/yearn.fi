@@ -3,13 +3,8 @@
 import SeniorDepositWidget from '@pages/senior/SeniorDepositWidget'
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { useErc4626Vault, VaultWidget, type VaultWidgetProps } from '@yearn/vault-widget'
-import type { ReactNode } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-vi.mock('@/AppProviders', () => ({ AppProviders: ({ children }: { children: ReactNode }) => children }))
-vi.mock('@shared/contexts/YearnVaultWidgetRuntimeProvider', () => ({
-  YearnVaultWidgetRuntimeProvider: ({ children }: { children: ReactNode }) => children
-}))
 vi.mock('@tanstack/react-query', () => ({ useQueryClient: () => ({ invalidateQueries: vi.fn() }) }))
 vi.mock('wagmi', () => ({ useAccount: () => ({ address: '0x0000000000000000000000000000000000000001' }) }))
 vi.mock('@yearn/vault-widget', () => ({

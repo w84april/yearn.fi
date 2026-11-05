@@ -2,9 +2,9 @@ import SeniorLanding from '@pages/senior/SeniorLanding'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Senior — Let it rest',
+  title: 'Senior — Let is rest',
   description:
-    'USDC yield from Yearn vaults. Understand Senior priority, the junior capital buffer and the onchain details.',
+    'Put USDC to work with a 5% target APY and Senior priority. Explore how it works, supporting capital and live onchain data.',
   robots: { index: false, follow: false }
 }
 
