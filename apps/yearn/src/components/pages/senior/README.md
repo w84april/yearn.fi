@@ -16,6 +16,16 @@ References:
 
 The yield/loss switch explains the priority order without invented metrics. Contract links use the Ethereum deployment documented in the tronche skill; the live activity dashboard is labeled as wider Yearn V3 activity. Deposit opens the calm Senior widget reused from apps/ytranche-2 in the earlier ytranche worktree, while the hero copy slides left. The app wrapper reads live ERC-4626 metadata, balances, deposit/withdrawal limits and fee-aware previews for the same fixed USDC tranche, disables token selection and staking, and preserves the original zero-loss direct withdrawal limit. Loading or read failures show a status/retry state rather than falling back to balance-only limits. The opt-in calm presentation lives in the shared vault-widget package; its default appearance is unchanged. The scoped SeniorDepositWidget.module.css skin adapts the earlier widget to the landing palette. The widget loads on first use and remains mounted when closed, preserving wallet and query state. The page shows the requested 5% target rate as marketing copy; it is not passed to the widget as realized APR. The widget reads live metadata, balances and limits. Both routes are excluded from search indexing through page metadata.
 
+## Hero character edit
+
+The current heroes use `elder-oak-dress.webp` and `meadow-canopy-dress.webp`.
+The seated figure now has a short bob, a round-neck puff-sleeve gathered dress
+and a simple straw sun hat, following the supplied character reference. The
+original engraved landscapes and resting pose are preserved. The previous
+`elder-oak.webp` and `meadow-canopy.webp` remain available as source versions.
+Both edits were made with the built-in image_gen tool; their exact prompts
+and input roles are saved in `public/senior/character-edit-prompts.json`.
+
 ## Control design
 
 Buttons, the deposit panel, tabs and token controls follow the sharp treatment in https://yearnfi-git-feat-landing-page-yearn.vercel.app/: square corners, thin ink borders, flat surfaces, regular-weight Aeonik and restrained hover motion. The blue hero uses the inverse white button treatment. The large tree crop stays curved as part of the illustration composition.

@@ -201,8 +201,8 @@ export default function SeniorLanding({ edition }: TSeniorLandingProps) {
           <section className={styles.hero} id="top" aria-labelledby="hero-title">
             <div className={styles.heroArt}>
               <Image
-                src={isBlue ? '/senior/elder-oak.webp' : '/senior/meadow-canopy.webp'}
-                alt="An old oak spreading its branches above a quiet meadow, with a person resting at its roots."
+                src={isBlue ? '/senior/elder-oak-dress.webp' : '/senior/meadow-canopy-dress.webp'}
+                alt="An old oak above a quiet meadow, with a woman in a gathered dress and straw hat resting at its roots."
                 fill
                 unoptimized
                 sizes={isBlue ? '(max-width: 760px) 100vw, 65vw' : '100vw'}
