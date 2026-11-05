@@ -1,7 +1,7 @@
 .site {
   --blue: #1553ed;
   --hero-blue: #2865ed;
-  --paper: #faf3e7;
+  --paper: #f4f4f4;
   --ink: #171815;
   --muted: #666760;
   --line: #17181533;
@@ -727,7 +727,7 @@
   font-size: 14px;
 }
 .onchain {
-  background: #f4efe5;
+  background: var(--paper);
 }
 .onchainHeading {
   display: flex;

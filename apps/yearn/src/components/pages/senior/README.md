@@ -5,6 +5,8 @@ Two independent marketing routes in the existing Yearn Next.js app:
 - /senior — blue split composition
 - /senior/meadow — white paper and engraved canopy composition
 
+The blue edition uses Good ol’ Grey 100 (#F4F4F4) from the Yearn presskit for its neutral page backgrounds. The Paper edition keeps white backgrounds.
+
 Run the normal app development command and open either route. These pages share content and use the existing Aeonik fonts and Yearn typemark. No new dependencies are needed. The shared Yearn header and deposit widget use the existing app WalletConnect and Ethereum RPC settings, with one wallet connection shared across the page.
 
 The hero uses the selected Quiet classic pairing from the Yearn presskit: white (#FFFFFF) with black text for Deposit, and Good ol’ Grey 800 (#282828) with white text for Live data, which links to the onchain section. Meadow adds a thin black border to Deposit. The header Connect wallet button remains blue. The blue edition keeps the centered, non-interactive Learn more cue beneath the actions. The Paper edition places a non-interactive Learn more cue lower in the hero, using the same white rectangular treatment and black outline as Deposit, with a downward arrow to the right of the text. The former hero risk footnote is removed; the risk explanations in the content and deposit panel remain.
@@ -51,7 +53,7 @@ its logical absorption order for assistive technology. With reduced motion, the
 static diagram shows Junior depleted and Senior backed, alongside the risk explanation.
 
 ## Hero character edit
-The blue hero uses `elder-oak-dress.webp`. The Paper hero uses `meadow-canopy-white-extended.webp`, a built-in image_gen continuation of `meadow-canopy-dress.webp` with a finished upper canopy and neutral white paper. The Paper hero lifts the copy and canopy together, allowing foliage to crop above the frame while keeping the meadow anchored at the bottom. The original Paper artwork is preserved for comparison. The continuation prompt and input role are recorded in `public/senior/paper-canopy-continuation-prompt.json`. Paper backgrounds, including the introduction, priority, data, footer and deposit panel, use white.
+The blue hero uses `elder-oak-grey-100.webp`, a built-in image_gen edit targeting Good ol’ Grey 100 (#F4F4F4) paper while preserving the oak, woman and engraving. The original `elder-oak-dress.webp` is preserved. The exact prompt and paper-color notes are saved in `public/senior/grey-paper-hero-prompt.json`. The Paper hero uses `meadow-canopy-white-extended.webp`, a built-in image_gen continuation of `meadow-canopy-dress.webp` with a finished upper canopy and neutral white paper. The Paper hero lifts the copy and canopy together, allowing foliage to crop above the frame while keeping the meadow anchored at the bottom. The original Paper artwork is preserved for comparison. The continuation prompt and input role are recorded in `public/senior/paper-canopy-continuation-prompt.json`. Paper backgrounds, including the introduction, priority, data, footer and deposit panel, use white.
 The seated figure now has a short bob, a round-neck puff-sleeve gathered dress
 and a simple straw sun hat, following the supplied character reference. The
 original engraved landscapes and resting pose are preserved. The previous
