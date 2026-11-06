@@ -52,6 +52,8 @@ export type TMobileNavMenuProps = {
   onSettingsClick?: () => void
   siteBaseUrl?: string
   assetBaseUrl?: string
+  showVaults?: boolean
+  brandContent?: ReactNode
   navigation?: ReactNode
   footer?: ReactNode
 }
@@ -127,6 +129,8 @@ function OpenMobileNavMenu({
   onSettingsClick,
   siteBaseUrl = '',
   assetBaseUrl = 'https://cdn.jsdelivr.net/gh/yearn/tokenassets@main',
+  showVaults = true,
+  brandContent,
   navigation,
   footer
 }: TMobileNavMenuProps): ReactElement {
@@ -377,9 +381,11 @@ function OpenMobileNavMenu({
             className={cl('relative flex min-h-screen w-full flex-col', isDarkTheme ? 'bg-[#0a0a0a]' : 'bg-surface')}
           >
             <div className={'flex h-[var(--header-height)] items-center justify-between border-b border-border px-4'}>
-              <a href={`${siteBaseUrl}/`} onClick={onClose} className={'flex items-center'}>
-                <TypeMarkYearn className={'h-8 w-auto'} color={isDarkTheme ? '#FFFFFF' : '#0657F9'} />
-              </a>
+              <div className="flex items-center gap-3">
+                <a href={`${siteBaseUrl}/`} onClick={onClose} className={'flex items-center'} aria-label="Yearn home">
+                  {brandContent ?? <TypeMarkYearn className="h-8 w-auto" color={isDarkTheme ? '#FFFFFF' : '#0657F9'} />}
+                </a>
+              </div>
               <button
                 onClick={onClose}
                 className={
@@ -395,14 +401,16 @@ function OpenMobileNavMenu({
               <nav className={'flex flex-col gap-4'}>
                 <div className={'flex flex-col gap-1'}>
                   {navigation}
-                  <Link
-                    href={`${siteBaseUrl}/vaults`}
-                    prefetch={false}
-                    onClick={onClose}
-                    className={navItemClass(pathname.startsWith('/vaults'), false)}
-                  >
-                    <span>{'Vaults'}</span>
-                  </Link>
+                  {showVaults && (
+                    <Link
+                      href={`${siteBaseUrl}/vaults`}
+                      prefetch={false}
+                      onClick={onClose}
+                      className={navItemClass(pathname.startsWith('/vaults'), false)}
+                    >
+                      <span>{'Vaults'}</span>
+                    </Link>
+                  )}
                   <Link
                     href={`${siteBaseUrl}/portfolio`}
                     prefetch={false}

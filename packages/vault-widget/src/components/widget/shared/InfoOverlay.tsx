@@ -20,9 +20,10 @@ export const InfoOverlay: FC<InfoOverlayProps> = ({
   hideButton,
   disableMotion = false
 }) => {
+  if (!isOpen) return null
+
   const backdropMotionClass = disableMotion ? 'transition-none' : 'transition-opacity duration-200'
   const panelMotionClass = disableMotion ? 'transition-none' : 'transition-all duration-300 ease-out'
-  const closedPanelState = disableMotion ? 'opacity-0 translate-x-0' : 'opacity-0 translate-x-4'
 
   return (
     <div
@@ -32,16 +33,12 @@ export const InfoOverlay: FC<InfoOverlayProps> = ({
         left: 0,
         right: 0,
         bottom: 0,
-        pointerEvents: isOpen ? 'auto' : 'none'
+        pointerEvents: 'auto'
       }}
     >
       {/* Semi-transparent backdrop with fade animation */}
       <div
-        className={cl(
-          'absolute inset-0 bg-black/5 rounded-lg',
-          backdropMotionClass,
-          isOpen ? 'opacity-100' : 'opacity-0'
-        )}
+        className={cl('absolute inset-0 bg-black/5 rounded-lg', backdropMotionClass, 'opacity-100')}
         onClick={onClose}
       />
       {/* Overlay content with slide from right animation */}
@@ -49,11 +46,12 @@ export const InfoOverlay: FC<InfoOverlayProps> = ({
         className={cl(
           'absolute inset-0 bg-surface rounded-lg flex flex-col',
           panelMotionClass,
-          isOpen ? 'opacity-100 translate-x-0' : closedPanelState
+          'opacity-100 translate-x-0'
         )}
       >
         {/* Close button */}
         <button
+          aria-label={`Close ${title}`}
           onClick={onClose}
           className="absolute top-4 right-4 p-1 hover:bg-surface-secondary rounded-lg transition-colors z-10"
           type="button"

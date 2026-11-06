@@ -1,0 +1,19 @@
+{
+  "tool": "built-in image_gen",
+  "purpose": "Replace the seated hero character with a short-bob woman in a puff-sleeve gathered dress and straw hat, preserving the engraved scenery.",
+  "references": {
+    "dress": "User-provided dress and hairstyle reference attached on 2026-11-05",
+    "blueEditTarget": "elder-oak.webp",
+    "paperEditTarget": "meadow-canopy.webp"
+  },
+  "edits": [
+    {
+      "output": "elder-oak-dress.webp",
+      "prompt": "Use case: precise-object-edit. Edit target: Image 1, the wide cobalt-blue engraved oak landscape. Image 2 is ONLY a character, hairstyle and dress reference, not a style or color reference. Replace ONLY the small seated woman at the base of the oak on the right. Give her the short dark bob hairstyle and the simple feminine dress silhouette of Image 2: modest rounded neckline, short puff sleeves, fitted natural waist and a flowing gathered mid-calf skirt. She should look like a young adult. Add a modest, natural woven straw sun hat with a simple narrow ribbon, worn on her head; leave the bob visible below the brim. Preserve her seated resting posture, leaning against the trunk, knees gently bent and gaze left over the fields. The gathered skirt should drape naturally over her bent legs, with no trousers. Keep her approximately the exact same small scale and the same right-side position as the original figure. Render the replacement entirely in the ORIGINAL fine cobalt copperplate engraving and blue cross-hatching on warm ivory paper, including the dress, hat, face and hair. Do NOT import the anime rendering or yellow/green colors from Image 2. Preserve the entire original tree, branches, oak leaves, trunk bark, roots, meadow, flowers, distant hills, sky, paper texture, composition, crop, aspect ratio and blank left area as closely as possible. Do not introduce any bark bump or knot protrusion. Do not add text, UI, logos, red circles, annotation marks, extra people, objects or animals. This is a tightly localized character wardrobe/hairstyle edit; the surrounding landscape must remain unchanged."
+    },
+    {
+      "output": "meadow-canopy-dress.webp",
+      "prompt": "Use case: precise-object-edit. Image 1 is the EDIT TARGET: the wide cobalt engraving of a meadow under an oak, with a seated figure in the lower right and a large blank center. Image 2 is ONLY a character consistency reference: copy the replacement woman with her short dark bob, simple woven straw hat and puff-sleeve gathered dress, NOT Image 2's tree or scenery. Image 3 is the original dress/hairstyle reference, not a color or anime-style reference. Replace ONLY Image 1's seated woman with the same young adult woman as in Image 2. She wears a modest round-neck dress with short puff sleeves, a fitted natural waist and a full gathered mid-calf skirt draped over gently bent knees, and the same modest straw sun hat with a narrow ribbon, her bob visible below it. Keep her resting against the trunk and gazing left over the fields, in the original figure's exact small scale and lower-right position (about x70–81%, y66–83% of the canvas); keep hat and skirt within that footprint as much as possible. Use the same fine cobalt-blue engraved cross-hatching and warm ivory paper as Image 1 for all clothing, skin, hair and hat; no yellow or green color and no flat anime rendering. Preserve Image 1's ENTIRE original composition, crop, aspect ratio, blank center and left, canopy branches, oak leaves, roots, bark, distant hills, sky, meadow grasses and flowers as closely as possible. Do not create a protruding bark bump or knot. Do not copy the background from Image 2 or Image 3. No text, UI, logos, red circles, annotations, added people, objects or animals. Change only the seated woman's hairstyle, outfit and hat."
+    }
+  ]
+}

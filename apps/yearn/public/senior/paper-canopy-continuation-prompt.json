@@ -1,0 +1,13 @@
+{
+  "tool": "built-in image_gen",
+  "use_case": "precise-object-edit / illustration-story",
+  "input_images": [
+    {
+      "path": "/senior/meadow-canopy-dress.webp",
+      "role": "edit target"
+    }
+  ],
+  "output": "/senior/meadow-canopy-white-extended.webp",
+  "encoding": "Lossless WebP from the generated PNG; no creative changes after generation.",
+  "prompt": "Use case: precise-object-edit / illustration-story. Asset type: wide 16:9 website hero background, blue copperplate engraving on pure white paper. Image 1 is the EDIT TARGET, not just a loose style reference. Outpaint and finish this exact landscape: extend the composition upward by approximately 25–30%, adding the missing upper oak canopy and natural continuation of the trunk and large horizontal bough. The upper-right portion of the thick bough currently has an abrupt flat cropped edge; replace that cutoff with organically continuing wood, branching and oak foliage rising above it. Do not leave any straight sawn-off or flat horizontal tree edge. Extend the left scenery only as needed to retain a wide 16:9 landscape composition. Keep the existing massive old oak on the right, the bough arching overhead, the tiny seated short-haired woman wearing a gathered puff-sleeve dress and straw hat at its roots in the lower right, the meadow, flowers and distant rolling fields. Preserve the woman’s identity, pose and scale and the original detailed engraved linework as closely as possible. Keep a large, genuinely blank white central-left sky area for real website text. The upper canopy should feel complete and have a little white breathing room at the top so it will not be cropped by the website. Maintain the calm, wise, established mood. IMPORTANT: replace every warm ivory/cream/peach paper area with neutral PURE WHITE (#FFFFFF), with no sepia tint, no yellow cast, no beige, no gradient; retain the same soft cobalt/blue ink and fine hatching. Match the reference’s delicate botanical copperplate engraving, not painterly watercolor or anime. Preserve original landscape details; change only the framing continuation and paper color. No new people, no text, no logos, no UI, no border, no financial symbols, no large round bark burls or protruding knots. Deliver the complete new wide background image alone."
+}
