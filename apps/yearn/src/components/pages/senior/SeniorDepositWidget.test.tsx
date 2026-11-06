@@ -1,12 +1,16 @@
 // @vitest-environment jsdom
 
 import SeniorDepositWidget from '@pages/senior/SeniorDepositWidget'
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
-import { useErc4626Vault, VaultWidget, type VaultWidgetProps } from '@yearn/vault-widget'
+import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { useErc4626Vault, VaultWidget, type VaultWidgetProps, WidgetActionType } from '@yearn/vault-widget'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
+const walletState = vi.hoisted(() => ({
+  address: '0x0000000000000000000000000000000000000001' as `0x${string}` | undefined
+}))
+
 vi.mock('@tanstack/react-query', () => ({ useQueryClient: () => ({ invalidateQueries: vi.fn() }) }))
-vi.mock('wagmi', () => ({ useAccount: () => ({ address: '0x0000000000000000000000000000000000000001' }) }))
+vi.mock('wagmi', () => ({ useAccount: () => walletState }))
 vi.mock('@yearn/vault-widget', () => ({
   useErc4626Vault: vi.fn(),
   VaultWidget: vi.fn(() => <button type="button">Review deposit</button>),
@@ -66,6 +70,8 @@ function renderedWidgetProps(): VaultWidgetProps {
 
 beforeEach(() => {
   vi.clearAllMocks()
+  walletState.address = '0x0000000000000000000000000000000000000001'
+  vi.mocked(VaultWidget).mockImplementation(() => <button type="button">Review deposit</button>)
 })
 
 afterEach(cleanup)
@@ -118,5 +124,16 @@ describe('Senior vault integration', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Retry' }))
     await waitFor(() => expect(refetch).toHaveBeenCalledOnce())
     expect(screen.queryByRole('button', { name: 'Review deposit' })).toBeNull()
+  })
+})
+
+describe('Senior open form', () => {
+  it('updates the action and heading callback through the shared widget', () => {
+    vi.mocked(useErc4626Vault).mockReturnValue(createSnapshot())
+    const onActionChange = vi.fn()
+    render(<SeniorDepositWidget onActionChange={onActionChange} />)
+    act(() => renderedWidgetProps().onModeChange?.(WidgetActionType.Withdraw))
+    expect(renderedWidgetProps().mode).toBe(WidgetActionType.Withdraw)
+    expect(onActionChange).toHaveBeenLastCalledWith('withdraw')
   })
 })

@@ -10,7 +10,9 @@ import Link from 'next/link'
 import { type MouseEvent, type ReactNode, useRef, useState } from 'react'
 import { AppProviders } from '@/AppProviders'
 
-type TSeniorLandingProps = { edition: 'blue' | 'paper' }
+type TSeniorLandingProps = {
+  edition: 'blue' | 'paper'
+}
 
 const SeniorDepositWidget = dynamic(() => import('@pages/senior/SeniorDepositWidget'), {
   ssr: false,
@@ -250,21 +252,21 @@ function PriorityDiagram() {
 
 export default function SeniorLanding({ edition }: TSeniorLandingProps) {
   const isBlue = edition === 'blue'
-  const [depositState, setDepositState] = useState<'idle' | 'open' | 'closed'>('idle')
+  const [widgetAction, setWidgetAction] = useState<'deposit' | 'withdraw'>('deposit')
+  const [isDepositOpen, setIsDepositOpen] = useState(false)
   const depositTrigger = useRef<HTMLElement | null>(null)
   const closeDepositButton = useRef<HTMLButtonElement | null>(null)
   const reduceMotion = useReducedMotion()
-  const isDepositOpen = depositState === 'open'
 
   const openDeposit = (event: MouseEvent<HTMLButtonElement>) => {
     depositTrigger.current = event.currentTarget
-    setDepositState('open')
+    setIsDepositOpen(true)
     window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' })
     requestAnimationFrame(() => closeDepositButton.current?.focus({ preventScroll: true }))
   }
 
   const closeDeposit = () => {
-    setDepositState('closed')
+    setIsDepositOpen(false)
     requestAnimationFrame(() => depositTrigger.current?.focus())
   }
 
@@ -510,61 +512,54 @@ export default function SeniorLanding({ edition }: TSeniorLandingProps) {
                 </Reveal>
               </section>
             </main>
-            {depositState !== 'idle' && (
-              <motion.dialog
-                open
-                id="senior-deposit"
-                className={styles.depositPanel}
-                aria-labelledby="senior-deposit-title"
-                aria-modal={true}
-                aria-hidden={!isDepositOpen}
-                inert={!isDepositOpen}
-                initial={{ x: 'calc(-100% - 8vw)', opacity: 0 }}
-                animate={{ x: isDepositOpen ? 0 : 'calc(-100% - 8vw)', opacity: isDepositOpen ? 1 : 0 }}
-                transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-                onKeyDown={(event) => {
-                  if (!event.currentTarget.contains(event.target as Node)) return
-                  if (event.key === 'Escape') {
-                    event.stopPropagation()
-                    closeDeposit()
+            <motion.dialog
+              open
+              id="senior-deposit"
+              className={styles.depositPanel}
+              aria-labelledby="senior-deposit-title"
+              aria-modal={true}
+              aria-hidden={!isDepositOpen}
+              inert={!isDepositOpen}
+              initial={{ x: 'calc(-100% - 8vw)', opacity: 0 }}
+              animate={{ x: isDepositOpen ? 0 : 'calc(-100% - 8vw)', opacity: isDepositOpen ? 1 : 0 }}
+              transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+              onKeyDown={(event) => {
+                if (!event.currentTarget.contains(event.target as Node)) return
+                if (event.key === 'Escape') {
+                  event.stopPropagation()
+                  closeDeposit()
+                }
+                if (event.key === 'Tab') {
+                  const controls = Array.from(
+                    event.currentTarget.querySelectorAll<HTMLElement>(
+                      'button:not(:disabled), a[href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex="0"]'
+                    )
+                  ).filter((element) => element.getClientRects().length > 0)
+                  const first = controls.at(0)
+                  const last = controls.at(-1)
+                  if ((event.shiftKey && event.target === first) || (!event.shiftKey && event.target === last)) {
+                    event.preventDefault()
+                    ;(event.shiftKey ? last : first)?.focus()
                   }
-                  if (event.key === 'Tab') {
-                    const controls = Array.from(
-                      event.currentTarget.querySelectorAll<HTMLElement>(
-                        'button:not(:disabled), a[href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex="0"]'
-                      )
-                    ).filter((element) => element.getClientRects().length > 0)
-                    const first = controls.at(0)
-                    const last = controls.at(-1)
-                    if ((event.shiftKey && event.target === first) || (!event.shiftKey && event.target === last)) {
-                      event.preventDefault()
-                      ;(event.shiftKey ? last : first)?.focus()
-                    }
-                  }
-                }}
-              >
-                <div className={styles.depositPanelHeader}>
-                  <div>
-                    <h2 id="senior-deposit-title">Deposit into Senior</h2>
-                    <p>USDC on Ethereum</p>
-                  </div>
-                  <button
-                    ref={closeDepositButton}
-                    type="button"
-                    onClick={closeDeposit}
-                    aria-label="Close deposit widget"
-                  >
-                    <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none">
-                      <path d="m6 6 12 12M6 18 18 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                    </svg>
-                  </button>
+                }
+              }}
+            >
+              <div className={styles.depositPanelHeader}>
+                <div>
+                  <h2 id="senior-deposit-title">
+                    {widgetAction === 'withdraw' ? 'Withdraw from Senior' : 'Deposit into Senior'}
+                  </h2>
+                  <p>USDC on Ethereum</p>
                 </div>
-                <SeniorDepositWidget />
-                <p className={styles.depositRisk}>
-                  The target rate can change. Returns are not guaranteed. Capital is at risk.
-                </p>
-              </motion.dialog>
-            )}
+                <button ref={closeDepositButton} type="button" onClick={closeDeposit} aria-label="Close deposit widget">
+                  <span>← Back to the view</span>
+                </button>
+              </div>
+              <SeniorDepositWidget onActionChange={setWidgetAction} />
+              <p className={styles.depositRisk}>
+                The target rate can change. Returns are not guaranteed. Capital is at risk.
+              </p>
+            </motion.dialog>
             <footer className={styles.footer} inert={isDepositOpen}>
               <Brand />
               <div className={styles.footerLinks}>

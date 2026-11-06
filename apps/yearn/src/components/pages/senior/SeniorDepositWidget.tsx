@@ -3,25 +3,37 @@
 import styles from '@pages/senior/SeniorDepositWidget.module.css'
 import { useQueryClient } from '@tanstack/react-query'
 import { useErc4626Vault, VaultWidget, WidgetActionType } from '@yearn/vault-widget'
+import { useState } from 'react'
 import { useAccount } from 'wagmi'
 
 const SENIOR_VAULT_ADDRESS = '0x2D4F47208853a3D20EADCbdA0F03900771C6Eba3'
 const actions = [WidgetActionType.Deposit, WidgetActionType.Withdraw]
 
-export default function SeniorDepositWidget() {
+type TSeniorDepositWidgetProps = {
+  onActionChange?: (action: 'deposit' | 'withdraw') => void
+}
+
+export default function SeniorDepositWidget({ onActionChange }: TSeniorDepositWidgetProps) {
   const { address } = useAccount()
   const queryClient = useQueryClient()
+  const [mode, setMode] = useState(WidgetActionType.Deposit)
   const { vault, vaultUserData, isLoading, error, refetch } = useErc4626Vault({
     address: SENIOR_VAULT_ADDRESS,
     chainId: 1,
     account: address
   })
+  const readError = error ?? vaultUserData?.error
+  const changeMode = (nextMode: WidgetActionType) => {
+    if (!actions.includes(nextMode)) return
+    setMode(nextMode)
+    onActionChange?.(nextMode === WidgetActionType.Withdraw ? 'withdraw' : 'deposit')
+  }
 
   return (
     <section className={`yv-widget ${styles.widget}`} aria-label="Manage your USDC position">
-      {error ? (
+      {readError ? (
         <p role="alert">
-          {error}{' '}
+          {readError}{' '}
           <button type="button" className={styles.retry} onClick={() => void refetch().catch(() => undefined)}>
             Retry
           </button>
@@ -32,6 +44,8 @@ export default function SeniorDepositWidget() {
           // Keep live limits and previews alongside the original Senior withdrawal policy.
           currentVault={{ ...vault, withdrawMaxLossBps: 0n }}
           actions={actions}
+          mode={mode}
+          onModeChange={changeMode}
           chainId={1}
           vaultUserData={vaultUserData}
           handleSuccess={() => {

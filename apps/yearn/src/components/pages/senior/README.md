@@ -33,7 +33,7 @@ Senior as Fixed, plus the deployed contracts, audit, YIP-91 and source. The sepa
 Yearn live activity link remains explicitly labeled as wider V3 activity. No deposit
 total or other live metric is hardcoded into the marketing copy.
 
-The yield/loss switch explains the priority order without invented metrics. Contract links use the Ethereum deployment documented in the tronche skill; the live activity dashboard is labeled as wider Yearn V3 activity. Deposit opens the calm Senior widget reused from apps/ytranche-2 in the earlier ytranche worktree, while the hero copy slides left. The app wrapper reads live ERC-4626 metadata, balances, deposit/withdrawal limits and fee-aware previews for the same fixed USDC tranche, disables token selection and staking, and preserves the original zero-loss direct withdrawal limit. Loading or read failures show a status/retry state rather than falling back to balance-only limits. The opt-in calm presentation lives in the shared vault-widget package; its default appearance is unchanged. The scoped SeniorDepositWidget.module.css skin adapts the earlier widget to the landing palette. The widget loads on first use and remains mounted when closed, preserving the entered amount. Its wallet and query providers are shared with the standard Yearn header. The header shows Connect wallet when disconnected and the account menu when connected. Senior uses a fixed white shared header with a blue Yearn logo and Senior suffix, without the status indicator, theme switch or direct Vaults link on desktop and mobile. The header reuses the footer’s exact Yearn/Senior wordmark, divider and lettering, with Senior and the navigation sharing a text baseline on desktop. Its wallet button uses blue with white text, the landing’s square corners and a larger gap after Portfolio; other routes keep their existing header presentation. The page shows the requested 5% target rate as marketing copy; it is not passed to the widget as realized APR. The widget reads live metadata, balances and limits. Both routes are excluded from search indexing through page metadata.
+The yield/loss switch explains the priority order without invented metrics. Contract links use the Ethereum deployment documented in the tronche skill; the live activity dashboard is labeled as wider Yearn V3 activity. Deposit opens the calm Senior widget reused from apps/ytranche-2 in the earlier ytranche worktree, while the hero copy slides left. The app wrapper reads live ERC-4626 metadata, balances, deposit/withdrawal limits and fee-aware previews for the same fixed USDC tranche, disables token selection and staking, and preserves the original zero-loss direct withdrawal limit. Loading or read failures show a status/retry state rather than falling back to balance-only limits. The opt-in calm presentation lives in the shared vault-widget package; its default appearance is unchanged. The scoped SeniorDepositWidget.module.css skin adapts the earlier widget to the landing palette. The widget mounts in its hidden, inert panel when the page opens, starting its code and live vault reads before Deposit is clicked. It remains mounted when closed, preserving the entered amount. Its wallet and query providers are shared with the standard Yearn header. The header shows Connect wallet when disconnected and the account menu when connected. Senior uses a fixed white shared header with a blue Yearn logo and Senior suffix, without the status indicator, theme switch or direct Vaults link on desktop and mobile. The header reuses the footer’s exact Yearn/Senior wordmark, divider and lettering, with Senior and the navigation sharing a text baseline on desktop. Its wallet button uses blue with white text, the landing’s square corners and a larger gap after Portfolio; other routes keep their existing header presentation. The page shows the requested 5% target rate as marketing copy; it is not passed to the widget as realized APR. The widget reads live metadata, balances and limits. Both routes are excluded from search indexing through page metadata.
 
 ## Waterfall animation
 
@@ -63,7 +63,7 @@ and input roles are saved in `public/senior/character-edit-prompts.json`.
 
 ## Control design
 
-Controls follow the sharp treatment in https://yearnfi-git-feat-landing-page-yearn.vercel.app/: square corners, flat surfaces, regular-weight Aeonik and restrained hover motion. Hero actions use the Quiet classic pairing, with a black Deposit outline on Meadow; the deposit panel, tabs and token controls keep thin ink borders. The large tree crop stays curved as part of the illustration composition.
+Controls follow the sharp treatment in https://yearnfi-git-feat-landing-page-yearn.vercel.app/: square corners, flat surfaces, regular-weight Aeonik and restrained hover motion. Hero actions use the Quiet classic pairing, with a black Deposit outline on Meadow; the open form uses quiet dividers, underlined action tabs and plain USDC labeling. The large tree crop stays curved as part of the illustration composition.
 
 ## Archived footer artwork
 
@@ -86,3 +86,18 @@ The project uses Vercel sign-in protection; open `/senior` or `/senior/meadow`
 on the branch Preview URL. No Yearn Doppler or GitHub deployment secrets are
 required. The inherited Yearn deployment and Telegram notification jobs are
 restricted to `yearn/yearn.fi`, while normal fork checks remain enabled.
+
+## Open form
+
+Both editions use the selected, unframed Open form presentation. The blue form
+sits in the left hero column without moving or resizing the illustration. The
+Meadow form is centered within the hero, with a soft white layer behind it for
+readability. On mobile, both forms fit beneath the shared header and scroll when
+needed. The comparison toolbar and alternate widget designs have been removed;
+`/senior/widgets` and `/senior/meadow/widgets` redirect to their main landing pages.
+
+The form reuses `VaultWidget` and the existing ERC-4626 reader, live limits,
+previews, approval/deposit/withdrawal execution, shared wallet and `maxLoss = 0`
+policy. Closing/reopening preserves the action and entered amount. Transaction
+overlays retain opaque surfaces in both color schemes. Closed information
+overlays are unmounted to keep them out of the focus and scroll flow.

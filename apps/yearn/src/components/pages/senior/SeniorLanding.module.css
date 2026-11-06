@@ -1,4 +1,5 @@
 .site {
+  position: relative;
   --blue: #1553ed;
   --hero-blue: #2865ed;
   --paper: #f4f4f4;
@@ -1183,31 +1184,33 @@
   font-size: 12px;
 }
 .depositPanel {
-  --color-app: #faf3e7;
-  --color-surface: #fffdf8;
-  --color-surface-secondary: #f1eee6;
-  --color-surface-tertiary: #e9e6de;
+  --color-app: transparent;
+  --color-surface: transparent;
+  --color-surface-secondary: transparent;
+  --color-surface-tertiary: #f4f4f4;
   --color-text-primary: #171815;
   --color-text-secondary: #666760;
   --color-text-tertiary: #84857f;
   --color-border: #17181533;
-  --color-primary: #171815;
+  --color-primary: #1553ed;
   --color-primary-hover: #30312e;
-  position: fixed;
-  inset: 102px auto 24px 4.8%;
-  width: min(480px, 43%);
+  position: absolute;
+  top: calc(var(--header-height) + (100svh - var(--header-height)) / 2);
+  translate: 0 -50%;
+  left: 6%;
+  width: min(370px, 32vw);
   max-width: none;
-  height: calc(100dvh - 126px);
-  max-height: calc(100dvh - 126px);
+  height: auto;
+  max-height: calc(100svh - var(--header-height) - 64px);
   margin: 0;
-  padding: 0 24px 24px;
+  padding: 0 4px 4px;
   z-index: 5;
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: thin;
-  border: 1px solid var(--ink);
+  border: 0;
   border-radius: 0;
-  background: var(--paper);
+  background: transparent;
   color: var(--ink);
 }
 .depositPanel [data-rht-toaster] {
@@ -1220,62 +1223,78 @@
   transition: visibility 0s 650ms;
 }
 .depositPanelHeader {
-  position: sticky;
-  top: 0;
-  z-index: 2;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 24px 0 20px;
-  margin-bottom: 16px;
-  border-bottom: 1px solid var(--line);
-  background: var(--paper);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 18px;
 }
 .depositPanel h2 {
-  font-size: 26px;
+  color: var(--blue);
+  font-size: 34px;
   font-weight: 400;
-  letter-spacing: -0.035em;
-  line-height: 1.2;
+  letter-spacing: -0.045em;
+  line-height: 1.08;
 }
 .depositPanelHeader p {
-  margin-top: 5px;
+  margin-top: 10px;
   font-size: 13px;
   color: var(--muted);
 }
 .depositPanelHeader > button {
-  display: grid;
-  place-items: center;
-  width: 42px;
-  height: 42px;
-  flex-shrink: 0;
-  border: 1px solid var(--ink);
-  border-radius: 0;
+  order: -1;
+  min-height: 32px;
+  border: 0;
+  padding: 0;
   background: transparent;
-  color: var(--ink);
+  color: var(--muted);
+  font-size: 12px;
 }
 .depositPanelHeader > button:hover {
-  background: #efede5;
+  color: var(--blue);
 }
 .depositRisk {
-  padding-top: 20px;
-  font-size: 12px;
+  padding-top: 16px;
+  font-size: 11px;
   line-height: 1.5;
   color: var(--muted);
+}
+.blueEdition .depositPanel {
+  --blue: #fff;
+  --ink: #fff;
+  --muted: #ffffffbd;
+  --color-text-primary: #fff;
+  --color-text-secondary: #ffffffbd;
+  --color-text-tertiary: #ffffff9c;
+  --color-border: #ffffff55;
+  --color-primary: #fff;
+  --color-primary-hover: #f4f4f4;
+  --senior-overlay-surface: var(--hero-blue);
+  --senior-cta-bg: #fff;
+  --senior-cta-ink: #171815;
+  --senior-cta-hover: #ebebeb;
+  color: #fff;
+}
+.paperEdition .depositPanel {
+  left: calc(50% - 185px);
+  width: 370px;
+}
+.paperEdition[data-deposit-open="true"] .heroArt::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 45% 60% at 50% 56%,
+    #fffffff5 0%,
+    #fffffff5 38%,
+    #ffffffd9 56%,
+    #ffffff66 78%,
+    #ffffff00 100%
+  );
 }
 @media (min-width: 1800px) {
   .blueEdition .heroContent {
     top: 25%;
-  }
-}
-@media (max-width: 1100px) {
-  .depositPanel {
-    width: 44%;
-    left: 4%;
-    padding: 0 20px 20px;
-  }
-  .depositPanel h2 {
-    font-size: 23px;
   }
 }
 @media (max-width: 760px) {
@@ -1298,19 +1317,30 @@
     padding-top: 145px;
     padding-bottom: 120px;
   }
-  .depositPanel {
+  .site .depositPanel {
     position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100dvh;
-    max-height: 100dvh;
-    border: 0;
-    border-radius: 0;
-    padding: 0 20px max(24px, env(safe-area-inset-bottom));
+    top: calc(var(--header-height) + 20px);
+    left: 5%;
+    width: 90%;
+    max-height: calc(100dvh - var(--header-height) - 40px);
+    padding: 0 4px 4px;
+    translate: none;
     z-index: 60;
   }
-  .depositPanelHeader {
-    padding-top: max(24px, env(safe-area-inset-top));
+  .depositPanel h2 {
+    font-size: 32px;
+  }
+  .blueEdition[data-deposit-open="true"] .heroArt {
+    opacity: 0;
+  }
+  .paperEdition[data-deposit-open="true"] .heroArt::after {
+    background: radial-gradient(
+      ellipse 110% 70% at 50% 38%,
+      #fffffff2 0%,
+      #fffffff2 48%,
+      #ffffffbf 70%,
+      #ffffff00 100%
+    );
   }
 }
 
@@ -1487,12 +1517,6 @@ body:has(.site) [aria-label="Navigation menu"] a[href="/"] {
 .paperEdition .heroActions button.primaryButton,
 .paperEdition .canopyCue {
   border-color: #000;
-}
-.paperEdition .depositPanel {
-  --color-app: #fff;
-  --color-surface: #fff;
-  --color-surface-secondary: #fff;
-  --color-surface-tertiary: #fff;
 }
 .canopyCue {
   position: absolute;

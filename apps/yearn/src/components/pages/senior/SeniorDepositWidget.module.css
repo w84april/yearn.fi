@@ -1,5 +1,7 @@
 .widget {
-  --color-surface: var(--paper);
+  --color-app: transparent;
+  --color-surface: var(--senior-overlay-surface, #fff);
+  --color-surface-secondary: var(--senior-overlay-surface, #fff);
   width: 100%;
   min-width: 0;
 }
@@ -23,18 +25,22 @@
 }
 
 .widget [data-widget-part="action-tabs"] {
-  gap: 0;
-  border: 1px solid var(--color-text-primary);
+  gap: 24px;
+  border: 0;
+  border-bottom: 1px solid var(--color-border);
   border-radius: 0;
   padding: 0;
   background: transparent;
 }
 
 .widget [data-widget-part="action-tab"] {
-  min-height: 42px;
+  position: relative;
+  flex: none;
+  min-height: 40px;
   border-width: 0;
   border-radius: 0;
-  padding: 10px 12px;
+  padding: 10px 0;
+  color: var(--color-text-secondary);
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
@@ -48,12 +54,22 @@
 }
 
 .widget [data-widget-part="action-tab"][data-state="active"] {
-  background: var(--color-text-primary);
-  color: white;
+  background: transparent;
+  color: var(--color-text-primary);
+}
+
+.widget [data-widget-part="action-tab"][data-state="active"]::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-primary);
 }
 
 .widget [data-widget-part="action-tab"] + [data-widget-part="action-tab"] {
-  border-left: 1px solid var(--color-text-primary);
+  border-left: 0;
 }
 
 .widget [data-widget-part="action-tab"]:focus-visible {
@@ -69,9 +85,9 @@
 }
 
 .widget [data-widget-part="action-content"] {
-  min-height: 270px;
+  min-height: 0;
   gap: 12px;
-  padding: 20px 0 0;
+  padding: 18px 0 0;
 }
 
 .widget [data-widget-part="amount-input"] {
@@ -92,8 +108,8 @@
 }
 
 .widget [data-widget-part="amount-input"] input {
-  min-height: 60px;
-  font-size: 52px;
+  min-height: 58px;
+  font-size: 48px;
   font-weight: 400;
   line-height: 1.15;
   letter-spacing: -0.045em;
@@ -118,13 +134,18 @@
 }
 
 .widget [data-token-selector-button] {
-  min-height: 42px;
-  border: 1px solid var(--color-border);
+  min-height: 32px;
+  border: 0;
   border-radius: 0;
-  padding: 5px 9px;
+  padding: 0;
   background: transparent;
-  font-size: 14px;
+  font-size: 17px;
   font-weight: 400;
+  pointer-events: none;
+}
+
+.widget [data-token-selector-button] > :not(:last-child) {
+  display: none;
 }
 
 .widget [data-widget-part="amount-shortcuts"] button {
@@ -149,11 +170,12 @@
   font-size: 12px;
 }
 
-.widget
-  [data-widget-part="amount-input"][data-connected="false"]
-  [data-widget-part="amount-meta"]
-  > [data-widget-part="numeric-value"] {
-  visibility: hidden;
+.widget [data-widget-part="amount-input"][data-connected="false"] [data-widget-part="amount-meta"] {
+  display: none;
+}
+
+.widget [data-widget-part="transaction-summary"]:empty {
+  display: none;
 }
 
 .widget [data-widget-part="transaction-summary"] {
@@ -168,10 +190,6 @@
 
 .widget [data-widget-part="transaction-summary"] :is(p, button) {
   font-size: 12px;
-}
-
-.widget [data-widget-part="transaction-details"] {
-  border-top: 1px solid var(--color-border);
 }
 
 .widget [data-widget-part="transaction-details"] > summary {
@@ -191,12 +209,20 @@
 }
 
 .widget [data-widget-part="transaction-details"] > summary span {
-  font-size: 18px;
-  transition: transform 160ms;
+  flex: 0 0 24px;
+  width: 24px;
+  text-align: center;
+  font-size: 0;
+  line-height: 1;
 }
 
-.widget [data-widget-part="transaction-details"][open] > summary span {
-  transform: rotate(45deg);
+.widget [data-widget-part="transaction-details"] > summary span::before {
+  content: "+";
+  font-size: 18px;
+}
+
+.widget [data-widget-part="transaction-details"][open] > summary span::before {
+  content: "−";
 }
 
 .widget [data-widget-part="transaction-details-content"] {
@@ -228,9 +254,9 @@
 }
 
 .widget [class~="yearn--button--nextgen"] {
-  min-height: 57px;
+  min-height: 52px;
   border-radius: 0;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 400;
   transform: none;
   transition:
@@ -238,8 +264,13 @@
     color 160ms;
 }
 
+.widget [class~="yearn--button--nextgen"][data-variant="filled"] {
+  background: var(--senior-cta-bg, #171815);
+  color: var(--senior-cta-ink, #fff);
+}
+
 .widget [class~="yearn--button--nextgen"][data-variant="filled"]:not(:disabled):not([aria-busy="true"]):hover {
-  background: var(--color-primary-hover);
+  background: var(--senior-cta-hover, #30312e);
 }
 
 .widget [class~="yearn--button--nextgen"][aria-busy="true"] {

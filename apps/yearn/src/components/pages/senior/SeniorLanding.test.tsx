@@ -65,10 +65,16 @@ afterEach(() => {
 
 describe('Senior deposit panel', () => {
   it.each(['blue', 'paper'] as const)(
-    'restores focus and preserves an entered amount after closing and reopening the %s edition',
+    'preloads the hidden form, restores focus and preserves the amount in the %s edition',
     async (edition) => {
       render(<SeniorLanding edition={edition} />)
       const header = screen.getByRole('banner', { name: 'Yearn header' }).parentElement
+      expect(screen.queryByRole('combobox')).toBeNull()
+      const preloadedDialog = screen.getByRole('dialog', { hidden: true })
+      const preloadedAmount = within(preloadedDialog).getByLabelText('Amount')
+      expect(preloadedDialog.getAttribute('aria-hidden')).toBe('true')
+      expect(preloadedDialog.hasAttribute('inert')).toBe(true)
+      expect(screen.queryByRole('dialog')).toBeNull()
       const trigger = screen.getByRole('button', { name: 'Deposit' })
       trigger.focus()
       fireEvent.click(trigger)
@@ -81,6 +87,7 @@ describe('Senior deposit panel', () => {
       expect(screen.getByRole('contentinfo').hasAttribute('inert')).toBe(true)
 
       const amount = within(dialog).getByRole('textbox', { name: 'Amount' }) as HTMLInputElement
+      expect(amount).toBe(preloadedAmount)
       fireEvent.change(amount, { target: { value: '1250' } })
       amount.focus()
       fireEvent.keyDown(amount, { key: 'Escape' })
