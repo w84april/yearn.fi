@@ -64,7 +64,7 @@ const questions = [
   {
     question: 'What is Senior?',
     answer:
-      'Senior is one of two positions in this yTranche structure, alongside Junior. You deposit USDC on Ethereum and receive shares representing your position. The shared Yearn V3 vault puts those funds to work across strategies on Ethereum and Layer 2 networks.'
+      'Junior combines the Levered and Equity tranches and absorbs losses before Senior. You deposit USDC on Ethereum and receive shares representing your position. The shared Yearn V3 vault puts those funds to work across strategies on Ethereum and Layer 2 networks.'
   },
   {
     question: 'What does “senior” mean?',
@@ -94,7 +94,7 @@ const questions = [
   {
     question: 'Where can I check the details myself?',
     answer:
-      'Open the tranche dashboard above for live balances, supporting capital, claim coverage and capacity. It calls Senior “Fixed.” You can also inspect the deployed contracts, read the ChainSecurity assessment and review YIP-91. Yearn’s live activity dashboard shows wider V3 activity rather than dedicated Senior performance.'
+      'Open Live data to check the Senior and Junior allocation and the 15% Junior minimum. You can also inspect the deployed contracts, read the ChainSecurity assessment and review YIP-91.'
   }
 ]
 
@@ -312,7 +312,7 @@ export default function SeniorLanding({ edition }: TSeniorLandingProps) {
                     With Senior priority
                   </p>
                   <p className={styles.heroRate}>
-                    <strong>5%</strong> target APY on USDC
+                    <strong>5%</strong> annual target on USDC
                   </p>
                   <p className={styles.heroDescription}>
                     No lockups or cooldowns.
@@ -334,9 +334,9 @@ export default function SeniorLanding({ edition }: TSeniorLandingProps) {
                       >
                         Deposit <Arrow />
                       </button>
-                      <a href="#onchain" className={`${styles.primaryButton} ${styles.secondaryButton}`}>
+                      <Link href="/senior/live-data" className={`${styles.primaryButton} ${styles.secondaryButton}`}>
                         Live data <Arrow />
-                      </a>
+                      </Link>
                     </div>
                     {isBlue && (
                       <p className={styles.learnMore}>

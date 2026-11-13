@@ -9,7 +9,7 @@ The blue edition uses Good ol’ Grey 100 (#F4F4F4) from the Yearn presskit for 
 
 Run the normal app development command and open either route. These pages share content and use the existing Aeonik fonts and Yearn typemark. No new dependencies are needed. The shared Yearn header and deposit widget use the existing app WalletConnect and Ethereum RPC settings, with one wallet connection shared across the page.
 
-The hero uses the selected Quiet classic pairing from the Yearn presskit: white (#FFFFFF) with black text for Deposit, and Good ol’ Grey 800 (#282828) with white text for Live data, which links to the onchain section. Meadow adds a thin black border to Deposit. The header Connect wallet button remains blue. The blue edition keeps the centered, non-interactive Learn more cue beneath the actions. The Paper edition places a non-interactive Learn more cue lower in the hero, using the same white rectangular treatment and black outline as Deposit, with a downward arrow to the right of the text. The former hero risk footnote is removed; the risk explanations in the content and deposit panel remain.
+The hero uses the selected Quiet classic pairing from the Yearn presskit: white (#FFFFFF) with black text for Deposit, and Good ol’ Grey 800 (#282828) with white text for Live data, which opens the dedicated /senior/live-data page. Meadow adds a thin black border to Deposit. The header Connect wallet button remains blue. The blue edition keeps the centered, non-interactive Learn more cue beneath the actions. The Paper edition places a non-interactive Learn more cue lower in the hero, using the same white rectangular treatment and black outline as Deposit, with a downward arrow to the right of the text. The former hero risk footnote is removed; the risk explanations in the content and deposit panel remain.
 
 The hero artwork is local WebP in public/senior. Both illustrations were adapted from the approved Miro references, with the protruding bark knot removed. Text, navigation, controls and links are real page elements.
 
@@ -101,3 +101,9 @@ previews, approval/deposit/withdrawal execution, shared wallet and `maxLoss = 0`
 policy. Closing/reopening preserves the action and entered amount. Transaction
 overlays retain opaque surfaces in both color schemes. Closed information
 overlays are unmounted to keep them out of the focus and scroll flow.
+
+## Live data
+
+Set the server-side `SENIOR_LIVE_DATA_API_URL` to the yTranche live-data API origin. The page reads `/v1/snapshot` and `/v1/history`. Development and Vercel Preview use the hypothetical yvUSD allocation from [the guidelines sample](https://github.com/johnnyonline/ytranche-allocations/blob/ab2cafcf6f9ce3607cece001e0a199fab447a7da/config/vaults/yvusd.yaml) when no origin is configured or the API serves fixture data. Production with no origin shows the prelaunch state.
+
+Rule 8 uses an optional `juniorCapital` observation in the snapshot. Its data contains `tvl`, `fixedTvl`, `leveredTvl`, `equityTvl`, and `withdrawalsInCooldown` from the same observation. The check divides Levered plus Equity, less Junior withdrawals in cooldown, by TVL. Missing or stale inputs show “Needs data.” The 15% minimum describes the allocation policy. The deposit widget still reads the vault's on-chain deposit limits.

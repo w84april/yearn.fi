@@ -1,0 +1,404 @@
+{
+  "snapshot": {
+    "version": 1,
+    "mode": "fixture",
+    "status": "available",
+    "market": {
+      "chainId": 1,
+      "asset": "USDC",
+      "controller": null
+    },
+    "juniorCapital": {
+      "source": "fixture",
+      "url": null,
+      "status": "available",
+      "blockNumber": null,
+      "observedAt": null,
+      "data": {
+        "tvl": 11753000,
+        "fixedTvl": 9402400,
+        "leveredTvl": 1175300,
+        "equityTvl": 1175300,
+        "withdrawalsInCooldown": 0
+      }
+    },
+    "accounting": {
+      "source": "fixture",
+      "url": null,
+      "status": "available",
+      "blockNumber": null,
+      "observedAt": null,
+      "data": {
+        "mainVault": null,
+        "vaultAssets": 11753000,
+        "reserveAssets": 0,
+        "reserveVault": null,
+        "totalClaims": 11753000,
+        "lossHeadroom": 2350600,
+        "lossHeadroomRatio": 0.2,
+        "senior": {
+          "address": null,
+          "claim": 9402400,
+          "covered": 9402400,
+          "coverage": 1,
+          "targetApr": null,
+          "accrualPaused": null
+        },
+        "junior": {
+          "address": null,
+          "claim": 2350600,
+          "covered": 2350600,
+          "coverage": 1,
+          "targetApr": null,
+          "accrualPaused": null
+        }
+      }
+    },
+    "liquidity": {
+      "source": "fixture",
+      "url": null,
+      "status": "available",
+      "blockNumber": null,
+      "observedAt": null,
+      "data": {
+        "kind": "indexed-cap",
+        "depositCap": null,
+        "withdrawCap": 1128288,
+        "withdrawalWindowResetsAt": null
+      }
+    },
+    "allocations": {
+      "source": "fixture",
+      "url": null,
+      "status": "available",
+      "blockNumber": null,
+      "observedAt": null,
+      "data": {
+        "rows": [
+          {
+            "name": "Morpho Yearn OG USDC Compounder",
+            "address": null,
+            "amount": 7070000,
+            "share": 0.6015485407980941,
+            "lastReportAt": null
+          },
+          {
+            "name": "USDC to Grove USDS Compounder",
+            "address": null,
+            "amount": 1000000,
+            "share": 0.08508465923593976,
+            "lastReportAt": null
+          },
+          {
+            "name": "Katana yvUSDC Compounder",
+            "address": null,
+            "amount": 931000,
+            "share": 0.07921381774865992,
+            "lastReportAt": null
+          },
+          {
+            "name": "stcUSD/USDC Pawn Broker Looper",
+            "address": null,
+            "amount": 890000,
+            "share": 0.07572534671998639,
+            "lastReportAt": null
+          },
+          {
+            "name": "USDC To sUSDS Depositor",
+            "address": null,
+            "amount": 872000,
+            "share": 0.07419382285373947,
+            "lastReportAt": null
+          },
+          {
+            "name": "sUSDS Pendle PT Maxi",
+            "address": null,
+            "amount": 581000,
+            "share": 0.049434187016081,
+            "lastReportAt": null
+          },
+          {
+            "name": "USD3 Pendle PT Maxi",
+            "address": null,
+            "amount": 409000,
+            "share": 0.03479962562749936,
+            "lastReportAt": null
+          }
+        ],
+        "unresolvedAssets": 0
+      }
+    }
+  },
+  "performance": [
+    {
+      "day": "2026-10-15",
+      "seniorApy": 0.048375,
+      "juniorApy": 0.099,
+      "seniorPps": 1.002133,
+      "juniorPps": 1.004,
+      "seniorTvl": 8190750,
+      "juniorTvl": 2186750
+    },
+    {
+      "day": "2026-10-16",
+      "seniorApy": 0.04875,
+      "juniorApy": 0.100369,
+      "seniorPps": 1.002265,
+      "juniorPps": 1.004329,
+      "seniorTvl": 8257500,
+      "juniorTvl": 2197500
+    },
+    {
+      "day": "2026-10-17",
+      "seniorApy": 0.049125,
+      "juniorApy": 0.101455,
+      "seniorPps": 1.002397,
+      "juniorPps": 1.004654,
+      "seniorTvl": 8324250,
+      "juniorTvl": 2208250
+    },
+    {
+      "day": "2026-10-18",
+      "seniorApy": 0.0495,
+      "juniorApy": 0.102242,
+      "seniorPps": 1.00253,
+      "juniorPps": 1.004971,
+      "seniorTvl": 8391000,
+      "juniorTvl": 2219000
+    },
+    {
+      "day": "2026-10-19",
+      "seniorApy": 0.0493,
+      "juniorApy": 0.102727,
+      "seniorPps": 1.00266,
+      "juniorPps": 1.005276,
+      "seniorTvl": 8474000,
+      "juniorTvl": 2228000
+    },
+    {
+      "day": "2026-10-20",
+      "seniorApy": 0.0491,
+      "juniorApy": 0.102923,
+      "seniorPps": 1.00279,
+      "juniorPps": 1.005566,
+      "seniorTvl": 8557000,
+      "juniorTvl": 2237000
+    },
+    {
+      "day": "2026-10-21",
+      "seniorApy": 0.0489,
+      "juniorApy": 0.102856,
+      "seniorPps": 1.00292,
+      "juniorPps": 1.005839,
+      "seniorTvl": 8640000,
+      "juniorTvl": 2246000
+    },
+    {
+      "day": "2026-10-22",
+      "seniorApy": 0.0487,
+      "juniorApy": 0.102562,
+      "seniorPps": 1.00305,
+      "juniorPps": 1.006096,
+      "seniorTvl": 8723000,
+      "juniorTvl": 2255000
+    },
+    {
+      "day": "2026-10-23",
+      "seniorApy": 0.049275,
+      "juniorApy": 0.102083,
+      "seniorPps": 1.003188,
+      "juniorPps": 1.006335,
+      "seniorTvl": 8702750,
+      "juniorTvl": 2257750
+    },
+    {
+      "day": "2026-10-24",
+      "seniorApy": 0.04985,
+      "juniorApy": 0.101465,
+      "seniorPps": 1.003325,
+      "juniorPps": 1.006558,
+      "seniorTvl": 8682500,
+      "juniorTvl": 2260500
+    },
+    {
+      "day": "2026-10-25",
+      "seniorApy": 0.050425,
+      "juniorApy": 0.100754,
+      "seniorPps": 1.003462,
+      "juniorPps": 1.006768,
+      "seniorTvl": 8662250,
+      "juniorTvl": 2263250
+    },
+    {
+      "day": "2026-10-26",
+      "seniorApy": 0.051,
+      "juniorApy": 0.099994,
+      "seniorPps": 1.0036,
+      "juniorPps": 1.006967,
+      "seniorTvl": 8642000,
+      "juniorTvl": 2266000
+    },
+    {
+      "day": "2026-10-27",
+      "seniorApy": 0.0508,
+      "juniorApy": 0.099224,
+      "seniorPps": 1.003735,
+      "juniorPps": 1.00716,
+      "seniorTvl": 8710750,
+      "juniorTvl": 2257500
+    },
+    {
+      "day": "2026-10-28",
+      "seniorApy": 0.0506,
+      "juniorApy": 0.098472,
+      "seniorPps": 1.00387,
+      "juniorPps": 1.00735,
+      "seniorTvl": 8779500,
+      "juniorTvl": 2249000
+    },
+    {
+      "day": "2026-10-29",
+      "seniorApy": 0.0504,
+      "juniorApy": 0.097762,
+      "seniorPps": 1.004005,
+      "juniorPps": 1.007542,
+      "seniorTvl": 8848250,
+      "juniorTvl": 2240500
+    },
+    {
+      "day": "2026-10-30",
+      "seniorApy": 0.0502,
+      "juniorApy": 0.097104,
+      "seniorPps": 1.00414,
+      "juniorPps": 1.00774,
+      "seniorTvl": 8917000,
+      "juniorTvl": 2232000
+    },
+    {
+      "day": "2026-10-31",
+      "seniorApy": 0.04996,
+      "juniorApy": 0.096501,
+      "seniorPps": 1.004272,
+      "juniorPps": 1.007948,
+      "seniorTvl": 8962600,
+      "juniorTvl": 2247000
+    },
+    {
+      "day": "2026-11-01",
+      "seniorApy": 0.04972,
+      "juniorApy": 0.095946,
+      "seniorPps": 1.004404,
+      "juniorPps": 1.008169,
+      "seniorTvl": 9008200,
+      "juniorTvl": 2262000
+    },
+    {
+      "day": "2026-11-02",
+      "seniorApy": 0.04948,
+      "juniorApy": 0.095427,
+      "seniorPps": 1.004536,
+      "juniorPps": 1.008406,
+      "seniorTvl": 9053800,
+      "juniorTvl": 2277000
+    },
+    {
+      "day": "2026-11-03",
+      "seniorApy": 0.04924,
+      "juniorApy": 0.094925,
+      "seniorPps": 1.004668,
+      "juniorPps": 1.00866,
+      "seniorTvl": 9099400,
+      "juniorTvl": 2292000
+    },
+    {
+      "day": "2026-11-04",
+      "seniorApy": 0.049,
+      "juniorApy": 0.09442,
+      "seniorPps": 1.0048,
+      "juniorPps": 1.008932,
+      "seniorTvl": 9145000,
+      "juniorTvl": 2307000
+    },
+    {
+      "day": "2026-11-05",
+      "seniorApy": 0.04936,
+      "juniorApy": 0.093891,
+      "seniorPps": 1.004936,
+      "juniorPps": 1.009219,
+      "seniorTvl": 9180000,
+      "juniorTvl": 2317200
+    },
+    {
+      "day": "2026-11-06",
+      "seniorApy": 0.04972,
+      "juniorApy": 0.093323,
+      "seniorPps": 1.005072,
+      "juniorPps": 1.009522,
+      "seniorTvl": 9215000,
+      "juniorTvl": 2327400
+    },
+    {
+      "day": "2026-11-07",
+      "seniorApy": 0.05008,
+      "juniorApy": 0.092704,
+      "seniorPps": 1.005208,
+      "juniorPps": 1.009838,
+      "seniorTvl": 9250000,
+      "juniorTvl": 2337600
+    },
+    {
+      "day": "2026-11-08",
+      "seniorApy": 0.05044,
+      "juniorApy": 0.092029,
+      "seniorPps": 1.005344,
+      "juniorPps": 1.010162,
+      "seniorTvl": 9285000,
+      "juniorTvl": 2347800
+    },
+    {
+      "day": "2026-11-09",
+      "seniorApy": 0.0508,
+      "juniorApy": 0.091305,
+      "seniorPps": 1.00548,
+      "juniorPps": 1.010491,
+      "seniorTvl": 9320000,
+      "juniorTvl": 2358000
+    },
+    {
+      "day": "2026-11-10",
+      "seniorApy": 0.0506,
+      "juniorApy": 0.090545,
+      "seniorPps": 1.005615,
+      "juniorPps": 1.01082,
+      "seniorTvl": 9340600,
+      "juniorTvl": 2356150
+    },
+    {
+      "day": "2026-11-11",
+      "seniorApy": 0.0504,
+      "juniorApy": 0.089774,
+      "seniorPps": 1.00575,
+      "juniorPps": 1.011146,
+      "seniorTvl": 9361200,
+      "juniorTvl": 2354300
+    },
+    {
+      "day": "2026-11-12",
+      "seniorApy": 0.0502,
+      "juniorApy": 0.089025,
+      "seniorPps": 1.005885,
+      "juniorPps": 1.011464,
+      "seniorTvl": 9381800,
+      "juniorTvl": 2352450
+    },
+    {
+      "day": "2026-11-13",
+      "seniorApy": 0.05,
+      "juniorApy": 0.088337,
+      "seniorPps": 1.00602,
+      "juniorPps": 1.01177,
+      "seniorTvl": 9402400,
+      "juniorTvl": 2350600
+    }
+  ]
+}
