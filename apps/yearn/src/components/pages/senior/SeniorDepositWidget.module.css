@@ -1,0 +1,284 @@
+.widget {
+  --color-app: transparent;
+  --color-surface: var(--senior-overlay-surface, #fff);
+  --color-surface-secondary: var(--senior-overlay-surface, #fff);
+  width: 100%;
+  min-width: 0;
+}
+
+.retry {
+  color: var(--blue);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.widget [data-widget-part="numeric-value"] {
+  font-family: var(--font-aeonik);
+  font-variant-numeric: tabular-nums;
+}
+
+.widget [data-widget-part="action-shell"] {
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.widget [data-widget-part="action-tabs"] {
+  gap: 24px;
+  border: 0;
+  border-bottom: 1px solid var(--color-border);
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.widget [data-widget-part="action-tab"] {
+  position: relative;
+  flex: none;
+  min-height: 40px;
+  border-width: 0;
+  border-radius: 0;
+  padding: 10px 0;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  transition:
+    color 160ms,
+    background-color 160ms;
+}
+
+.widget [data-widget-part="action-tab"][data-state="inactive"] {
+  background: transparent;
+}
+
+.widget [data-widget-part="action-tab"][data-state="active"] {
+  background: transparent;
+  color: var(--color-text-primary);
+}
+
+.widget [data-widget-part="action-tab"][data-state="active"]::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-primary);
+}
+
+.widget [data-widget-part="action-tab"] + [data-widget-part="action-tab"] {
+  border-left: 0;
+}
+
+.widget [data-widget-part="action-tab"]:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -3px;
+}
+
+.widget [data-widget-part="action-panel"],
+.widget [data-widget-part="action-panel"] > div {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.widget [data-widget-part="action-content"] {
+  min-height: 0;
+  gap: 12px;
+  padding: 18px 0 0;
+}
+
+.widget [data-widget-part="amount-input"] {
+  border: 0;
+  border-bottom: 1px solid var(--color-border);
+  border-radius: 0;
+}
+
+.widget [data-widget-part="amount-input"] > div:first-child {
+  gap: 8px;
+  padding: 0;
+}
+
+.widget [data-widget-part="amount-input"] label {
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.widget [data-widget-part="amount-input"] input {
+  min-height: 58px;
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.045em;
+}
+
+.widget [data-widget-part="amount-input"] input:disabled {
+  color: var(--color-text-primary);
+  opacity: 1;
+}
+
+.widget [data-widget-part="amount-input"] input::placeholder {
+  color: var(--color-text-secondary);
+  opacity: 1;
+}
+
+.widget [data-widget-part="amount-input"] input:focus-visible {
+  outline: 0;
+}
+
+.widget [data-widget-part="amount-input"]:focus-within {
+  border-bottom-color: var(--color-primary);
+}
+
+.widget [data-token-selector-button] {
+  min-height: 32px;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+  font-size: 17px;
+  font-weight: 400;
+  pointer-events: none;
+}
+
+.widget [data-token-selector-button] > :not(:last-child) {
+  display: none;
+}
+
+.widget [data-widget-part="amount-shortcuts"] button {
+  min-height: 28px;
+  border-radius: 0;
+  padding: 4px 8px;
+  background: transparent;
+  color: var(--color-primary);
+  font-size: 12px;
+  transform: none;
+}
+
+.widget [data-widget-part="amount-input"][data-connected="false"] [data-widget-part="amount-shortcuts"] {
+  display: none;
+}
+
+.widget [data-widget-part="amount-meta"] {
+  min-height: 20px;
+}
+
+.widget [data-widget-part="amount-meta"] > * {
+  font-size: 12px;
+}
+
+.widget [data-widget-part="amount-input"][data-connected="false"] [data-widget-part="amount-meta"] {
+  display: none;
+}
+
+.widget [data-widget-part="transaction-summary"]:empty {
+  display: none;
+}
+
+.widget [data-widget-part="transaction-summary"] {
+  min-height: 24px;
+}
+
+.widget [data-widget-part="transaction-summary"] > div {
+  min-height: 24px;
+  height: auto;
+  gap: 10px;
+}
+
+.widget [data-widget-part="transaction-summary"] :is(p, button) {
+  font-size: 12px;
+}
+
+.widget [data-widget-part="transaction-details"] > summary {
+  display: flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 0;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  list-style: none;
+  cursor: pointer;
+}
+
+.widget [data-widget-part="transaction-details"] > summary::-webkit-details-marker {
+  display: none;
+}
+
+.widget [data-widget-part="transaction-details"] > summary span {
+  flex: 0 0 24px;
+  width: 24px;
+  text-align: center;
+  font-size: 0;
+  line-height: 1;
+}
+
+.widget [data-widget-part="transaction-details"] > summary span::before {
+  content: "+";
+  font-size: 18px;
+}
+
+.widget [data-widget-part="transaction-details"][open] > summary span::before {
+  content: "−";
+}
+
+.widget [data-widget-part="transaction-details-content"] {
+  padding: 4px 0 16px;
+}
+
+.widget [data-widget-part="transaction-details-content"] [class~="h-5"] {
+  min-height: 20px;
+  height: auto;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.widget [data-widget-part="transaction-details-content"] p {
+  text-align: right;
+}
+
+.widget [data-widget-part="transaction-details-content"] [data-widget-part="transaction-note"] {
+  margin-top: 16px;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.widget [data-widget-part="deposit-actions"],
+.widget [data-widget-part="withdraw-actions"] {
+  margin-top: auto;
+}
+
+.widget [class~="yearn--button--nextgen"] {
+  min-height: 52px;
+  border-radius: 0;
+  font-size: 14px;
+  font-weight: 400;
+  transform: none;
+  transition:
+    background-color 160ms,
+    color 160ms;
+}
+
+.widget [class~="yearn--button--nextgen"][data-variant="filled"] {
+  background: var(--senior-cta-bg, #171815);
+  color: var(--senior-cta-ink, #fff);
+}
+
+.widget [class~="yearn--button--nextgen"][data-variant="filled"]:not(:disabled):not([aria-busy="true"]):hover {
+  background: var(--senior-cta-hover, #30312e);
+}
+
+.widget [class~="yearn--button--nextgen"][aria-busy="true"] {
+  animation: none;
+}
+
+@media (max-width: 700px) {
+  .widget [data-widget-part="amount-input"] input {
+    font-size: 44px;
+  }
+}

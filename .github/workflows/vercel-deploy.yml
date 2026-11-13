@@ -19,6 +19,7 @@ cache-mode: none
 
 jobs:
   changes:
+    if: github.repository == 'yearn/yearn.fi'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -56,12 +57,14 @@ jobs:
               - 'apps/4626/**'
 
   yearn:
+    if: github.repository == 'yearn/yearn.fi'
     uses: yearn/yearn-gha/.github/workflows/vercel-deploy.yml@d7047bb766f85ae4dfe0c4ab080bee3ebb1a7d31
     with:
       project: yearn-fi
       identity-id: ${{ github.event_name == 'pull_request' && vars.DOPPLER_PREVIEW_IDENTITY_ID || vars.DOPPLER_PRODUCTION_IDENTITY_ID }}
 
   ybold:
+    if: github.repository == 'yearn/yearn.fi'
     uses: yearn/yearn-gha/.github/workflows/vercel-deploy.yml@d7047bb766f85ae4dfe0c4ab080bee3ebb1a7d31
     with:
       project: yearn-bold
@@ -69,7 +72,7 @@ jobs:
 
   erc4626:
     needs: changes
-    if: needs.changes.outputs.erc4626 == 'true'
+    if: github.repository == 'yearn/yearn.fi' && needs.changes.outputs.erc4626 == 'true'
     uses: yearn/yearn-gha/.github/workflows/vercel-deploy.yml@d7047bb766f85ae4dfe0c4ab080bee3ebb1a7d31
     with:
       project: yearn-4626

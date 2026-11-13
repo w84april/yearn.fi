@@ -85,6 +85,8 @@ export type VaultWidgetVault = {
   name: string
   asset: VaultWidgetAsset
   forwardAPR?: number
+  /** Explicit loss limit for direct ERC-4626 withdrawals, in basis points (0–10,000). */
+  withdrawMaxLossBps?: bigint
   staking?: VaultWidgetStaking
   migration?: VaultWidgetMigration
   isRetired: boolean
@@ -150,10 +152,14 @@ export type VaultWidgetProps = {
   onDepositPrefillConsumed?: () => void
   forceDepositStake?: boolean
   depositTitleOverride?: string
+  annualReturnNote?: string
+  withdrawTitleOverride?: string
   onDepositUserTokenSelectionChange?: (address: WidgetAddress, chainId: number) => void
   hideTabSelector?: boolean
   disableBorderRadius?: boolean
   collapseDetails?: boolean
+  /** Opt-in compact, quiet presentation; transaction behavior is unchanged. */
+  appearance?: 'default' | 'calm'
   disableTokenSelector?: boolean
   withdrawalSource?: VaultWidgetWithdrawalSource
   /** Allows a host to render app-specific actions such as migration. */

@@ -10,14 +10,14 @@ import { IconSun } from '@shared/icons/IconSun'
 import { cl } from '@shared/utils'
 import { MobileNavMenu as SharedMobileNavMenu, type TMobileNavMenuProps } from '@yearn/site-header/mobile'
 import { useWalletDrawer } from '@yearn/wallet-ui'
-import type { ReactElement } from 'react'
+import type { ReactElement, ReactNode } from 'react'
 import { useState } from 'react'
 import { env } from '@/env'
 
 type TYearnMobileNavMenuProps = Pick<
   TMobileNavMenuProps,
   'isOpen' | 'onClose' | 'pathname' | 'isDarkTheme' | 'onThemeToggle' | 'notificationStatus' | 'walletIdentity'
->
+> & { showStatus?: boolean; isSenior?: boolean; brandContent?: ReactNode }
 
 export function MobileNavMenu({
   isOpen,
@@ -26,7 +26,10 @@ export function MobileNavMenu({
   isDarkTheme,
   onThemeToggle,
   notificationStatus,
-  walletIdentity
+  walletIdentity,
+  showStatus = true,
+  isSenior = false,
+  brandContent
 }: TYearnMobileNavMenuProps): ReactElement {
   const [isWalletDrawerOpen, setIsWalletDrawerOpen] = useState(false)
   const [isSettingsDrawerOpen, setIsSettingsDrawerOpen] = useState(false)
@@ -69,13 +72,15 @@ export function MobileNavMenu({
         onClose={onClose}
         pathname={pathname}
         isDarkTheme={isDarkTheme}
-        onThemeToggle={onThemeToggle}
+        onThemeToggle={isSenior ? undefined : onThemeToggle}
         notificationStatus={notificationStatus}
         walletIdentity={walletIdentity}
         onWalletClick={handleWalletClick}
-        onSettingsClick={handleSettingsClick}
+        onSettingsClick={isSenior ? undefined : handleSettingsClick}
+        showVaults={!isSenior}
+        brandContent={brandContent}
         assetBaseUrl={env.NEXT_PUBLIC_BASE_YEARN_ASSETS_URI}
-        footer={<MobileSiteStatus onNavigate={onClose} />}
+        footer={showStatus ? <MobileSiteStatus onNavigate={onClose} /> : undefined}
       />
       <AccountDropdown isOpen={isWalletDrawerOpen} onClose={() => setIsWalletDrawerOpen(false)} />
       <BottomDrawer

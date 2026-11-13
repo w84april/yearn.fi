@@ -1,0 +1,15 @@
+{
+  "tool": "built-in image_gen",
+  "use_case": "precise-object-edit",
+  "input_images": [
+    {
+      "path": "/senior/elder-oak-dress.webp",
+      "role": "edit target"
+    }
+  ],
+  "output": "/senior/elder-oak-grey-100.webp",
+  "target_paper_color": "#F4F4F4",
+  "paper_note": "The generated neutral paper has slight tonal variation; the sampled open sky is predominantly #F2F2F2.",
+  "encoding": "Lossless WebP from the generated PNG; no creative changes after generation.",
+  "prompt": "Use case: precise-object-edit. Asset type: wide landscape website hero illustration. Image 1 is the EDIT TARGET, not a loose style reference. Make one tightly controlled color edit: replace the warm cream/ivory paper throughout this exact engraved landscape with Yearn Good ol' Grey 100, hex #F4F4F4, neutral RGB 244,244,244. The open sky and all unprinted paper must be a flat very pale NEUTRAL grey #F4F4F4, with equal red, green and blue values, no yellow, peach, beige, tan or warm cast. Apply the same neutral paper color to uninked highlights within leaves, bark, roots, grass, flowers, the woman's dress and hat. Preserve the existing blue ink, fine copperplate linework, cross-hatching, detail, contrast, mood and all illustrated forms as closely as possible. Keep the exact original wide 1672:941 composition and framing: immense oak trunk on the right, broad branches and foliage across the top, calm meadow and distant hills below, large open sky on the left, and the same tiny seated adult woman in the lower right wearing a gathered puff-sleeve dress, short bob haircut and straw hat. Keep her face, identity, seated pose, small scale and placement unchanged. Do not redesign, add canopy, move objects, crop or change perspective. The only intended difference is grey paper replacing the warm paper; retain all scenery. No gradient or vignette in the open grey sky; no new paper stains. No text, logos, UI, annotation marks, extra people, extra objects, protruding bark knots, photorealism or anime styling. Return the complete edited background image alone."
+}

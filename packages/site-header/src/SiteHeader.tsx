@@ -9,6 +9,7 @@ export type TSiteHeaderProps = {
   isHomePage?: boolean
   isDarkTheme?: boolean
   siteBaseUrl?: string
+  brandContent?: ReactNode
   navigation?: ReactNode
   actions?: ReactNode
   children?: ReactNode
@@ -19,6 +20,7 @@ export function SiteHeader({
   isHomePage = false,
   isDarkTheme = false,
   siteBaseUrl = '',
+  brandContent,
   navigation,
   actions,
   children
@@ -30,17 +32,25 @@ export function SiteHeader({
     >
       <div className="mx-auto w-full max-w-[1232px] px-4">
         <header className="flex h-[var(--header-height)] w-full items-center justify-between px-0">
-          <div className="flex items-center justify-start gap-x-6 px-1 py-2 md:py-1" data-tour="vaults-header-nav">
+          <div
+            className={cl(
+              'flex items-center justify-start px-1 py-2 md:py-1',
+              brandContent ? 'gap-x-3 md:gap-x-6' : 'gap-x-6'
+            )}
+            data-tour="vaults-header-nav"
+          >
             <a
               href={`${siteBaseUrl}/`}
               aria-label="Yearn home"
               className="flex items-center gap-1 transition-colors hover:opacity-80"
             >
-              <TypeMarkYearn
-                aria-hidden="true"
-                className="h-8 w-auto"
-                color={isHomePage || isDarkTheme ? '#FFFFFF' : '#0657F9'}
-              />
+              {brandContent ?? (
+                <TypeMarkYearn
+                  aria-hidden="true"
+                  className="h-8 w-auto"
+                  color={isHomePage || isDarkTheme ? '#FFFFFF' : '#0657F9'}
+                />
+              )}
             </a>
             <div className="hidden items-center gap-3 pb-0.5 md:flex">
               {navigation ?? (

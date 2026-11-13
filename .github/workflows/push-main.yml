@@ -6,6 +6,7 @@ on:
 
 jobs:
   deploy:
+    if: github.repository == 'yearn/yearn.fi'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

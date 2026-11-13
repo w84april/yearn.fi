@@ -2,13 +2,13 @@ import { InputTokenAmount } from '@yearn/vault-widget/internal/components/widget
 import { VaultWidgetRuntimeProvider } from '@yearn/vault-widget/runtime'
 import type { ReactElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-vi.mock('wagmi', () => ({
-  useAccount: () => ({
-    address: '0x0000000000000000000000000000000000000001'
-  })
-}))
+const wallet = vi.hoisted(() => ({ address: '0x0000000000000000000000000000000000000001' as string | undefined }))
+vi.mock('wagmi', () => ({ useAccount: () => wallet }))
+beforeEach(() => {
+  wallet.address = '0x0000000000000000000000000000000000000001'
+})
 
 function renderInputTokenAmount(component: ReactElement): string {
   return renderToStaticMarkup(
@@ -38,6 +38,24 @@ function buildInput(formValue: string) {
 }
 
 describe('InputTokenAmount', () => {
+  it('keeps only Max in calm mode and displays a connected zero balance', () => {
+    const html = renderInputTokenAmount(
+      <InputTokenAmount isCalm input={buildInput('')} balance={0n} decimals={6} symbol="USDC" />
+    )
+    expect(html).toContain('>Max</button>')
+    expect(html).not.toContain('25%')
+    expect(html).not.toContain('50%')
+    expect(html).not.toContain('75%')
+    expect(html.replace(/<[^>]+>/g, '')).toContain('Balance: 0.00 USDC')
+    expect(html).toMatch(/<label for="([^"]+)"/)
+  })
+
+  it('leaves the wallet prompt to the action button in disconnected calm mode', () => {
+    wallet.address = undefined
+    const html = renderInputTokenAmount(<InputTokenAmount isCalm input={buildInput('')} symbol="USDC" />)
+    expect(html).not.toContain('Connect wallet')
+  })
+
   it('keeps an unpriced asset input usable without a fabricated dollar value', () => {
     const html = renderInputTokenAmount(
       <InputTokenAmount input={buildInput('2')} symbol="TOKEN" inputTokenUsdPrice={0} />
@@ -71,8 +89,9 @@ describe('InputTokenAmount', () => {
       />
     )
 
-    expect(html).toContain('Balance: 4.00 yvUSD')
-    expect(html).not.toContain('Balance: 1.00 yvUSD')
+    const visibleText = html.replace(/<[^>]+>/g, '')
+    expect(visibleText).toContain('Balance: 4.00 yvUSD')
+    expect(visibleText).not.toContain('Balance: 1.00 yvUSD')
   })
 
   it('renders zap output USD from raw quote amounts instead of compact display text', () => {

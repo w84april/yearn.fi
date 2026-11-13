@@ -20,7 +20,7 @@ import { SiteHeader } from '@yearn/site-header'
 import { useWalletDrawer } from '@yearn/wallet-ui/context'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import type { KeyboardEvent, MouseEvent, ReactElement } from 'react'
+import type { KeyboardEvent, MouseEvent, ReactElement, ReactNode } from 'react'
 import { useMemo, useState } from 'react'
 import { useAccount, useSwitchChain } from 'wagmi'
 import {
@@ -226,14 +226,23 @@ function TenderlyBadge(): ReactElement | null {
   )
 }
 
-function AppHeader(): ReactElement {
+function AppHeader({
+  showStatus = true,
+  variant = 'default',
+  brandContent
+}: {
+  showStatus?: boolean
+  variant?: 'default' | 'senior'
+  brandContent?: ReactNode
+}): ReactElement {
+  const isSenior = variant === 'senior'
   const pathname = usePathname() || '/'
   const [isAccountSidebarOpen, setIsAccountSidebarOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { notificationStatus } = useNotifications()
   const { address, ens, clusters } = useWeb3()
   const themePreference = useThemePreference()
-  const isDarkTheme = themePreference !== 'light'
+  const isDarkTheme = !isSenior && themePreference !== 'light'
 
   const isHomePage = normalizePathname(pathname) === '/'
 
@@ -248,6 +257,7 @@ function AppHeader(): ReactElement {
     <SiteHeader
       isHomePage={isHomePage}
       isDarkTheme={isDarkTheme}
+      brandContent={brandContent}
       navigation={<HeaderNavMenu isHomePage={isHomePage} isDarkTheme={isDarkTheme} />}
       actions={
         !isHomePage && (
@@ -258,14 +268,18 @@ function AppHeader(): ReactElement {
               </div>
               <div className={'hidden items-center gap-4 md:flex'}>
                 <div className={'flex items-center gap-2'}>
-                  <HeaderSiteStatus />
-                  <Link href={'/vaults'} prefetch={false}>
-                    <span
-                      className={'text-base font-medium text-text-secondary transition-colors hover:text-text-primary'}
-                    >
-                      {'Vaults'}
-                    </span>
-                  </Link>
+                  {showStatus && <HeaderSiteStatus />}
+                  {!isSenior && (
+                    <Link href={'/vaults'} prefetch={false}>
+                      <span
+                        className={
+                          'text-base font-medium text-text-secondary transition-colors hover:text-text-primary'
+                        }
+                      >
+                        {'Vaults'}
+                      </span>
+                    </Link>
+                  )}
                 </div>
 
                 <Link href={'/portfolio'} prefetch={false}>
@@ -276,16 +290,18 @@ function AppHeader(): ReactElement {
                   </span>
                 </Link>
               </div>
-              <button
-                className={
-                  'hidden md:block min-h-[44px] min-w-[44px] rounded-full p-2.5 text-text-secondary transition-colors hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400'
-                }
-                onClick={() => setThemePreference(isDarkTheme ? 'light' : 'soft-dark')}
-                title={isDarkTheme ? 'Switch to light mode' : 'Switch to dark mode'}
-                aria-label={isDarkTheme ? 'Switch to light mode' : 'Switch to dark mode'}
-              >
-                {isDarkTheme ? <IconSun className={'size-5'} /> : <IconMoon className={'size-5'} />}
-              </button>
+              {!isSenior && (
+                <button
+                  className={
+                    'hidden md:block min-h-[44px] min-w-[44px] rounded-full p-2.5 text-text-secondary transition-colors hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400'
+                  }
+                  onClick={() => setThemePreference(isDarkTheme ? 'light' : 'soft-dark')}
+                  title={isDarkTheme ? 'Switch to light mode' : 'Switch to dark mode'}
+                  aria-label={isDarkTheme ? 'Switch to light mode' : 'Switch to dark mode'}
+                >
+                  {isDarkTheme ? <IconSun className={'size-5'} /> : <IconMoon className={'size-5'} />}
+                </button>
+              )}
               <div className={'relative'}>
                 <WalletSelector
                   isAccountOpen={isAccountSidebarOpen}
@@ -320,6 +336,9 @@ function AppHeader(): ReactElement {
         onThemeToggle={() => setThemePreference(isDarkTheme ? 'light' : 'soft-dark')}
         notificationStatus={notificationStatus}
         walletIdentity={walletIdentity}
+        showStatus={showStatus}
+        isSenior={isSenior}
+        brandContent={brandContent}
       />
     </SiteHeader>
   )

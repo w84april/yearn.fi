@@ -31,6 +31,46 @@ beforeEach(() => {
   )
 })
 describe('generic withdrawal preparation', () => {
+  it.each([false, true])('preserves an explicit zero-loss policy (redeem: %s)', (redeemAll) => {
+    const { result } = renderHook(() =>
+      useDirectWithdraw({
+        vaultAddress: address,
+        amount: 100n,
+        maxShares: 50n,
+        redeemAll,
+        account,
+        chainId: 1,
+        enabled: true,
+        pricePerShare: 2n,
+        vaultDecimals: 0,
+        useErc4626: true,
+        maxLossBps: 0n
+      })
+    )
+    expect(getContractTransactionRequest(result.current.actions.prepareWithdraw)).toMatchObject({
+      functionName: redeemAll ? 'redeem' : 'withdraw',
+      args: [redeemAll ? 50n : 100n, account, account, 0n]
+    })
+  })
+
+  it.each([-1n, 10_001n])('rejects an invalid explicit withdrawal loss limit %s', (maxLossBps) => {
+    expect(() =>
+      renderHook(() =>
+        useDirectWithdraw({
+          vaultAddress: address,
+          amount: 100n,
+          account,
+          chainId: 1,
+          enabled: true,
+          pricePerShare: 2n,
+          vaultDecimals: 0,
+          useErc4626: true,
+          maxLossBps
+        })
+      )
+    ).toThrow('Withdrawal max loss must be between 0 and 10,000 basis points')
+  })
+
   it('uses previewWithdraw fee-inclusive shares for a partial asset withdrawal even with no PPS', () => {
     const { result } = renderHook(() => {
       const preview = useErc4626WithdrawQuote({ address, chainId: 1, amount: 100n, limits, enabled: true })

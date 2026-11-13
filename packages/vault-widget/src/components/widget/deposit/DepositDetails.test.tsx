@@ -1,10 +1,55 @@
+import { DepositDetails } from '@yearn/vault-widget/internal/components/widget/deposit/DepositDetails'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
-import { DepositDetails } from './DepositDetails'
 
 const ONE_ETHER = 10n ** 18n
 
 describe('DepositDetails', () => {
+  it.each([false, true])('shows the calm receive summary and collapsible details (stale: %s)', (isQuoteStale) => {
+    const html = renderToStaticMarkup(
+      <DepositDetails
+        isCalm
+        note="A performance fee applies to earned yield."
+        showAnnualReturn={false}
+        depositAmountBn={10n * ONE_ETHER}
+        inputTokenSymbol="USDC"
+        inputTokenDecimals={18}
+        inputTokenUsdPrice={1}
+        routeType="DIRECT_DEPOSIT"
+        usesMinExpectedOut={false}
+        isSwap={false}
+        isLoadingQuote={false}
+        isQuoteStale={isQuoteStale}
+        expectedOutInAsset={10n * ONE_ETHER}
+        minExpectedOutInAsset={10n * ONE_ETHER}
+        assetTokenSymbol="USDC"
+        assetTokenDecimals={18}
+        expectedVaultShares={9n * ONE_ETHER}
+        vaultDecimals={18}
+        sharesDisplayDecimals={18}
+        pricePerShare={ONE_ETHER}
+        assetUsdPrice={1}
+        vaultShareValueInAsset={ONE_ETHER}
+        vaultShareValueUsdRaw={1}
+        expectedPriceImpactPercentage={0}
+        priceImpactPercentage={0}
+        shouldHighlightPriceImpact={false}
+        willReceiveStakedShares={false}
+        onShowVaultSharesModal={() => undefined}
+        onShowVaultShareValueModal={() => undefined}
+        estimatedAnnualReturn={0}
+        onShowAnnualReturnModal={() => undefined}
+      />
+    )
+    const summary = html.slice(0, html.indexOf('<details'))
+    expect(summary).toContain('You Will Receive')
+    expect(summary.includes('9.00')).toBe(!isQuoteStale)
+    expect(html).toContain('<details data-widget-part="transaction-details">')
+    expect(html).not.toContain('<details open')
+    expect(html).toContain('A performance fee applies to earned yield.')
+    expect(html).not.toContain('Est. Annual Return')
+  })
+
   it('shows the worst-case price impact row for zap deposits', () => {
     const html = renderToStaticMarkup(
       <DepositDetails
@@ -41,7 +86,7 @@ describe('DepositDetails', () => {
 
     expect(html).toContain('For expected / at least')
     expect(html).toContain('10.0')
-    expect(html).toContain('| </span><span class="font-semibold">9.00')
+    expect(html).toMatch(/\| <\/span><span[^>]*>9\.00/)
     expect(html).toContain('Est. / Worst price impact')
     expect(html).toContain('0.00%')
     expect(html).toContain('-10.00%')

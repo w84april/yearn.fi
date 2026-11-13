@@ -1,7 +1,10 @@
 {
   "installCommand": "bun install --frozen-lockfile",
   "buildCommand": "bun run build",
-  "github": {
-    "enabled": false
+  "framework": "nextjs",
+  "git": {
+    "deploymentEnabled": {
+      "main": false
+    }
   }
 }
